@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WYSIWYG Chart and Table Editor</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #toolbox {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+    }
+
+    #editor {
+      margin-left: 320px;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      display: block;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #chartOptions,
+    #tableOptions {
+      display: none;
+      padding: 10px;
+      margin-left: 320px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="toolbox">
+    <h2>Toolbox</h2>
+    <button onclick="addChart('bar')">Bar Chart</button>
+    <button onclick="addChart('line')">Line Chart</button>
+    <button onclick="addChart('pie')">Pie Chart</button>
+    <button onclick="addChart('clusteredBar')">Clustered Bar Chart</button>
+    <button onclick="addChart('stackedBar')">Stacked Bar Chart</button>
+    <button onclick="addChart('treemap')">Treemap</button>
+    <button onclick="addTable()">Table</button>
+  </div>
+  <div contenteditable="true" id="editor"></div>
+  <div id="chartOptions">
+    <label for="chartType">Chart Type:</label>
+    <select id="chartType">
+      <option value="bar">Bar Chart</option>
+      <option value="line">Line Chart</option>
+      <option value="pie">Pie Chart</option>
+      <option value="clusteredBar">Clustered Bar Chart</option>
+      <option value="stackedBar">Stacked Bar Chart</option>
+      <option value="treemap">Treemap</option>
+    </select>
+    <label for="apiURL">API URL:</label>
+    <input type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts">
+    <button onclick="customizeChart()">Apply Chart</button>
+  </div>
+  <div id="tableOptions">
+    <label for="tableAPIURL">API URL for Table Data:</label>
+    <input type="text" id="tableAPIURL" value="https://jsonplaceholder.typicode.com/users">
+    <button onclick="insertTable()">Insert Table</button>
+  </div>
+
+  <script>
+    function addChart(chartType) {
+      document.getElementById("chartOptions").style.display = "block";
+      document.getElementById("tableOptions").style.display = "none";
+      document.getElementById("chartType").value = chartType;
+    }
+
+    function addTable() {
+      document.getElementById("chartOptions").style.display = "none";
+      document.getElementById("tableOptions").style.display = "block";
+    }
+
+    async function fetchChartData(apiURL) {
+      try {
+        const response = await fetch(apiURL);
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        } else {
+          throw new Error('Failed to fetch data from the API');
+        }
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+
+ async function customizeChart() {
+  const chartType = document.getElementById("chartType").value;
+  const apiURL = document.getElementById("apiURL").value;
+
+  const editor = document.getElementById("editor");
+  const chartContainer = document.createElement("div");
+  chartContainer.style.width = "400px";
+  chartContainer.style.height = "300px";
+  editor.appendChild(chartContainer);
+
+  const chartData = await fetchChartData(apiURL);
+
+  if (chartData) {
+    if (chartType === "bar") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a bar chart
+      // Example: createBarChart(svg, chartData);
+    } else if (chartType === "line") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a line chart
+      // Example: createLineChart(svg, chartData);
+    } else if (chartType === "pie") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a pie chart
+      // Example: createPieChart(svg, chartData);
+    } else if (chartType === "clusteredBar") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a clustered bar chart
+      // Example: createClusteredBarChart(svg, chartData);
+    } else if (chartType === "stackedBar") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a stacked bar chart
+      // Example: createStackedBarChart(svg, chartData);
+    } else if (chartType === "treemap") {
+      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
+      // D3.js code for creating a treemap
+      // Example: createTreemap(svg, chartData);
+    }
+    // Add similar conditions for other chart types
+  } else {
+    alert("Failed to fetch data from the API for the chart.");
+  }
+
+  document.getElementById("chartOptions").style.display = "none";
+}
+
+
+async function insertTable() {
+      const tableAPIURL = document.getElementById("tableAPIURL").value;
+      const editor = document.getElementById("editor");
+
+      const tableData = await fetchTableData(tableAPIURL);
+
+      if (tableData) {
+        const table = document.createElement("table");
+        table.border = "1";
+        const thead = table.createTHead();
+        const tbody = table.createTBody();
+        const headerRow = thead.insertRow();
+
+        for (let key in tableData[0]) {
+          const th = document.createElement("th");
+          th.innerHTML = key;
+          headerRow.appendChild(th);
+        }
+
+        tableData.forEach(rowData => {
+          const row = tbody.insertRow();
+          for (let key in rowData) {
+            const cell = row.insertCell();
+            cell.innerHTML = rowData[key];
+          }
+        });
+
+        editor.appendChild(table);
+      } else {
+        alert('Failed to fetch data from the API for the table.');
+      }
+
+      document.getElementById("tableOptions").style.display = "none";
+    }
+    
+    async function fetchTableData(tableAPIURL) {
+      try {
+        const response = await fetch(tableAPIURL);
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        } else {
+          throw new Error('Failed to fetch data for the table from the API');
+        }
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+  </script>
+</body>
+</html>
