@@ -16,6 +16,7 @@
     <button onclick="addChart('stackedBar')">Stacked Bar Chart</button>
     <button onclick="addChart('treemap')">Treemap</button>
     <button onclick="addTable()">Table</button>
+    <button onclick="saveAsHTML()">Save</button>
   </div>
   <div contenteditable="true" id="editor"></div>
   <div id="chartOptions">
@@ -292,6 +293,27 @@ async function insertTable() {
         return null;
       }
     }
+
+    function saveAsHTML() {
+  const editorContent = document.getElementById("editor").innerHTML;
+  
+  // Create a Blob with the content and set the MIME type to HTML
+  const blob = new Blob([editorContent], { type: "text/html" });
+
+  // Create a temporary anchor element to trigger the download
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "editor_content.html"; // You can specify the file name
+  a.style.display = "none";
+  document.body.appendChild(a);
+
+  // Programmatically click the anchor to trigger the download
+  a.click();
+
+  // Clean up the anchor element
+  document.body.removeChild(a);
+}
+
   </script>
 </body>
 </html>
