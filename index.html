@@ -50,61 +50,89 @@
       document.getElementById("tableOptions").style.display = "block";
     }
 
-    async function fetchChartData(apiURL) {
-      try {
-        const response = await fetch(apiURL);
-        if (response.ok) {
-          const data = await response.json();
-          return data;
-        } else {
-          throw new Error('Failed to fetch data from the API');
-        }
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    }
+// Modify the fetchChartData function to process the data
+async function fetchChartData(apiURL) {
+  try {
+    const response = await fetch(apiURL);
+    if (response.ok) {
+      const data = await response.json();
 
- async function customizeChart() {
+      // Extract post titles and their character counts
+      const chartData = data.map(post => ({
+        label: post.title,
+        value: post.title.length,
+      }));
+
+      return chartData;
+    } else {
+      throw new Error('Failed to fetch data from the API');
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+async function customizeChart() {
   const chartType = document.getElementById("chartType").value;
+
   const apiURL = document.getElementById("apiURL").value;
 
   const editor = document.getElementById("editor");
   const chartContainer = document.createElement("div");
-  chartContainer.style.width = "400px";
-  chartContainer.style.height = "300px";
+  chartContainer.style.width = "600px";
+  chartContainer.style.height = "400px";
   editor.appendChild(chartContainer);
 
   const chartData = await fetchChartData(apiURL);
 
   if (chartData) {
-    if (chartType === "bar") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a bar chart
-      // Example: createBarChart(svg, chartData);
-    } else if (chartType === "line") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a line chart
-      // Example: createLineChart(svg, chartData);
-    } else if (chartType === "pie") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a pie chart
-      // Example: createPieChart(svg, chartData);
-    } else if (chartType === "clusteredBar") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a clustered bar chart
-      // Example: createClusteredBarChart(svg, chartData);
-    } else if (chartType === "stackedBar") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a stacked bar chart
-      // Example: createStackedBarChart(svg, chartData);
-    } else if (chartType === "treemap") {
-      const svg = d3.select(chartContainer).append("svg").attr("width", 400).attr("height", 300);
-      // D3.js code for creating a treemap
-      // Example: createTreemap(svg, chartData);
-    }
-    // Add similar conditions for other chart types
-  } else {
+    const width = 600;
+    const height = 400;
+    const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+
+    const svg = d3.select(chartContainer)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    const xScale = d3.scaleBand()
+      .domain(chartData.map(d => d.label))
+      .range([0, chartWidth])
+      .padding(0.1);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(chartData, d => d.value)])
+      .nice()
+      .range([chartHeight, 0]);
+
+    g.selectAll(".bar")
+      .data(chartData)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", d => xScale(d.label))
+      .attr("y", d => yScale(d.value))
+      .attr("width", xScale.bandwidth())
+      .attr("height", d => chartHeight - yScale(d.value))
+      .style("fill", "steelblue");
+
+    g.append("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0, ${chartHeight})`)
+      .call(d3.axisBottom(xScale));
+
+    g.append("g")
+      .attr("class", "y-axis")
+      .call(d3.axisLeft(yScale));
+  }
+   else {
     alert("Failed to fetch data from the API for the chart.");
   }
 
