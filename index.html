@@ -130,7 +130,8 @@ async function customizeChart() {
       g.append("g")
         .attr("class", "y-axis")
         .call(d3.axisLeft(yScale));
-      } else if (chartType === 'line') {
+      }
+       else if (chartType === 'line') {
   const line = d3.line()
     .x(d => xScale(d.label))
     .y(d => yScale(d.value));
@@ -199,7 +200,39 @@ async function customizeChart() {
     .attr("dy", ".35em")
     .style("text-anchor", "end")
     .text(d => d);
-} else {
+  } else if (chartType === 'treemap') {
+  const treemap = d3.treemap()
+    .size([chartWidth, chartHeight])
+    .padding(2);
+
+  const root = d3.hierarchy({ children: chartData })
+    .sum(d => d.value);
+
+  treemap(root);
+
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  const cell = g.selectAll("g")
+    .data(root.leaves())
+    .enter().append("g")
+    .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+  cell.append("rect")
+    .attr("width", d => d.x1 - d.x0)
+    .attr("height", d => d.y1 - d.y0)
+    .attr("fill", d => color(d.parent.data.label));
+
+  cell.append("text")
+    .selectAll("tspan")
+    .data(d => d.data.label.split(/(?=[A-Z][a-z])|\s+/))
+    .enter().append("tspan")
+    .attr("x", 4)
+    .attr("y", (d, i) => 13 + i * 10)
+    .text(d => d);
+}
+
+
+else {
       // Handle other chart types here
     }
   } else {
