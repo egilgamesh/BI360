@@ -97,3 +97,18 @@ body {
   background-color: lightblue;
   border-radius: 50%;
 }
+
+.chart-card {
+  width: 600px;
+  height: 400px;
+  background-color: #fff; /* Background color of the card */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 8px; /* Rounded corners for the card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  margin: 10px; /* Margin around the card */
+}
+
+#chartContainer {
+  position: relative;
+  display: inline-block; /* Ensures the container only takes the necessary space */
+}

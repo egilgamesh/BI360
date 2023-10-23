@@ -42,7 +42,7 @@ async function customizeChart() {
     chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
     chartContainer.style.border = "2px dashed #000"; // Add this line to create a border for the chart
 
-
+    chartContainer.classList.add("chart-card");
     // Make the chart container draggable
     chartContainer.onmousedown = (event) => {
         isDragging = true;
@@ -451,3 +451,5 @@ function adjustEditorDimensions() {
     editor.style.height = totalHeight + padding + "px";
     editor.style.width = totalWidth + padding + "px";
 }
+
+
