@@ -75,16 +75,14 @@ async function fetchChartData(apiURL) {
 
 async function customizeChart() {
   const chartType = document.getElementById("chartType").value;
-
   const apiURL = document.getElementById("apiURL").value;
-
   const editor = document.getElementById("editor");
   const chartContainer = document.createElement("div");
   chartContainer.style.width = "600px";
   chartContainer.style.height = "400px";
   editor.appendChild(chartContainer);
 
-  const chartData = await fetchChartData(apiURL);
+  const chartData = await fetchChartData(apiURL, chartType);
 
   if (chartData) {
     const width = 600;
@@ -112,27 +110,61 @@ async function customizeChart() {
       .nice()
       .range([chartHeight, 0]);
 
-    g.selectAll(".bar")
-      .data(chartData)
-      .enter()
-      .append("rect")
-      .attr("class", "bar")
-      .attr("x", d => xScale(d.label))
-      .attr("y", d => yScale(d.value))
-      .attr("width", xScale.bandwidth())
-      .attr("height", d => chartHeight - yScale(d.value))
-      .style("fill", "steelblue");
+    if (chartType === 'bar') {
+      g.selectAll(".bar")
+        .data(chartData)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => xScale(d.label))
+        .attr("y", d => yScale(d.value))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => chartHeight - yScale(d.value))
+        .style("fill", "steelblue");
 
-    g.append("g")
-      .attr("class", "x-axis")
-      .attr("transform", `translate(0, ${chartHeight})`)
-      .call(d3.axisBottom(xScale));
+      g.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(d3.axisBottom(xScale));
 
-    g.append("g")
-      .attr("class", "y-axis")
-      .call(d3.axisLeft(yScale));
-  }
-   else {
+      g.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(yScale));
+      } else if (chartType === 'line') {
+  const line = d3.line()
+    .x(d => xScale(d.label))
+    .y(d => yScale(d.value));
+
+  g.append("path")
+    .datum(chartData)
+    .attr("class", "line")
+    .attr("d", line)
+    .attr("fill", "none")
+    .attr("stroke", "steelblue");
+
+  g.selectAll(".dot")
+    .data(chartData)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("cx", d => xScale(d.label))
+    .attr("cy", d => yScale(d.value))
+    .attr("r", 5)
+    .style("fill", "steelblue");
+
+  g.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", `translate(0, ${chartHeight})`)
+    .call(d3.axisBottom(xScale));
+
+  g.append("g")
+    .attr("class", "y-axis")
+    .call(d3.axisLeft(yScale));
+} else if (chartType === 'pie') {
+      // Customize this part for pie chart
+    } else {
+      // Handle other chart types here
+    }
+  } else {
     alert("Failed to fetch data from the API for the chart.");
   }
 
