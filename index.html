@@ -3,20 +3,25 @@
 <head>
   <title>WYSIWYG Chart and Table Editor</title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-  <div id="toolbox" class="toolbox">
-    <h2>Toolbox</h2>
-    <button onclick="addChart('bar')">Bar Chart</button>
-    <button onclick="addChart('line')">Line Chart</button>
-    <button onclick="addChart('pie')">Pie Chart</button>
-    <button onclick="addChart('clusteredBar')">Clustered Bar Chart</button>
-    <button onclick="addChart('stackedBar')">Stacked Bar Chart</button>
-    <button onclick="addChart('treemap')">Treemap</button>
-    <button onclick="addTable()">Table</button>
-    <button onclick="saveAsHTML()">Save</button>
+  <div class="ribbon-header">
+    <div class="header-content">
+      <h1>Atomic 360</h1>
+  </div>
+  <div class="button-category">
+    <button class="icon-button" onclick="addChart('bar')"><i class="fas fa-chart-bar"></i></button>
+    <button class="icon-button" onclick="addChart('line')"><i class="fas fa-chart-line"></i></button>
+    <button class="icon-button" onclick="addChart('pie')"><i class="fas fa-chart-pie"></i></button>
+    <button class="icon-button" onclick="addChart('clusteredBar')">Clustered Bar Chart</button>
+    <button class="icon-button" onclick="addChart('stackedBar')">Stacked Bar Chart</button>
+    <button class="icon-button" onclick="addChart('treemap')"><i class="fas fa-chart-treemap"></i></button>
+    <button class="icon-button" onclick="addTable()"><i class="fas fa-table"></i></button>
+    <button class="icon-button" onclick="saveAsHTML()">Save</button>
+  </div>
   </div>
   <div contenteditable="true" id="editor"></div>
   <div id="chartOptions">
@@ -39,6 +44,8 @@
     <button onclick="insertTable()">Insert Table</button>
   </div>
   <script src="script.js"></script>
-
+  <div class="status-bar">
+    &copy; 2023 Your Company. All rights reserved. | Version 1.0
+</div>
 </body>
 </html>

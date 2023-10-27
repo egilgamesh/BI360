@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .top-panel {
+      background-color: steelblue;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .top-panel button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1;
+      width: 100%;
+    }
+
+    .objects-panel {
+      width: 150px;
+      background-color: #e0e0e0;
+      padding: 20px;
+      overflow: hidden;
+      transition: width 0.3s;
+      position: relative;
+    }
+
+    .objects-panel h3 {
+      margin-top: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: right;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    .objects-panel ul {
+      list-style: none;
+      padding: 0;
+      display: block;
+      transition: display 0.3s;
+      margin-top: 20px;
+    }
+
+    .objects-panel ul.collapsed {
+      display: none;
+      margin: 0;
+    }
+
+    .objects-panel.collapse {
+      width: 5px;
+    }
+
+    .objects-panel.collapse h3 {
+      transform: rotate(-90deg);
+      top: 50%; /* Move the text to the middle vertically */
+      right: -80%;
+      padding: 0;
+      margin: 0;
+     text-wrap:nowrap;
+    }
+
+    .objects-panel.collapse ul {
+      display: none;
+    }
+
+    .editor-container {
+      flex: 1;
+      display: flex;
+    }
+
+    .editor-panel {
+      flex: 1;
+      padding: 20px;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, #f0f0f0 20px, #f0f0f0 21px),
+                       repeating-linear-gradient(90deg, transparent, transparent 20px, #f0f0f0 20px, #f0f0f0 21px);
+      background-color: #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+    }
+
+    .properties-panel {
+      width: 300px;
+      background-color: #e0e0e0;
+      padding: 20px;
+      overflow: hidden;
+      transition: width 0.3s;
+      position: relative;
+    }
+
+    .properties-panel h3 {
+      margin-top: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-Left: 10px;
+      margin-top: 10px;
+
+
+
+    }
+
+    .properties-panel div {
+      display: block;
+      transition: display 0.3s;
+    }
+
+    .properties-panel div.collapsed {
+      display: none;
+    }
+
+    .properties-panel.collapse {
+      width: 5px;
+    }
+
+    .properties-panel.collapse h3 {
+      transform: rotate(-90deg);
+      top: 50%; /* Move the text to the middle vertically */
+      left: -80%;
+      padding: 0;
+      margin: 0;
+      text-wrap:nowrap;
+    }
+
+    /* .properties-panel.collapse div {
+      display: none;
+    } */
+
+    /* Style for the inserted items in the editor panel */
+    .editor-panel .item {
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      cursor: move;
+    }
+
+    .expand-button {
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 24px;
+      padding: 10px;
+      color: steelblue;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .expand-button:hover {
+      color: royalblue;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-panel">
+    <button onclick="addItem('Table')"><i class="fas fa-table"></i></button>
+    <button onclick="addItem('Image')"><i class="fas fa-image"></i></button>
+    <button onclick="addItem('BarChart')"><i class="fas fa-chart-bar"></i></button>
+    <div class="expand-button" onclick="toggleObjectsPanel()"><i class="fa-light fa-circle-chevron-left"></i></div>
+    <div class="expand-button" onclick="togglePropertiesPanel()"><i class="fas fa-chevron-right"></i></div>
+  </div>
+
+  <div class="main-container">
+    <div class="objects-panel" id="objects-panel">
+      <div class="expand-button" onclick="toggleObjectsPanel()"><i class="fas fa-chevron-left"></i></div>
+      <h3>Objects Panel</h3>
+      <ul id="objects-list">
+        <li onclick="selectObject(this)">Object 1</li>
+        <li onclick="selectObject(this)">Object 2</li>
+        <li onclick="selectObject(this)">Object 3</li>
+      </ul>
+    </div>
+
+    <div class="editor-container">
+      <div class="editor-panel" id="editor-panel" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <!-- Editor content goes here -->
+      </div>
+      <div class="properties-panel" id="properties-panel">
+        <div class="expand-button" onclick="togglePropertiesPanel()"><i class="fas fa-chevron-right"></i></div>
+        <h3>Properties Panel</h3>
+        <div id="properties-content">
+          <!-- Add properties and controls here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addItem(itemType) {
+      // Create a new item element
+      var item = document.createElement('div');
+      item.classList.add('item');
+      item.innerHTML = itemType;
+      item.setAttribute('draggable', true);
+      item.setAttribute('ondragstart', 'drag(event)');
+      item.setAttribute('id', 'item-' + new Date().getTime());
+
+      // Add the new item to the editor panel
+      var editorPanel = document.getElementById('editor-panel');
+      editorPanel.appendChild(item);
+    }
+
+    function toggleObjectsPanel() {
+      var objectsPanel = document.getElementById("objects-panel");
+      var objectsList = document.getElementById('objects-list');
+      objectsPanel.classList.toggle('collapse');
+      objectsList.classList.toggle('collapsed');
+    }
+
+    function togglePropertiesPanel() {
+      var propertiesPanel = document.getElementById('properties-panel');
+      var propertiesContent = document.getElementById('properties-content');
+      propertiesPanel.classList.toggle('collapse');
+      propertiesContent.classList.toggle('collapsed');
+    }
+
+    function selectObject(item) {
+      // Add logic to handle the selection of objects in the object panel
+      item.classList.toggle("selected");
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drag(event) {
+      event.dataTransfer.setData('text', event.target.id);
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData('text');
+      var item = document.getElementById(data);
+      event.target.appendChild(item);
+    }
+  </script>
+</body>
+</html>

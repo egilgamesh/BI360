@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <title>Fluent Ribbon Header with Categorized Icons</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .ribbon-header {
+            background: linear-gradient(45deg, #0078D4, #0099FF);
+            color: #FFF;
+            padding: 5px;
+            position: relative;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .button-group {
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .icon-button {
+            background: linear-gradient(45deg, #0099FF, #0078D4);
+            color: #FFF;
+            border: none;
+            padding: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-button i {
+            font-size: 20px;
+        }
+
+        .icon-button:hover {
+            background: linear-gradient(45deg, #0078D4, #005EA6);
+        }
+
+        .button-category {
+            margin-top: 10px;
+        }
+
+        .status-bar {
+            background: #333;
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="ribbon-header">
+        <div class="header-content">
+            <h1>Your Page Title</h1>
+            <p>Subtitle or additional information</p>
+        </div>
+        <div class="button-category">
+            <div class="button-group">
+                <button class="icon-button"><i class="fas fa-chart-bar"></i></button>
+                <button class="icon-button"><i class="fas fa-chart-line"></i></button>
+                <button class="icon-button"><i class="fas fa-chart-pie"></i></button>
+                <button class="icon-button"><i class="fas fa-chart-treemap"></i></button>
+                <button class="icon-button"><i class="fas fa-table"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        &copy; 2023 Your Company. All rights reserved. | Version 1.0
+    </div>
+</body>
+</html>
