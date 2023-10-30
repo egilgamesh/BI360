@@ -1,7 +1,25 @@
 function addChart(chartType) {
-    document.getElementById("chartOptions").style.display = "block";
-    document.getElementById("tableOptions").style.display = "none";
-    document.getElementById("chartType").value = chartType;
+
+    const selectedObjectProperties = document.getElementById("PropertiesList");
+    const chartOptions = document.getElementById("chartOptions");
+    const tableOptions = document.getElementById("tableOptions");
+    const chartTypeElement = document.getElementById("chartType");
+
+    if (selectedObjectProperties) {
+        selectedObjectProperties.innerHTML=""
+    }
+
+    if (chartOptions) {
+        chartOptions.style.display = "block"; // Set the style if the element exists
+    }
+
+    if (tableOptions) {
+        tableOptions.style.display = "none";
+    }
+
+    if (chartTypeElement) {
+        chartTypeElement.value = chartType;
+    }
 }
 
 function addTable() {
@@ -379,7 +397,7 @@ function makeChartDraggable(chartElement) {
     chartElement.style.top = '0';
     chartElement.style.left = '0';
 
-    chartElement.addEventListener("mousedown", (event) =>{
+    chartElement.addEventListener("mousedown", (event) => {
         isDragging = true;
         selectedElement = chartElement;
         const offsetX = event.clientX - chartElement.getBoundingClientRect().left;
@@ -393,33 +411,34 @@ function makeChartDraggable(chartElement) {
             }
         });
 
-                document.addEventListener("mouseup", () => {
-                    isDragging = false;
-                    selectedElement = null;
-                });
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            selectedElement = null;
+        });
     });
 }
 
-function ShowChartProperties(chartContainer)
-{
-    const propertiesPanel = document.getElementById("properties-content");
-
-    chartContainer.addEventListener("click", (event) =>{
+function ShowChartProperties(chartContainer) {
+    const propertiesPanel = document.getElementById("PropertiesList");
+    propertiesPanel.style.display ="block";
+    chartContainer.addEventListener("click", (event) => {
         selectedElement = chartContainer;
         const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
         const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
-        const properties = document.createElement("div");
-        properties.className = 'SelectedObject';
+
         propertiesPanel.innerHTML = `
         <input type="text" value="Top: ${offsetX}" readonly>
         <input type="text" value="Left: ${offsetY}" readonly>
       `;
 
-        propertiesPanel.appendChild(properties);
+        // propertiesPanel.appendChild(properties);
 
-                document.addEventListener("mouseup", () => {
-                    selectedElement = null;
-                });
+        document.addEventListener("mouseup", () => {
+            selectedElement = null;
+            // if (document.getElementById("SelectedObjectProperties") == null) {
+            //     document.getElementById("SelectedObjectProperties").style.display = "none";
+            // }
+        });
     });
 }
 
@@ -434,7 +453,7 @@ function makeTableDraggable(tableElement) {
     tableElement.style.top = '0';
     tableElement.style.left = '0';
 
-    tableElement.addEventListener("mousedown", (event) =>{
+    tableElement.addEventListener("mousedown", (event) => {
         isDragging = true;
         selectedElement = tableElement;
         const offsetX = event.clientX - tableElement.getBoundingClientRect().left;
@@ -448,10 +467,10 @@ function makeTableDraggable(tableElement) {
             }
         });
 
-                document.addEventListener("mouseup", () => {
-                    isDragging = false;
-                    selectedElement = null;
-                });
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            selectedElement = null;
+        });
     });
 }
 
