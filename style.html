@@ -1,92 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <title>Fluent Ribbon Header with Categorized Icons</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .ribbon-header {
-            background: linear-gradient(45deg, #0078D4, #0099FF);
-            color: #FFF;
-            padding: 5px;
-            position: relative;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-content {
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
             text-align: center;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .button-group {
-            display: inline-block;
-            margin: 5px;
-        }
-
-        .icon-button {
-            background: linear-gradient(45deg, #0099FF, #0078D4);
-            color: #FFF;
-            border: none;
-            padding: 5px;
-            margin-right: 5px;
-            cursor: pointer;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .icon-button i {
-            font-size: 20px;
-        }
-
-        .icon-button:hover {
-            background: linear-gradient(45deg, #0078D4, #005EA6);
-        }
-
-        .button-category {
-            margin-top: 10px;
-        }
-
-        .status-bar {
-            background: #333;
-            color: #FFF;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+            line-height: 100px;
+            cursor: grab;
+            position: absolute;
         }
     </style>
 </head>
 <body>
-    <div class="ribbon-header">
-        <div class="header-content">
-            <h1>Your Page Title</h1>
-            <p>Subtitle or additional information</p>
-        </div>
-        <div class="button-category">
-            <div class="button-group">
-                <button class="icon-button"><i class="fas fa-chart-bar"></i></button>
-                <button class="icon-button"><i class="fas fa-chart-line"></i></button>
-                <button class="icon-button"><i class="fas fa-chart-pie"></i></button>
-                <button class="icon-button"><i class="fas fa-chart-treemap"></i></button>
-                <button class="icon-button"><i class="fas fa-table"></i></button>
-            </div>
-        </div>
+    <div id="container">
+        <!-- Items will be added here -->
     </div>
+    <button id="add-item">Add Item</button>
 
-    <div class="status-bar">
-        &copy; 2023 Your Company. All rights reserved. | Version 1.0
-    </div>
+    <script>
+        let isDragging = false;
+        let selectedElement = null;
+
+        const container = document.getElementById("container");
+        const addItemButton = document.getElementById("add-item");
+
+        addItemButton.addEventListener("click", () => {
+            const newItem = document.createElement("div");
+            newItem.classList.add("draggable");
+            newItem.innerText = "Drag Me";
+            newItem.style.left = "0px";
+            newItem.style.top = "0px";
+            container.appendChild(newItem);
+
+            makeDraggable(newItem);
+        });
+
+        function makeDraggable(item) {
+            item.addEventListener("mousedown", (event) => {
+                isDragging = true;
+                selectedElement = item;
+
+                const offsetX = event.clientX - item.getBoundingClientRect().left;
+                const offsetY = event.clientY - item.getBoundingClientRect().top;
+
+                document.addEventListener("mousemove", (event) => {
+                    if (isDragging && selectedElement) {
+                        selectedElement.style.left = event.clientX - offsetX + "px";
+                        selectedElement.style.top = event.clientY - offsetY + "px";
+                    }
+                });
+
+                document.addEventListener("mouseup", () => {
+                    isDragging = false;
+                    selectedElement = null;
+                });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -39,13 +39,13 @@
             makeDraggable(newItem);
         });
 
-        function makeDraggable(item) {
-            item.addEventListener("mousedown", (event) => {
+        function makeDraggable(tableElement) {
+            tableElement.addEventListener("mousedown", (event) => {
                 isDragging = true;
-                selectedElement = item;
+                selectedElement = tableElement;
 
-                const offsetX = event.clientX - item.getBoundingClientRect().left;
-                const offsetY = event.clientY - item.getBoundingClientRect().top;
+                const offsetX = event.clientX - tableElement.getBoundingClientRect().left;
+                const offsetY = event.clientY - tableElement.getBoundingClientRect().top;
 
                 document.addEventListener("mousemove", (event) => {
                     if (isDragging && selectedElement) {

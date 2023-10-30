@@ -1,0 +1,267 @@
+body {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .top-panel {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    height: 40px;
+  }
+
+  .top-panel button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .main-container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+  }
+
+  .objects-panel {
+    width: 150px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    overflow: hidden;
+    transition: width 0.3s;
+    position: relative;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .objects-panel h3 {
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+
+  .objects-panel ul {
+    list-style: none;
+    padding: 0;
+    display: block;
+    transition: display 0.3s;
+    margin-top: 20px;
+  }
+
+  .objects-panel ul.collapsed {
+    display: none;
+    margin: 0;
+  }
+
+  .objects-panel.collapse {
+    width: 5px;
+  }
+
+  .objects-panel.collapse h3 {
+    transform: rotate(-90deg);
+    top: 50%;
+    /* Move the text to the middle vertically */
+    right: -80%;
+    padding: 0;
+    margin: 0;
+    text-wrap: nowrap;
+  }
+
+  .objects-panel.collapse ul {
+    display: none;
+  }
+
+  .editor-container {
+    flex: 1;
+    display: flex;
+  }
+
+  .editor-panel {
+    flex: 1;
+    padding: 20px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    /* background-color: #f0f0f0; */
+    background-size: 20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-attachment: fixed;
+    /* Keep the background pattern fixed */
+    background-color: #f0f0f0;
+    /* Add the desired background color here */
+    overflow: auto;
+    /* Make the entire editor panel scrollable */
+  }
+
+  .properties-panel {
+    width: 250px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    overflow: hidden;
+    transition: width 0.3s;
+    position: relative;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .properties-panel h3 {
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-Left: 10px;
+    margin-top: 10px;
+
+
+
+  }
+
+  .properties-panel div {
+    display: block;
+    transition: display 0.3s;
+  }
+
+  .properties-panel div.collapsed {
+    display: none;
+  }
+
+  .properties-panel.collapse {
+    width: 5px;
+  }
+
+  .properties-panel.collapse h3 {
+    transform: rotate(-90deg);
+    top: 50%;
+    /* Move the text to the middle vertically */
+    left: -80%;
+    padding: 0;
+    margin: 0;
+    text-wrap: nowrap;
+  }
+
+  /* .properties-panel.collapse div {
+    display: none;
+  } */
+
+  /* Style for the inserted items in the editor panel */
+  .editor-panel .item {
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    cursor: move;
+  }
+
+  .expand-button {
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    color: steelblue;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .expand-button:hover {
+    color: royalblue;
+  }
+
+  /* menu bar */
+  .menubar {
+    background-color: #f0f0f0;
+    /* Change the background color */
+    color: #333;
+    /* Change the text color */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    z-index: 5;
+  }
+
+  /* Style for the menu items */
+  .menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+  }
+
+  .menu li {
+    display: inline;
+    margin-right: 20px;
+    position: relative;
+    width: 100px;
+  }
+
+  .menu li:last-child {
+    margin-right: 0;
+  }
+
+  .menu a {
+    text-decoration: none;
+    color: #333;
+    /* Change the text color */
+  }
+
+  .menu a:hover {
+    text-decoration: underline;
+  }
+
+  /* Style for submenus */
+  .submenu {
+    display: none;
+    position: absolute;
+    background-color: #fefefe;
+    /* Change the background color */
+    color: #333;
+    /* Change the text color */
+    padding: 10px;
+    border-radius: 4px;
+    top: 100%;
+    left: 0;
+  }
+
+  .submenu li {
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    display: inline-block;
+    /* Make submenu items inline-block */
+    padding: 5px;
+  }
+
+  .menu li:hover .submenu {
+    display: block;
+  }
+
+  /* StatusBar */
+  .status-bar {
+    background: #333;
+    color: #FFF;
+    padding: 5px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  /* end status bar */
+
+
+  /* #chartOptions,
+  #tableOptions {
+    display: none;
+    padding: 10px;
+    margin-left: 320px;
+  } */

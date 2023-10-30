@@ -1,269 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-
-      justify-content: flex-start;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .top-panel {
-      background-color: #f0f0f0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
-      z-index: 2;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-      height: 40px;
-    }
-
-    .top-panel button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
-    .main-container {
-      display: flex;
-      flex: 1;
-      width: 100%;
-    }
-
-    .objects-panel {
-      width: 150px;
-      background-color: #e0e0e0;
-      padding: 20px;
-      overflow: hidden;
-      transition: width 0.3s;
-      position: relative;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .objects-panel h3 {
-      margin-top: 0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      text-align: right;
-      margin-right: 10px;
-      margin-top: 10px;
-    }
-
-    .objects-panel ul {
-      list-style: none;
-      padding: 0;
-      display: block;
-      transition: display 0.3s;
-      margin-top: 20px;
-    }
-
-    .objects-panel ul.collapsed {
-      display: none;
-      margin: 0;
-    }
-
-    .objects-panel.collapse {
-      width: 5px;
-    }
-
-    .objects-panel.collapse h3 {
-      transform: rotate(-90deg);
-      top: 50%; /* Move the text to the middle vertically */
-      right: -80%;
-      padding: 0;
-      margin: 0;
-     text-wrap:nowrap;
-    }
-
-    .objects-panel.collapse ul {
-      display: none;
-    }
-
-    .editor-container {
-      flex: 1;
-      display: flex;
-    }
-
-    .editor-panel {
-      flex: 1;
-      padding: 20px;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-      /* background-color: #f0f0f0; */
-      background-size: 20px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-    }
-
-    .properties-panel {
-      width: 250px;
-      background-color: #e0e0e0;
-      padding: 20px;
-      overflow: hidden;
-      transition: width 0.3s;
-      position: relative;
-      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .properties-panel h3 {
-      margin-top: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin-Left: 10px;
-      margin-top: 10px;
-
-
-
-    }
-
-    .properties-panel div {
-      display: block;
-      transition: display 0.3s;
-    }
-
-    .properties-panel div.collapsed {
-      display: none;
-    }
-
-    .properties-panel.collapse {
-      width: 5px;
-    }
-
-    .properties-panel.collapse h3 {
-      transform: rotate(-90deg);
-      top: 50%; /* Move the text to the middle vertically */
-      left: -80%;
-      padding: 0;
-      margin: 0;
-      text-wrap:nowrap;
-    }
-
-    /* .properties-panel.collapse div {
-      display: none;
-    } */
-
-    /* Style for the inserted items in the editor panel */
-    .editor-panel .item {
-      padding: 10px;
-      background-color: white;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-      cursor: move;
-    }
-
-    .expand-button {
-      background-color: transparent;
-      cursor: pointer;
-      font-size: 24px;
-      padding: 10px;
-      color: steelblue;
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    .expand-button:hover {
-      color: royalblue;
-    }
-
-    /* menu bar */
-    .menubar {
-            background-color: #f0f0f0; /* Change the background color */
-            color: #333; /* Change the text color */
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            z-index: 5;
-        }
-
-        /* Style for the menu items */
-        .menu {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            
-        }
-
-        .menu li {
-            display: inline;
-            margin-right: 20px;
-            position: relative;
-            width: 100px;
-        }
-
-        .menu li:last-child {
-            margin-right: 0;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: #333; /* Change the text color */
-        }
-
-        .menu a:hover {
-            text-decoration: underline;
-        }
-
-        /* Style for submenus */
-        .submenu {
-            display: none;
-            position: absolute;
-            background-color: #fefefe; /* Change the background color */
-            color: #333; /* Change the text color */
-            padding: 10px;
-            border-radius: 4px;
-            top: 100%;
-            left: 0;
-        }
-
-        .submenu li {
-            white-space: nowrap; /* Prevent text from wrapping */
-            display: inline-block; /* Make submenu items inline-block */
-            padding: 5px;
-        }
-
-        .menu li:hover .submenu {
-            display: block;
-        }
-  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="stylePanel.css">
 </head>
+
 <body>
   <div class="menubar">
     <ul class="menu">
-        <li>
-            <a href="#">File</a>
-            <ul class="submenu">
-                <li><a href="#">Save</a></li>
-                <li><a href="#">Save As</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">View</a>
-            <ul class="submenu">
-                <li><a href="#">Preview</a></li>
-                <li><a href="#">Show Object Panel</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Help</a>
-            <ul class="submenu">
-                <li><a href="#">Documentation</a></li>
-            </ul>
-        </li>
+      <li>
+        <a href="#">File</a>
+        <ul class="submenu">
+          <li><a href="#">Save</a></li>
+          <li><a href="#">Save As</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">View</a>
+        <ul class="submenu">
+          <li><a href="#">Preview</a></li>
+          <li><a href="#">Show Object Panel</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Help</a>
+        <ul class="submenu">
+          <li><a href="#">Documentation</a></li>
+        </ul>
+      </li>
     </ul>
-</div>
+  </div>
   <div class="top-panel">
-    <button onclick="addItem('Table')"><i class="fas fa-table"></i></button>
-    <button onclick="addItem('Image')"><i class="fas fa-image"></i></button>
-    <button onclick="addItem('BarChart')"><i class="fas fa-chart-bar"></i></button>
+    <button class="icon-button" onclick="addChart('bar')"><i class="fas fa-chart-bar"></i></button>
+    <button class="icon-button" onclick="addChart('line')"><i class="fas fa-chart-line"></i></button>
+    <button class="icon-button" onclick="addChart('pie')"><i class="fas fa-chart-pie"></i></button>
+    <button class="icon-button" onclick="addChart('clusteredBar')">Clustered Bar Chart</button>
+    <button class="icon-button" onclick="addChart('stackedBar')">Stacked Bar Chart</button>
+    <button class="icon-button" onclick="addChart('treemap')"><i class="fas fa-chart-treemap"></i></button>
+    <button class="icon-button" onclick="addTable()"><i class="fas fa-table"></i></button>
+    <button class="icon-button" onclick="saveAsHTML()">Save</button>
   </div>
 
   <div class="main-container">
@@ -285,60 +62,36 @@
         <div class="expand-button" onclick="togglePropertiesPanel()"><i class="fas fa-chevron-right"></i></div>
         <h3>Properties Panel</h3>
         <div id="properties-content">
-          <!-- Add properties and controls here -->
+          <div id="chartOptions">
+            <label for="chartType">Chart Type:</label>
+            <select id="chartType">
+              <option value="bar">Bar Chart</option>
+              <option value="line">Line Chart</option>
+              <option value="pie">Pie Chart</option>
+              <option value="clusteredBar">Clustered Bar Chart</option>
+              <option value="stackedBar">Stacked Bar Chart</option>
+              <option value="treemap">Treemap</option>
+            </select>
+            <label for="apiURL">API URL:</label>
+            <input type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts">
+            <button onclick="customizeChart()">Apply Chart</button>
+          </div>
+          <div id="tableOptions">
+            <label for="tableAPIURL">API URL for Table Data:</label>
+            <input type="text" id="tableAPIURL" value="https://jsonplaceholder.typicode.com/users">
+            <button onclick="insertTable()">Insert Table</button>
+          </div>
         </div>
       </div>
     </div>
+    
   </div>
-
-  <script>
-    function addItem(itemType) {
-      // Create a new item element
-      var item = document.createElement('div');
-      item.classList.add('item');
-      item.innerHTML = itemType;
-      item.setAttribute('draggable', true);
-      item.setAttribute('ondragstart', 'drag(event)');
-      item.setAttribute('id', 'item-' + new Date().getTime());
-
-      // Add the new item to the editor panel
-      var editorPanel = document.getElementById('editor-panel');
-      editorPanel.appendChild(item);
-    }
-
-    function toggleObjectsPanel() {
-      var objectsPanel = document.getElementById("objects-panel");
-      var objectsList = document.getElementById('objects-list');
-      objectsPanel.classList.toggle('collapse');
-      objectsList.classList.toggle('collapsed');
-    }
-
-    function togglePropertiesPanel() {
-      var propertiesPanel = document.getElementById('properties-panel');
-      var propertiesContent = document.getElementById('properties-content');
-      propertiesPanel.classList.toggle('collapse');
-      propertiesContent.classList.toggle('collapsed');
-    }
-
-    function selectObject(item) {
-      // Add logic to handle the selection of objects in the object panel
-      item.classList.toggle("selected");
-    }
-
-    function allowDrop(event) {
-      event.preventDefault();
-    }
-
-    function drag(event) {
-      event.dataTransfer.setData('text', event.target.id);
-    }
-
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData('text');
-      var item = document.getElementById(data);
-      event.target.appendChild(item);
-    }
-  </script>
+  
+    <script src="scriptMenu.js"></script>
+    <script src="toolbox.js"></script>
+  <div class="status-bar">
+    &copy; 2023 CGS. All rights reserved. | Version 1.0
+  </div>
 </body>
+
 </html>
