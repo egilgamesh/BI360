@@ -1,64 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        .draggable {
-            width: 100px;
-            height: 100px;
-            background-color: #3498db;
-            color: white;
-            text-align: center;
-            line-height: 100px;
-            cursor: grab;
-            position: absolute;
-        }
-    </style>
+  <title>Object Location</title>
+  <style>
+    .object {
+      width: 100px;
+      height: 100px;
+      background-color: blue;
+      position: relative;
+      cursor: pointer;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div id="container">
-        <!-- Items will be added here -->
-    </div>
-    <button id="add-item">Add Item</button>
+  <div id="container"></div>
+  <div id="locationInfo"></div>
 
-    <script>
-        let isDragging = false;
-        let selectedElement = null;
+  <button id="addObject">Add Object</button>
 
-        const container = document.getElementById("container");
-        const addItemButton = document.getElementById("add-item");
+  <script>
+    let selectedObject = null;
 
-        addItemButton.addEventListener("click", () => {
-            const newItem = document.createElement("div");
-            newItem.classList.add("draggable");
-            newItem.innerText = "Drag Me";
-            newItem.style.left = "0px";
-            newItem.style.top = "0px";
-            container.appendChild(newItem);
+    document.getElementById('addObject').addEventListener('click', createObject);
 
-            makeDraggable(newItem);
-        });
+    function createObject() {
+      const container = document.getElementById('container');
+      const newObject = document.createElement('div');
+      newObject.className = 'object';
+      newObject.textContent = 'Click me!';
+      container.appendChild(newObject);
 
-        function makeDraggable(item) {
-            item.addEventListener("mousedown", (event) => {
-                isDragging = true;
-                selectedElement = item;
+      newObject.addEventListener('click', function(event) {
+        selectObject(event.target);
+      });
+    }
 
-                const offsetX = event.clientX - item.getBoundingClientRect().left;
-                const offsetY = event.clientY - item.getBoundingClientRect().top;
+    function selectObject(object) {
+      if (selectedObject !== null) {
+        selectedObject.classList.remove('selected');
+      }
 
-                document.addEventListener("mousemove", (event) => {
-                    if (isDragging && selectedElement) {
-                        selectedElement.style.left = event.clientX - offsetX + "px";
-                        selectedElement.style.top = event.clientY - offsetY + "px";
-                    }
-                });
+      selectedObject = object;
+      selectedObject.classList.add('selected');
 
-                document.addEventListener("mouseup", () => {
-                    isDragging = false;
-                    selectedElement = null;
-                });
-            });
-        }
-    </script>
+      const rect = selectedObject.getBoundingClientRect();
+      const locationInfo = document.getElementById('locationInfo');
+      locationInfo.innerHTML = `
+        <input type="text" value="Top: ${rect.top}" readonly>
+        <input type="text" value="Left: ${rect.left}" readonly>
+        <input type="text" value="Width: ${rect.width}" readonly>
+        <input type="text" value="Height: ${rect.height}" readonly>
+      `;
+    }
+  </script>
 </body>
 </html>

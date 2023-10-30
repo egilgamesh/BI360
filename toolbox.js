@@ -56,6 +56,7 @@ async function customizeChart() {
 
     editor.appendChild(chartContainer);
     makeChartDraggable(chartContainer);
+    ShowChartProperties(chartContainer);
 
     const chartData = await fetchChartData(apiURL, chartType);
 
@@ -335,7 +336,7 @@ async function fetchTableData(tableAPIURL) {
 }
 
 function saveAsHTML() {
-    const editorContent = document.getElementById("editor").innerHTML;
+    const editorContent = document.getElementById("editor-panel").innerHTML;
     const stylesheets = Array.from(document.styleSheets).map(styleSheet => {
         return `<link rel="stylesheet" href="${styleSheet.href}">`;
     }).join("\n");
@@ -399,8 +400,32 @@ function makeChartDraggable(chartElement) {
     });
 }
 
-        let isDragging = false;
-        let selectedElement = null;
+function ShowChartProperties(chartContainer)
+{
+    const propertiesPanel = document.getElementById("properties-content");
+
+    chartContainer.addEventListener("click", (event) =>{
+        selectedElement = chartContainer;
+        const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+        const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+        const properties = document.createElement("div");
+        properties.className = 'SelectedObject';
+        propertiesPanel.innerHTML = `
+        <input type="text" value="Top: ${offsetX}" readonly>
+        <input type="text" value="Left: ${offsetY}" readonly>
+      `;
+
+        propertiesPanel.appendChild(properties);
+
+                document.addEventListener("mouseup", () => {
+                    selectedElement = null;
+                });
+    });
+}
+
+
+let isDragging = false;
+let selectedElement = null;
 
 function makeTableDraggable(tableElement) {
     let isDragging = false;
