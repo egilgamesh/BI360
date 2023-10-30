@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>drag Chart and Table Editor</title>
+    <style>
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            cursor: grab;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- Items will be added here -->
+    </div>
+    <button id="add-item">Add Item</button>
+
+    <script>
+        let isDragging = false;
+        let selectedElement = null;
+
+        const container = document.getElementById("container");
+        const addItemButton = document.getElementById("add-item");
+
+        addItemButton.addEventListener("click", () => {
+            const newItem = document.createElement("div");
+            newItem.classList.add("draggable");
+            newItem.innerText = "Drag Me";
+            newItem.style.left = "0px";
+            newItem.style.top = "0px";
+            container.appendChild(newItem);
+
+            makeDraggable(newItem);
+        });
+
+        function makeDraggable(item) {
+            item.addEventListener("mousedown", (event) => {
+                isDragging = true;
+                selectedElement = item;
+
+                const offsetX = event.clientX - item.getBoundingClientRect().left;
+                const offsetY = event.clientY - item.getBoundingClientRect().top;
+
+                document.addEventListener("mousemove", (event) => {
+                    if (isDragging && selectedElement) {
+                        selectedElement.style.left = event.clientX - offsetX + "px";
+                        selectedElement.style.top = event.clientY - offsetY + "px";
+                    }
+                });
+
+                document.addEventListener("mouseup", () => {
+                    isDragging = false;
+                    selectedElement = null;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
