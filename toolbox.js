@@ -57,12 +57,12 @@ async function customizeChart() {
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
-    chartContainer.style.width = "600px";
-    chartContainer.style.height = "400px";
-    chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
-    chartContainer.style.border = "2px dashed #000"; // Add this line to create a border for the chart
+    // chartContainer.style.width = "600px";
+    // chartContainer.style.height = "400px";
+    // chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
+    // chartContainer.style.border = "2px solid #000"; // Add this line to create a border for the chart
 
-    chartContainer.classList.add("chart-card");
+    chartContainer.classList.add("newitem");
     // Make the chart container draggable
     chartContainer.onmousedown = (event) => {
         isDragging = true;
@@ -317,13 +317,13 @@ function AddItemInObjectListPanel(chartItemId) {
     // Set the item's attributes
     chartItem.setAttribute('draggable', true);
     chartItem.setAttribute('ondragstart', 'drag(event)');
-    chartItem.setAttribute('id', chartItemId);
+    chartItem.setAttribute('id',"layer_" + chartItemId);
 
     // Add a class to apply the styles
     chartItem.classList.add('chart-item');
     // Add a click handler to select the object
     chartItem.addEventListener('click', function () {
-        selectObject(this);
+        selectObject(this, chartItemId);
     });
 
     // Add the new chart item to the object list
@@ -331,32 +331,17 @@ function AddItemInObjectListPanel(chartItemId) {
     objectsList.appendChild(chartItem);
 }
 
-// Function to highlight the selected item in the editor-panel
-function selectObject(object) {
-    // Remove the 'selected' class from all items in the editor-panel
-    const editorItems = document.querySelectorAll('.editor-panel');
-    editorItems.forEach(item => item.classList.remove('selectedHighlight'));
-
-    // Add the 'selected' class to the clicked item in the editor-panel
-    const itemId = object.id;
-    const editorItem = document.getElementById(itemId);
-    if (editorItem) {
-        editorItem.classList.add('selectedHighlight');
-    }
-}
-
-
-// Add a click event listener to object list items
-document.addEventListener('DOMContentLoaded', function () {
-    const objectsList = document.getElementById('objects-list');
-    const objectListItems = objectsList.querySelectorAll('li');
-
-    objectListItems.forEach(item => {
-        item.addEventListener('click', function () {
-            selectObject(this);
-        });
+function selectObject(object, id) {
+    // Deselect previously selected objects
+    const selectedObjects = document.querySelectorAll('selectedHighlight');
+    selectedObjects.forEach(selectedObject => {
+        selectedObject.classList.remove('selectedHighlight');
     });
-});
+
+    const i =document.getElementById(id);
+    // Select the clicked object
+    i.classList.add('selectedHighlight');
+}
 
 /// 
 
