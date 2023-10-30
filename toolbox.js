@@ -57,11 +57,6 @@ async function customizeChart() {
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
-    // chartContainer.style.width = "600px";
-    // chartContainer.style.height = "400px";
-    // chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
-    // chartContainer.style.border = "2px solid #000"; // Add this line to create a border for the chart
-
     chartContainer.classList.add("newitem");
     // Make the chart container draggable
     chartContainer.onmousedown = (event) => {
@@ -323,7 +318,7 @@ function AddItemInObjectListPanel(chartItemId) {
     chartItem.classList.add('chart-item');
     // Add a click handler to select the object
     chartItem.addEventListener('click', function () {
-        selectObject(this, chartItemId);
+        selectObject(chartItemId);
     });
 
     // Add the new chart item to the object list
@@ -331,19 +326,18 @@ function AddItemInObjectListPanel(chartItemId) {
     objectsList.appendChild(chartItem);
 }
 
-function selectObject(object, id) {
+function selectObject(id) {
+
     // Deselect previously selected objects
     const selectedObjects = document.querySelectorAll('selectedHighlight');
     selectedObjects.forEach(selectedObject => {
         selectedObject.classList.remove('selectedHighlight');
     });
-
-    const i =document.getElementById(id);
+    
+    const item =document.getElementById(id);
     // Select the clicked object
-    i.classList.add('selectedHighlight');
+    item.classList.add('selectedHighlight');
 }
-
-/// 
 
 async function insertTable() {
     const tableAPIURL = document.getElementById("tableAPIURL").value;
@@ -534,5 +528,3 @@ function adjustEditorDimensions() {
     editor.style.height = totalHeight + padding + "px";
     editor.style.width = totalWidth + padding + "px";
 }
-
-

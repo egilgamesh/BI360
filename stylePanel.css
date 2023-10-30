@@ -338,5 +338,5 @@ body {
 
 .selectedHighlight {
     /*border: 812px solid royalblue; /* Customize the highlight style */
-    box-shadow: 10px 10px 5px #aaaaaa;
+    box-shadow: 5px 3px 5px #aaaaaa;
 }
