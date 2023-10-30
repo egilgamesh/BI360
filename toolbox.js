@@ -372,8 +372,6 @@ function saveAsHTML() {
 
 
 function makeChartDraggable(chartElement) {
-    let offsetX = 0;
-    let offsetY = 0;
     let isDragging = false;
 
     chartElement.style.position = 'absolute';
