@@ -48,9 +48,6 @@
       <div class="expand-button" onclick="toggleObjectsPanel()"><i class="fas fa-chevron-left"></i></div>
       <h3>Objects Panel</h3>
       <ul id="objects-list">
-        <li onclick="selectObject(this)">Object 1</li>
-        <li onclick="selectObject(this)">Object 2</li>
-        <li onclick="selectObject(this)">Object 3</li>
       </ul>
     </div>
 
@@ -72,6 +69,7 @@
               <option value="stackedBar">Stacked Bar Chart</option>
               <option value="treemap">Treemap</option>
             </select>
+          </br>
             <label for="apiURL">API URL:</label>
             <input type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts">
             <button onclick="customizeChart()">Apply Chart</button>

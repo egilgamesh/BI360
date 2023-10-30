@@ -265,3 +265,77 @@ body {
     padding: 10px;
     margin-left: 320px;
   } */
+
+
+/* Style for Object List */
+/* Style for Object List with Icons */
+.objects-panel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.objects-panel ul li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.objects-panel ul li:hover {
+    border-color: royalblue; /* Change border color on hover */
+    background-color: #f0f0f0; /* Change background color on hover */
+}
+
+.objects-panel ul li .object-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.objects-panel ul li .object-name {
+    flex-grow: 1;
+}
+
+/* Style for specific object types */
+.objects-panel ul li.chart-object {
+    border-color: #ff6f61; /* Customize the border color for chart objects */
+}
+
+.objects-panel ul li.table-object {
+    border-color: #7ac74e; /* Customize the border color for table objects */
+}
+
+
+/* fdfdf
+/* Style for Chart Item in Object List */
+.objects-panel ul li.chart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.objects-panel ul li.chart-item:hover {
+    border-color: royalblue; /* Change border color on hover */
+    background-color: #f0f0f0; /* Change background color on hover */
+}
+
+.objects-panel ul li.chart-item .object-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.objects-panel ul li.chart-item .object-name {
+    flex-grow: 1;
+}
+
+.item.selectedHighlight {
+    border: 8px solid royalblue; /* Customize the highlight style */
+}

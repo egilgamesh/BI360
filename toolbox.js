@@ -6,7 +6,7 @@ function addChart(chartType) {
     const chartTypeElement = document.getElementById("chartType");
 
     if (selectedObjectProperties) {
-        selectedObjectProperties.innerHTML=""
+        selectedObjectProperties.innerHTML = ""
     }
 
     if (chartOptions) {
@@ -51,10 +51,12 @@ async function fetchChartData(apiURL) {
 }
 
 async function customizeChart() {
+    const chartItemId = `chart-item-${new Date().getTime()}`;
     const chartType = document.getElementById("chartType").value;
     const apiURL = document.getElementById("apiURL").value;
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
+    chartContainer.id = chartItemId;
     chartContainer.style.width = "600px";
     chartContainer.style.height = "400px";
     chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
@@ -293,6 +295,31 @@ async function customizeChart() {
         else {
             // Handle other chart types here
         }
+        // populate object list
+
+        // Create a new chart item element
+        const chartItem = document.createElement('li');
+        chartItem.innerText = 'Chart'; // You can customize the label
+
+        // Set the item's attributes
+        chartItem.setAttribute('draggable', true);
+        chartItem.setAttribute('ondragstart', 'drag(event)');
+        chartItem.setAttribute('id', chartItemId);
+
+        // Add a class to apply the styles
+        chartItem.classList.add('chart-item');
+        // Add a click handler to select the object
+        chartItem.addEventListener('click', function () {
+            selectObject(this);
+        });
+
+        // Add the new chart item to the object list
+        const objectsList = document.getElementById('objects-list');
+        objectsList.appendChild(chartItem);
+
+        // ... (rest of the code for creating the chart)
+
+        document.getElementById("chartOptions").style.display = "none";
     } else {
         alert("Failed to fetch data from the API for the chart.");
     }
@@ -300,6 +327,34 @@ async function customizeChart() {
     document.getElementById("chartOptions").style.display = "none";
 }
 
+// Function to highlight the selected item in the editor-panel
+function selectObject(object) {
+    // Remove the 'selected' class from all items in the editor-panel
+    const editorItems = document.querySelectorAll('.editor-panel');
+    editorItems.forEach(item => item.classList.remove('item.selectedHighlight'));
+
+    // Add the 'selected' class to the clicked item in the editor-panel
+    const itemId = object.id;
+    const editorItem = document.getElementById(itemId);
+    if (editorItem) {
+        editorItem.classList.add('item.selectedHighlight');
+    }
+}
+
+
+// Add a click event listener to object list items
+document.addEventListener('DOMContentLoaded', function () {
+    const objectsList = document.getElementById('objects-list');
+    const objectListItems = objectsList.querySelectorAll('li');
+
+    objectListItems.forEach(item => {
+        item.addEventListener('click', function () {
+            selectObject(this);
+        });
+    });
+});
+
+/// 
 
 async function insertTable() {
     const tableAPIURL = document.getElementById("tableAPIURL").value;
@@ -331,6 +386,7 @@ async function insertTable() {
         editor.appendChild(table);
         // Make the table draggable
         makeTableDraggable(table);
+
     } else {
         alert('Failed to fetch data from the API for the table.');
     }
@@ -420,13 +476,15 @@ function makeChartDraggable(chartElement) {
 
 function ShowChartProperties(chartContainer) {
     const propertiesPanel = document.getElementById("PropertiesList");
-    propertiesPanel.style.display ="block";
+    propertiesPanel.style.display = "block";
     chartContainer.addEventListener("click", (event) => {
         selectedElement = chartContainer;
         const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
         const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+        const name = chartContainer.id;
 
         propertiesPanel.innerHTML = `
+        <input type="text" value="name: ${name}" readonly>
         <input type="text" value="Top: ${offsetX}" readonly>
         <input type="text" value="Left: ${offsetY}" readonly>
       `;

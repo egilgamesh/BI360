@@ -1,16 +1,16 @@
-function addItem(itemType) {
-    // Create a new item element
-    var item = document.createElement('div');
-    item.classList.add('item');
-    item.innerHTML = itemType;
-    item.setAttribute('draggable', true);
-    item.setAttribute('ondragstart', 'drag(event)');
-    item.setAttribute('id', 'item-' + new Date().getTime());
+// function addItem(itemType) {
+//     // Create a new item element
+//     var item = document.createElement('div');
+//     item.classList.add('item');
+//     item.innerHTML = itemType;
+//     item.setAttribute('draggable', true);
+//     item.setAttribute('ondragstart', 'drag(event)');
+//     item.setAttribute('id', 'item-' + new Date().getTime());
 
-    // Add the new item to the editor panel
-    var editorPanel = document.getElementById('editor-panel');
-    editorPanel.appendChild(item);
-  }
+//     // Add the new item to the editor panel
+//     var editorPanel = document.getElementById('editor-panel');
+//     editorPanel.appendChild(item);
+//   }
 
   function toggleObjectsPanel() {
     var objectsPanel = document.getElementById("objects-panel");
@@ -26,10 +26,10 @@ function addItem(itemType) {
     propertiesContent.classList.toggle('collapsed');
   }
 
-  function selectObject(item) {
-    // Add logic to handle the selection of objects in the object panel
-    item.classList.toggle("selected");
-  }
+  // function selectObject(item) {
+  //   // Add logic to handle the selection of objects in the object panel
+  //   item.classList.toggle("selected");
+  // }
 
   function allowDrop(event) {
     event.preventDefault();
