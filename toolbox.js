@@ -298,25 +298,7 @@ async function customizeChart() {
         // populate object list
 
         // Create a new chart item element
-        const chartItem = document.createElement('li');
-        chartItem.innerText = 'Chart'; // You can customize the label
-
-        // Set the item's attributes
-        chartItem.setAttribute('draggable', true);
-        chartItem.setAttribute('ondragstart', 'drag(event)');
-        chartItem.setAttribute('id', chartItemId);
-
-        // Add a class to apply the styles
-        chartItem.classList.add('chart-item');
-        // Add a click handler to select the object
-        chartItem.addEventListener('click', function () {
-            selectObject(this);
-        });
-
-        // Add the new chart item to the object list
-        const objectsList = document.getElementById('objects-list');
-        objectsList.appendChild(chartItem);
-
+        AddItemInObjectListPanel(chartItemId);
         // ... (rest of the code for creating the chart)
 
         document.getElementById("chartOptions").style.display = "none";
@@ -327,17 +309,39 @@ async function customizeChart() {
     document.getElementById("chartOptions").style.display = "none";
 }
 
+function AddItemInObjectListPanel(chartItemId) {
+    const chartItem = document.createElement('li');
+    chartItem.innerText = 'Chart'; // You can customize the label
+
+
+    // Set the item's attributes
+    chartItem.setAttribute('draggable', true);
+    chartItem.setAttribute('ondragstart', 'drag(event)');
+    chartItem.setAttribute('id', chartItemId);
+
+    // Add a class to apply the styles
+    chartItem.classList.add('chart-item');
+    // Add a click handler to select the object
+    chartItem.addEventListener('click', function () {
+        selectObject(this);
+    });
+
+    // Add the new chart item to the object list
+    const objectsList = document.getElementById('objects-list');
+    objectsList.appendChild(chartItem);
+}
+
 // Function to highlight the selected item in the editor-panel
 function selectObject(object) {
     // Remove the 'selected' class from all items in the editor-panel
     const editorItems = document.querySelectorAll('.editor-panel');
-    editorItems.forEach(item => item.classList.remove('item.selectedHighlight'));
+    editorItems.forEach(item => item.classList.remove('selectedHighlight'));
 
     // Add the 'selected' class to the clicked item in the editor-panel
     const itemId = object.id;
     const editorItem = document.getElementById(itemId);
     if (editorItem) {
-        editorItem.classList.add('item.selectedHighlight');
+        editorItem.classList.add('selectedHighlight');
     }
 }
 
@@ -440,8 +444,6 @@ function saveAsHTML() {
     a.click();
     document.body.removeChild(a);
 }
-
-
 //
 // ...
 
@@ -478,16 +480,7 @@ function ShowChartProperties(chartContainer) {
     const propertiesPanel = document.getElementById("PropertiesList");
     propertiesPanel.style.display = "block";
     chartContainer.addEventListener("click", (event) => {
-        selectedElement = chartContainer;
-        const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
-        const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
-        const name = chartContainer.id;
-
-        propertiesPanel.innerHTML = `
-        <input type="text" value="name: ${name}" readonly>
-        <input type="text" value="Top: ${offsetX}" readonly>
-        <input type="text" value="Left: ${offsetY}" readonly>
-      `;
+        selectedChart(chartContainer, event, propertiesPanel);
 
         // propertiesPanel.appendChild(properties);
 
@@ -500,10 +493,21 @@ function ShowChartProperties(chartContainer) {
     });
 }
 
+function selectedChart(chartContainer, event, propertiesPanel) {
+    selectedElement = chartContainer;
+    const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+    const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+    const name = chartContainer.id;
+
+    propertiesPanel.innerHTML = `
+        <input type="text" value="name: ${name}" readonly>
+        <input type="text" value="Top: ${offsetX}" readonly>
+        <input type="text" value="Left: ${offsetY}" readonly>
+      `;
+}
 
 let isDragging = false;
 let selectedElement = null;
-
 function makeTableDraggable(tableElement) {
     let isDragging = false;
 
