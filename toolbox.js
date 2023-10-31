@@ -57,15 +57,19 @@ async function customizeChart() {
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
-    chartContainer.classList.add("newitem");
+    chartContainer.classList.add("card-container");
+    const cardcontent = document.createElement("div");
+    cardcontent.classList.add("card-content");
+    chartContainer.appendChild(cardcontent);
+
     // Make the chart container draggable
-    chartContainer.onmousedown = (event) => {
+    cardcontent.onmousedown = (event) => {
         isDragging = true;
-        offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
-        offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+        offsetX = event.clientX - cardcontent.getBoundingClientRect().left;
+        offsetY = event.clientY - cardcontent.getBoundingClientRect().top;
     };
 
-    chartContainer.onmouseup = () => {
+    cardcontent.onmouseup = () => {
         isDragging = false;
     };
 
@@ -80,7 +84,7 @@ async function customizeChart() {
         const height = 400;
         const margin = { top: 20, right: 20, bottom: 40, left: 40 };
 
-        const svg = d3.select(chartContainer)
+        const svg = d3.select(cardcontent)
             .append("svg")
             .attr("width", width)
             .attr("height", height);
