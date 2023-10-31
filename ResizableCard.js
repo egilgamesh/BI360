@@ -5,7 +5,6 @@ class ResizableCard {
         this.isResizing = false;
         this.isDragging = false;
         this.isSelected = false;
-        this.isMouseHeld = false; // Track if the left mouse button is held
         this.offsetX = 0;
         this.offsetY = 0;
 
@@ -17,7 +16,10 @@ class ResizableCard {
         window.addEventListener("mouseup", this.handleMouseUp.bind(this));
 
         cardContent.addEventListener("mousedown", this.handleCardContentMouseDown.bind(this));
-        cardContent.addEventListener("mouseup", this.handleCardContentMouseUp.bind(this));
+
+        // Listen for mouse events for highlighting
+        cardContainer.addEventListener("mousedown", this.handleMouseOver.bind(this));
+        cardContainer.addEventListener("mouseup", this.handleMouseOut.bind(this));
     }
 
     handleMouseDown(e) {
@@ -38,18 +40,12 @@ class ResizableCard {
         } else if (this.isDragging) {
             this.cardContainer.style.left = e.clientX - this.offsetX + "px";
             this.cardContainer.style.top = e.clientY - this.offsetY + "px";
-        } else if (this.isMouseHeld) {
-            this.isSelected = true;
-            this.updateHighlight();
         }
     }
 
     handleMouseUp() {
         this.isResizing = false;
         this.isDragging = false;
-        this.isMouseHeld = false;
-        this.isSelected = false;
-        this.updateHighlight();
     }
 
     handleCardContentMouseDown(e) {
@@ -60,15 +56,21 @@ class ResizableCard {
         }
     }
 
-    handleCardContentMouseUp() {
-        this.isDragging = false;
+    handleMouseOver() {
+        this.isSelected = true;
+        this.updateHighlight();
+    }
+
+    handleMouseOut() {
+        this.isSelected = false;
+        this.updateHighlight();
     }
 
     updateHighlight() {
         if (this.isSelected) {
-            this.cardContainer.style.border = "2px solid #ffcc00"; // Add your desired border style
+            this.cardContainer.style.border = "2px solid #F96161";
         } else {
-            this.cardContainer.style.border = "2px solid #ccc"; // Default border style
+            this.cardContainer.style.border = "2px solid #ccc";
         }
     }
 }
