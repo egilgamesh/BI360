@@ -1,58 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Object Location</title>
-  <style>
-    .object {
-      width: 100px;
-      height: 100px;
-      background-color: blue;
-      position: relative;
-      cursor: pointer;
-      margin: 10px;
-    }
-  </style>
+    <style>
+        .card-container {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            border: 2px solid #ccc;
+            resize: both;
+            overflow: hidden;
+        }
+
+        .card-content {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
-  <div id="container"></div>
-  <div id="locationInfo"></div>
+    <div class="card-container" id="myCard">
+        <div class="card-content" id="cardContent">
+            <!-- Card content goes here -->
+        </div>
+    </div>
 
-  <button id="addObject">Add Object</button>
+    <script type="module">
+        import ResizableCard from './ResizableCard.js';
 
-  <script>
-    let selectedObject = null;
+        const cardContainer = document.getElementById("myCard");
+        const cardContent = document.getElementById("cardContent");
 
-    document.getElementById('addObject').addEventListener('click', createObject);
-
-    function createObject() {
-      const container = document.getElementById('container');
-      const newObject = document.createElement('div');
-      newObject.className = 'object';
-      newObject.textContent = 'Click me!';
-      container.appendChild(newObject);
-
-      newObject.addEventListener('click', function(event) {
-        selectObject(event.target);
-      });
-    }
-
-    function selectObject(object) {
-      if (selectedObject !== null) {
-        selectedObject.classList.remove('selected');
-      }
-
-      selectedObject = object;
-      selectedObject.classList.add('selected');
-
-      const rect = selectedObject.getBoundingClientRect();
-      const locationInfo = document.getElementById('locationInfo');
-      locationInfo.innerHTML = `
-        <input type="text" value="Top: ${rect.top}" readonly>
-        <input type="text" value="Left: ${rect.left}" readonly>
-        <input type="text" value="Width: ${rect.width}" readonly>
-        <input type="text" value="Height: ${rect.height}" readonly>
-      `;
-    }
-  </script>
+        const resizableCard = new ResizableCard(cardContainer, cardContent);
+    </script>
 </body>
 </html>
