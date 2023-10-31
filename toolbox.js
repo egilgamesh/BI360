@@ -1,3 +1,5 @@
+//TODO: we have to use ResizableCard library to handle DND and sizable
+
 function addChart(chartType) {
 
     const selectedObjectProperties = document.getElementById("PropertiesList");
@@ -27,28 +29,7 @@ function addTable() {
     document.getElementById("tableOptions").style.display = "block";
 }
 
-// Modify the fetchChartData function to process the data
-async function fetchChartData(apiURL) {
-    try {
-        const response = await fetch(apiURL);
-        if (response.ok) {
-            const data = await response.json();
 
-            // Extract post titles and their character counts
-            const chartData = data.map(post => ({
-                label: post.title,
-                value: post.title.length,
-            }));
-
-            return chartData;
-        } else {
-            throw new Error('Failed to fetch data from the API');
-        }
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
 
 async function customizeChart() {
     const chartItemId = `chart-item-${new Date().getTime()}`;
@@ -389,6 +370,29 @@ async function fetchTableData(tableAPIURL) {
             return data;
         } else {
             throw new Error('Failed to fetch data for the table from the API');
+        }
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+// Modify the fetchChartData function to process the data
+async function fetchChartData(apiURL) {
+    try {
+        const response = await fetch(apiURL);
+        if (response.ok) {
+            const data = await response.json();
+
+            // Extract post titles and their character counts
+            const chartData = data.map(post => ({
+                label: post.title,
+                value: post.title.length,
+            }));
+
+            return chartData;
+        } else {
+            throw new Error('Failed to fetch data from the API');
         }
     } catch (error) {
         console.error(error);
