@@ -350,6 +350,8 @@ body {
   resize: both;
   overflow: hidden;
   cursor: move;
+  background-color: #fff;
+  box-shadow: 1px 1px 1px #aaaaaa;
 }
 
 .card-content {
