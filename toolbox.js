@@ -87,188 +87,17 @@ async function customizeChart() {
             .range([chartHeight, 0]);
 
         if (chartType === 'bar') {
-            g.selectAll(".bar")
-                .data(chartData)
-                .enter()
-                .append("rect")
-                .attr("class", "bar")
-                .attr("x", d => xScale(d.label))
-                .attr("y", d => yScale(d.value))
-                .attr("width", xScale.bandwidth())
-                .attr("height", d => chartHeight - yScale(d.value))
-                .style("fill", "steelblue")
-                .on("mouseover", function () {
-                    d3.select(this).style("fill", "orange"); // Change the color on mouseover
-                })
-                .on("mouseout", function () {
-                    d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
-                });
-
-            g.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0, ${chartHeight})`)
-                .call(d3.axisBottom(xScale));
-
-            g.append("g")
-                .attr("class", "y-axis")
-                .call(d3.axisLeft(yScale));
-
-            // Add labels and titles to your chart
-            g.selectAll(".bar-label")
-                .data(chartData)
-                .enter()
-                .append("text")
-                .attr("class", "bar-label")
-                .attr("x", d => xScale(d.label) + xScale.bandwidth() / 2)
-                .attr("y", d => yScale(d.value) - 10) // Adjust the position
-                .attr("text-anchor", "middle")
-                .text(d => d.value)
-                .style("fill", "black")
-                .style("font-size", "12px");
-
-            // Add title
-            svg.append("text")
-                .attr("x", width / 2)
-                .attr("y", 10)
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .text("Bar Chart Title");
+            CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width);
 
         }
         else if (chartType === 'line') {
-            const line = d3.line()
-                .x(d => xScale(d.label))
-                .y(d => yScale(d.value));
-
-            g.append("path")
-                .datum(chartData)
-                .attr("class", "line")
-                .attr("d", line)
-                .attr("fill", "none")
-                .attr("stroke", "steelblue");
-
-            g.selectAll(".dot")
-                .data(chartData)
-                .enter()
-                .append("circle")
-                .attr("class", "dot")
-                .attr("cx", d => xScale(d.label))
-                .attr("cy", d => yScale(d.value))
-                .attr("r", 5)
-                .style("fill", "steelblue")
-                .on("mouseover", function () {
-                    d3.select(this).style("fill", "orange"); // Change the color on mouseover
-                })
-                .on("mouseout", function () {
-                    d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
-                });
-
-            g.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0, ${chartHeight})`)
-                .call(d3.axisBottom(xScale));
-
-            g.append("g")
-                .attr("class", "y-axis")
-                .call(d3.axisLeft(yScale));
-
-            // Add labels and titles to your chart
-            g.selectAll(".line-label")
-                .data(chartData)
-                .enter()
-                .append("text")
-                .attr("class", "line-label")
-                .attr("x", d => xScale(d.label))
-                .attr("y", d => yScale(d.value) - 15) // Adjust the position
-                .attr("text-anchor", "middle")
-                .text(d => d.value)
-                .style("fill", "black")
-                .style("font-size", "12px");
-
-            // Add title
-            svg.append("text")
-                .attr("x", width / 2)
-                .attr("y", 10)
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .text("Line Chart Title");
+            CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width);
         }
         else if (chartType === 'pie') {
-            const radius = Math.min(chartWidth, chartHeight) / 2;
-
-            const pie = d3.pie()
-                .value(d => d.value);
-
-            const arc = d3.arc()
-                .innerRadius(0)
-                .outerRadius(radius);
-
-            const arcs = g.selectAll(".arc")
-                .data(pie(chartData))
-                .enter().append("g")
-                .attr("class", "arc")
-                .attr("transform", `translate(${chartWidth / 2}, ${chartHeight / 2})`);
-
-            const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-            arcs.append("path")
-                .attr("d", arc)
-                .attr("fill", d => color(d.data.label));
-
-            const legend = g.selectAll(".legend")
-                .data(chartData.map(d => d.label))
-                .enter().append("g")
-                .attr("class", "legend")
-                .attr("transform", (d, i) => `translate(50,${i * 20})`);
-
-            legend.append("rect")
-                .attr("x", chartWidth - 18)
-                .attr("width", 18)
-                .attr("height", 18)
-                .attr("fill", (d, i) => color(i));
-
-            legend.append("text")
-                .attr("x", chartWidth - 24)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "end")
-                .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
-                .on("mouseover", function () {
-                    d3.select(this).text(d => d); // Show full text on mouseover
-                })
-                .on("mouseout", function () {
-                    d3.select(this).text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d); // Show ellipsis on mouseout
-                });
+            CreatePieChart(chartWidth, chartHeight, g, chartData);
         }
         else if (chartType === 'treemap') {
-            const treemap = d3.treemap()
-                .size([chartWidth, chartHeight])
-                .padding(2);
-
-            const root = d3.hierarchy({ children: chartData })
-                .sum(d => d.value);
-
-            treemap(root);
-
-            const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-            const cell = g.selectAll("g")
-                .data(root.leaves())
-                .enter().append("g")
-                .attr("transform", d => `translate(${d.x0},${d.y0})`);
-
-            cell.append("rect")
-                .attr("width", d => d.x1 - d.x0)
-                .attr("height", d => d.y1 - d.y0)
-                .attr("fill", d => color(d.parent.data.label));
-
-            cell.append("text")
-                .selectAll("tspan")
-                .data(d => d.data.label.split(/(?=[A-Z][a-z])|\s+/))
-                .enter().append("tspan")
-                .attr("x", 4)
-                .attr("y", (d, i) => 13 + i * 10)
-                .text(d => d);
+            CreateTreeMapChart(chartWidth, chartHeight, chartData, g);
         }
 
 
@@ -287,6 +116,193 @@ async function customizeChart() {
     }
 
     document.getElementById("chartOptions").style.display = "none";
+}
+
+function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
+    const treemap = d3.treemap()
+        .size([chartWidth, chartHeight])
+        .padding(2);
+
+    const root = d3.hierarchy({ children: chartData })
+        .sum(d => d.value);
+
+    treemap(root);
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    const cell = g.selectAll("g")
+        .data(root.leaves())
+        .enter().append("g")
+        .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    cell.append("rect")
+        .attr("width", d => d.x1 - d.x0)
+        .attr("height", d => d.y1 - d.y0)
+        .attr("fill", d => color(d.parent.data.label));
+
+    cell.append("text")
+        .selectAll("tspan")
+        .data(d => d.data.label.split(/(?=[A-Z][a-z])|\s+/))
+        .enter().append("tspan")
+        .attr("x", 4)
+        .attr("y", (d, i) => 13 + i * 10)
+        .text(d => d);
+}
+
+function CreatePieChart(chartWidth, chartHeight, g, chartData) {
+    const radius = Math.min(chartWidth, chartHeight) / 2;
+
+    const pie = d3.pie()
+        .value(d => d.value);
+
+    const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+    const arcs = g.selectAll(".arc")
+        .data(pie(chartData))
+        .enter().append("g")
+        .attr("class", "arc")
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight / 2})`);
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    arcs.append("path")
+        .attr("d", arc)
+        .attr("fill", d => color(d.data.label));
+
+    const legend = g.selectAll(".legend")
+        .data(chartData.map(d => d.label))
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", (d, i) => `translate(50,${i * 20})`);
+
+    legend.append("rect")
+        .attr("x", chartWidth - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .attr("fill", (d, i) => color(i));
+
+    legend.append("text")
+        .attr("x", chartWidth - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
+        .on("mouseover", function () {
+            d3.select(this).text(d => d); // Show full text on mouseover
+        })
+        .on("mouseout", function () {
+            d3.select(this).text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d);
+        });
+}
+
+function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width) {
+    g.selectAll(".bar")
+        .data(chartData)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => xScale(d.label))
+        .attr("y", d => yScale(d.value))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => chartHeight - yScale(d.value))
+        .style("fill", "steelblue")
+        .on("mouseover", function () {
+            d3.select(this).style("fill", "orange"); // Change the color on mouseover
+        })
+        .on("mouseout", function () {
+            d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
+        });
+
+    g.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(d3.axisBottom(xScale));
+
+    g.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(yScale));
+
+    // Add labels and titles to your chart
+    g.selectAll(".bar-label")
+        .data(chartData)
+        .enter()
+        .append("text")
+        .attr("class", "bar-label")
+        .attr("x", d => xScale(d.label) + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d.value) - 10) // Adjust the position
+        .attr("text-anchor", "middle")
+        .text(d => d.value)
+        .style("fill", "black")
+        .style("font-size", "12px");
+
+    // Add title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Bar Chart Title");
+}
+
+function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) {
+    const line = d3.line()
+        .x(d => xScale(d.label))
+        .y(d => yScale(d.value));
+
+    g.append("path")
+        .datum(chartData)
+        .attr("class", "line")
+        .attr("d", line)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue");
+
+    g.selectAll(".dot")
+        .data(chartData)
+        .enter()
+        .append("circle")
+        .attr("class", "dot")
+        .attr("cx", d => xScale(d.label))
+        .attr("cy", d => yScale(d.value))
+        .attr("r", 5)
+        .style("fill", "steelblue")
+        .on("mouseover", function () {
+            d3.select(this).style("fill", "orange"); // Change the color on mouseover
+        })
+        .on("mouseout", function () {
+            d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
+        });
+
+    g.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(d3.axisBottom(xScale));
+
+    g.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(yScale));
+
+    // Add labels and titles to your chart
+    g.selectAll(".line-label")
+        .data(chartData)
+        .enter()
+        .append("text")
+        .attr("class", "line-label")
+        .attr("x", d => xScale(d.label))
+        .attr("y", d => yScale(d.value) - 15) // Adjust the position
+        .attr("text-anchor", "middle")
+        .text(d => d.value)
+        .style("fill", "black")
+        .style("font-size", "12px");
+
+    // Add title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Line Chart Title");
 }
 
 function AddItemInObjectListPanel(chartItemId) {
