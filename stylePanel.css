@@ -359,3 +359,31 @@ body {
   height: 100%;
   overflow: auto;
 }
+
+/* styles.css */
+.property {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.property:focus {
+  outline: none;
+  border: 2px solid #007bff;
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+}
+
+.property:hover {
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.property[readonly] {
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}

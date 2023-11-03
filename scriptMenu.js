@@ -1,22 +1,9 @@
-// function addItem(itemType) {
-//     // Create a new item element
-//     var item = document.createElement('div');
-//     item.classList.add('item');
-//     item.innerHTML = itemType;
-//     item.setAttribute('draggable', true);
-//     item.setAttribute('ondragstart', 'drag(event)');
-//     item.setAttribute('id', 'item-' + new Date().getTime());
-
-//     // Add the new item to the editor panel
-//     var editorPanel = document.getElementById('editor-panel');
-//     editorPanel.appendChild(item);
-//   }
-
   function toggleObjectsPanel() {
     var objectsPanel = document.getElementById("objects-panel");
     var objectsList = document.getElementById('objects-list');
     objectsPanel.classList.toggle('collapse');
     objectsList.classList.toggle('collapsed');
+   
   }
 
   function togglePropertiesPanel() {

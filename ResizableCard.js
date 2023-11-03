@@ -1,5 +1,5 @@
 class ResizableCard {
-    constructor(cardContainer, cardContent) {
+    constructor(cardContainer, cardContent, callback) {
         this.cardContainer = cardContainer;
         this.cardContent = cardContent;
         this.isResizing = false;
@@ -7,7 +7,7 @@ class ResizableCard {
         this.isSelected = false;
         this.offsetX = 0;
         this.offsetY = 0;
-
+        this.resizeCallback = callback; // Callback function to handle resizing updates
         cardContainer.style.transition = "border 0.2s"; // Add transition for a smooth effect
         this.updateHighlight();
 
@@ -37,6 +37,9 @@ class ResizableCard {
             const newHeight = e.clientY - this.cardContainer.getBoundingClientRect().top + this.offsetY;
             this.cardContainer.style.width = newWidth + "px";
             this.cardContainer.style.height = newHeight + "px";
+            if (typeof this.resizeCallback === "function") {
+                this.resizeCallback(this.cardContainer,newWidth, newHeight);
+            }
         } else if (this.isDragging) {
             this.cardContainer.style.left = e.clientX - this.offsetX + "px";
             this.cardContainer.style.top = e.clientY - this.offsetY + "px";
@@ -73,6 +76,21 @@ class ResizableCard {
             this.cardContainer.style.border = "2px solid #ccc";
         }
     }
+
+    getPosition() {
+        const rect = this.cardContainer.getBoundingClientRect();
+        return {
+            top: rect.top,
+            left: rect.left
+        };
+    }
+
+    getSize() {
+        return {
+            width: this.cardContainer.clientWidth,
+            height: this.cardContainer.clientHeight
+        };
+    }
 }
 
-export default ResizableCard;
+// export default ResizableCard;

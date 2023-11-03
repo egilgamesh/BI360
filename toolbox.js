@@ -1,5 +1,7 @@
 //TODO: we have to use ResizableCard library to handle DND and sizable
 
+const itemList = [];
+
 function addChart(chartType) {
 
     const selectedObjectProperties = document.getElementById("PropertiesList");
@@ -31,92 +33,131 @@ function addTable() {
 
 
 
-async function customizeChart() {
-    const chartItemId = `chart-item-${new Date().getTime()}`;
+async function AddChart() {
     const chartType = document.getElementById("chartType").value;
+    const chartItemId = chartType + `-${new Date().getTime()}`;
     const apiURL = document.getElementById("apiURL").value;
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
+    chartContainer.top = 0;
+    chartContainer.left = 0;
     chartContainer.classList.add("card-container");
     const cardcontent = document.createElement("div");
     cardcontent.classList.add("card-content");
     chartContainer.appendChild(cardcontent);
-
-    // Make the chart container draggable
-    cardcontent.onmousedown = (event) => {
-        isDragging = true;
-        offsetX = event.clientX - cardcontent.getBoundingClientRect().left;
-        offsetY = event.clientY - cardcontent.getBoundingClientRect().top;
-    };
-
-    cardcontent.onmouseup = () => {
-        isDragging = false;
-    };
-
+    const xScale = "label";
+    const yScale = "value";
     editor.appendChild(chartContainer);
-    makeChartDraggable(chartContainer);
-    ShowChartProperties(chartContainer);
-
+    const resizableCard = new ResizableCard(chartContainer, cardcontent, resizeCallback);
+    resizableCard.id = chartItemId;
+    ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, chartType);
-
+    const width = 600;
+    const height = 400;
     if (chartData) {
-        const width = 600;
-        const height = 400;
-        const margin = { top: 20, right: 20, bottom: 40, left: 40 };
 
-        const svg = d3.select(cardcontent)
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-        const chartWidth = width - margin.left - margin.right;
-        const chartHeight = height - margin.top - margin.bottom;
-
-        const g = svg.append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        const xScale = d3.scaleBand()
-            .domain(chartData.map(d => d.label))
-            .range([0, chartWidth])
-            .padding(0.1);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(chartData, d => d.value)])
-            .nice()
-            .range([chartHeight, 0]);
-
-        if (chartType === 'bar') {
-            CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width);
-
-        }
-        else if (chartType === 'line') {
-            CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width);
-        }
-        else if (chartType === 'pie') {
-            CreatePieChart(chartWidth, chartHeight, g, chartData);
-        }
-        else if (chartType === 'treemap') {
-            CreateTreeMapChart(chartWidth, chartHeight, chartData, g);
-        }
-
-
-        else {
-            // Handle other chart types here
-        }
-        // populate object list
-
-        // Create a new chart item element
-        AddItemInObjectListPanel(chartItemId);
-        // ... (rest of the code for creating the chart)
-
-        document.getElementById("chartOptions").style.display = "none";
+        // const chart = { id: chartItemId, type: chartType, dataSource: chartData,
+        //     xattribute:xScale,yattribute:yScale, container: cardcontent, chartWidth, chartHeight };
+        // itemList.push(chart);
+        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xScale, yScale);
+        const chart = {
+            id: chartItemId, type: chartType, dataSource: chartData, xattribute: xScale, yattribute: yScale, container: chartContainer, width: width,
+            height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
+        };
+        itemList.push(chart);
+        console.log(itemList);
     } else {
         alert("Failed to fetch data from the API for the chart.");
     }
 
     document.getElementById("chartOptions").style.display = "none";
 }
+
+function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute) {
+    const chartcontainer = document.getElementById(chartContainer.id);
+    const cardcontent = chartcontainer.querySelector(".card-content");
+    cardcontent.innerHTML="";
+    const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const svg = d3.select(cardcontent)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+
+
+    const g = svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    const xScale = d3.scaleBand()
+        .domain(chartData.map(d => d[xAttribute]))
+        .range([0, chartWidth])
+        .padding(0.1);
+
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(chartData, d => d[yAttribute])])
+        .nice()
+        .range([chartHeight, 0]);
+
+    if (chartType === 'bar') {
+        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth);
+
+    }
+    else if (chartType === 'line') {
+        CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, chartWidth);
+    }
+    else if (chartType === 'pie') {
+        CreatePieChart(chartWidth, chartHeight, g, chartData);
+    }
+    else if (chartType === 'treemap') {
+        CreateTreeMapChart(chartWidth, chartHeight, chartData, g);
+    }
+
+
+    else {
+        // Handle other chart types here
+    }
+
+    // populate object list
+    // Create a new chart item element
+    AddItemInObjectListPanel();
+    // ... (rest of the code for creating the chart)
+    document.getElementById("chartOptions").style.display = "none";
+}
+
+function resizeCallback(chartContainer, newWidth, newHeight) {
+    // This function is called when the card container is resized
+    // You can perform any actions or updates you need here based on the new dimensions
+    updateChart(chartContainer, newWidth, newHeight);
+}
+
+function updateChart(chartContainer, newWidth, newHeight) {
+    const mainContainer = document.getElementById(chartContainer.id);
+    const indexToUpdate = itemList.findIndex(item => item.id === mainContainer.id);
+    if (indexToUpdate !== -1) {
+        const itemToUpdate = itemList[indexToUpdate];
+        itemToUpdate.width = newWidth;
+        itemToUpdate.height = newHeight;
+        BuildChart(chartContainer, itemToUpdate.dataSource, itemToUpdate.type, chartContainer.id,
+             itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
+    }
+
+
+
+    // Here's a simple example using D3.js to update an SVG chart's dimensions:
+    // const svg = d3.select(chartContainer); // Replace with your chart's SVG selection
+    // svg.attr("width", newWidth)
+    //    .attr("height", newHeight);
+
+    // childDiv.setAttribute("width", newWidth);
+    // childDiv.setAttribute("height", newHeight);
+    // xScale.range([0, newWidth]);
+    // yScale.range([newHeight, 0]);
+    // You can also update scales, axes, and other chart components as needed.
+}
+
 
 function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
     const treemap = d3.treemap()
@@ -313,7 +354,7 @@ function AddItemInObjectListPanel(chartItemId) {
     // Set the item's attributes
     chartItem.setAttribute('draggable', true);
     chartItem.setAttribute('ondragstart', 'drag(event)');
-    chartItem.setAttribute('id',"layer_" + chartItemId);
+    chartItem.setAttribute('id', "Layer_" + chartItemId.id); //prefix with layer is important, to avoid conflict with item in editor, dont' delete it
 
     // Add a class to apply the styles
     chartItem.classList.add('chart-item');
@@ -334,8 +375,8 @@ function selectObject(id) {
     selectedObjects.forEach(selectedObject => {
         selectedObject.classList.remove('selectedHighlight');
     });
-    
-    const item =document.getElementById(id);
+
+    const item = document.getElementById(id);
     // Select the clicked object
     item.classList.add('selectedHighlight');
 }
@@ -378,44 +419,6 @@ async function insertTable() {
     document.getElementById("tableOptions").style.display = "none";
 }
 
-async function fetchTableData(tableAPIURL) {
-    try {
-        const response = await fetch(tableAPIURL);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error('Failed to fetch data for the table from the API');
-        }
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
-// Modify the fetchChartData function to process the data
-async function fetchChartData(apiURL) {
-    try {
-        const response = await fetch(apiURL);
-        if (response.ok) {
-            const data = await response.json();
-
-            // Extract post titles and their character counts
-            const chartData = data.map(post => ({
-                label: post.title,
-                value: post.title.length,
-            }));
-
-            return chartData;
-        } else {
-            throw new Error('Failed to fetch data from the API');
-        }
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
 function saveAsHTML() {
     const editorContent = document.getElementById("editor-panel").innerHTML;
     const stylesheets = Array.from(document.styleSheets).map(styleSheet => {
@@ -451,39 +454,11 @@ function saveAsHTML() {
 // ...
 
 
-function makeChartDraggable(chartElement) {
-    let isDragging = false;
-
-    chartElement.style.position = 'absolute';
-    chartElement.style.top = '0';
-    chartElement.style.left = '0';
-
-    chartElement.addEventListener("mousedown", (event) => {
-        isDragging = true;
-        selectedElement = chartElement;
-        const offsetX = event.clientX - chartElement.getBoundingClientRect().left;
-        const offsetY = event.clientY - chartElement.getBoundingClientRect().top;
-
-        document.addEventListener("mousemove", (event) => {
-            if (isDragging && selectedElement) {
-                selectedElement.style.left = event.clientX - offsetX + "px";
-                selectedElement.style.top = event.clientY - offsetY + "px";
-                adjustEditorDimensions();
-            }
-        });
-
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-            selectedElement = null;
-        });
-    });
-}
-
-function ShowChartProperties(chartContainer) {
+function ShowChartProperties(chartContainer, card) {
     const propertiesPanel = document.getElementById("PropertiesList");
     propertiesPanel.style.display = "block";
     chartContainer.addEventListener("click", (event) => {
-        selectedChart(chartContainer, event, propertiesPanel);
+        selectedChart(chartContainer, event, propertiesPanel, card);
 
         // propertiesPanel.appendChild(properties);
 
@@ -496,48 +471,25 @@ function ShowChartProperties(chartContainer) {
     });
 }
 
-function selectedChart(chartContainer, event, propertiesPanel) {
+function selectedChart(chartContainer, event, propertiesPanel, card) {
     selectedElement = chartContainer;
-    const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
-    const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+    // const offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+    // const offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
     const name = chartContainer.id;
-
+    const currentPosition = card.getPosition();
+    const currentSize = card.getSize();
+    console.log("Current position: ", currentPosition);
+    console.log("Current size: ", currentSize);
     propertiesPanel.innerHTML = `
-        <input type="text" value="name: ${name}" readonly>
-        <input type="text" value="Top: ${offsetX}" readonly>
-        <input type="text" value="Left: ${offsetY}" readonly>
+        <input class="property" type="text" value="name: ${name}">
+        <input class="property" type="text" value="Top: ${currentPosition.top}">
+        <input class="property" type="text" value="Left: ${currentPosition.left}">
+        <input  class="property" type="text" value="Width: ${currentSize.width}" >
+        <input class="property" type="text" value="Height: ${currentSize.height}" >
       `;
 }
 
-let isDragging = false;
-let selectedElement = null;
-function makeTableDraggable(tableElement) {
-    let isDragging = false;
 
-    tableElement.style.position = 'absolute';
-    tableElement.style.top = '0';
-    tableElement.style.left = '0';
-
-    tableElement.addEventListener("mousedown", (event) => {
-        isDragging = true;
-        selectedElement = tableElement;
-        const offsetX = event.clientX - tableElement.getBoundingClientRect().left;
-        const offsetY = event.clientY - tableElement.getBoundingClientRect().top;
-
-        document.addEventListener("mousemove", (event) => {
-            if (isDragging && selectedElement) {
-                selectedElement.style.left = event.clientX - offsetX + "px";
-                selectedElement.style.top = event.clientY - offsetY + "px";
-                adjustEditorDimensions();
-            }
-        });
-
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-            selectedElement = null;
-        });
-    });
-}
 
 function adjustEditorDimensions() {
     const editor = document.getElementById("editor-panel");
