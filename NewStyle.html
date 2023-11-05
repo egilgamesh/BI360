@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* Overall page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Main content container */
+        .content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Left panel */
+        .left-panel {
+            background-color: #fff;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            place-items: flex-start;
+        }
+
+        /* Middle panel with background color #eff1fe */
+        .middle-panel {
+            background-color: #ffffff;
+            flex: 1;
+            flex: 1;
+            padding: 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            background-attachment: fixed;
+            /* Keep the background pattern fixed */
+            background-color: #ffffff;
+            /* Add the desired background color here */
+            overflow: auto;
+            /* Make the entire editor panel scrollable */
+        }
+
+        /* Right panel */
+        .right-panel {
+            background-color: #fff;
+            width: 300px;
+        }
+
+        /* Top panel with tabs */
+        .top-panel {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+        }
+
+        .top-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Top panel with tabs */
+
+
+        .tabs {
+            display: flex;
+            margin-top: 20px;
+            margin-left: 10px;
+            position: relative;
+            background-color: #e6eef9;
+            padding: 0.35rem 0rem;
+            border-radius: 99px;
+            width: 90%;
+            justify-content: space-around;
+
+        }
+
+        .tabs * {
+            z-index: 2;
+        }
+
+        input[type=radio] {
+            display: none;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 35px;
+            width: 45%;
+            font-size: 14px;
+            font-weight: 200;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: color 0.15s ease-in;
+            color: lightslategray;
+        }
+
+
+        .active {
+            background-color: white;
+            transition: color 0.15s ease-in;
+            font-weight: bold;
+            color: rgb(23, 24, 26);
+        }
+
+        .PanelHeader {
+            margin-top: 15px;
+            align-items: start;
+            color: lightslategray;
+            margin-left: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .gridControls {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin: 10px 20px 0px 20px;
+        }
+
+        .ButtonControl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f6fd;
+            width: 70px;
+            height: 70px;
+            font-size: 12px;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ButtonControl__img {
+            -o-object-fit: cover;
+            object-fit: cover;
+            max-width: 80px;
+            max-height: 20px;
+            filter: grayscale(100%) contrast(25%);
+            transition: filter 0.3s ease;
+
+        }
+
+        .ButtonControl__img:hover {
+            filter: grayscale(0) contrast(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .ButtonControl:hover {
+            filter: grayscale(0) contrast(100%);
+            background-color: #799df3;
+        }
+
+        .visualizationChartContiner {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 20px;
+            background-color: #fff;
+            color: #444;
+            margin: 10px 20px 0px 20px;
+            justify-content: space-around;
+        }
+
+        .chartypeitem {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f6fd;
+            width: 70px;
+            height: 70px;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .chartypeitem:hover {
+            background-color: #799df3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top panel with tabs -->
+    <div class="top-panel">
+        <div class="top-tab">Home</div>
+        <div class="top-tab">Insert</div>
+        <div class="top-tab">Documents</div>
+        <!-- Add more tabs as needed -->
+    </div>
+    <!-- Main content container -->
+    <div class="content">
+        <!-- Left panel -->
+        <div class="left-panel">
+            <div class="tabs">
+                <input type="radio" id="radio-1" name="tabs" checked />
+                <label class="tab active" for="radio-1">Components</label>
+                <input type="radio" id="radio-2" name="tabs" />
+                <label class="tab" for="radio-2">Layers</label>
+                <span class="glider"></span>
+            </div>
+            <div id="ComponentsPage">
+                <span class="PanelHeader">Components</span>
+                <div class="gridControls">
+                    <div class="ButtonControl">Text
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/756265-200.png" />
+                    </div>
+                    <div class="ButtonControl">Image
+                        <img class="ButtonControl__img"
+                            src="https://icons-for-free.com/iconfiles/png/512/image+images+photo+picture+pictures+icon-1320191040579947532.png" />
+                    </div>
+                    <div class="ButtonControl">Link
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/7046/7046086.png" />
+                    </div>
+                </div>
+                <span class="PanelHeader">Visualization Charts</span>
+                <div class="visualizationChartContiner">
+                    <div class="chartypeitem"> Barchart
+                        <img class="ButtonControl__img"
+                            src="https://icons.veryicon.com/png/o/commerce-shopping/online-retailers/bar-chart-16.png" />
+                    </div>
+                    <div class="chartypeitem">LineChart
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/245/245899.png" />
+                    </div>
+                    <div class="chartypeitem">PieChart
+                        <img class="ButtonControl__img"
+                            src="https://cdn4.iconfinder.com/data/icons/free-business-charts-black/2253/pie_chart-512.png" />
+
+                    </div>
+
+                    <div class="chartypeitem">Table
+                        <img class="ButtonControl__img" src="https://seekicon.com/free-icon-download/table_4.png" />
+
+                    </div>
+                    <div class="chartypeitem"> treemap
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/775026-200.png" />
+
+                    </div>
+                    <div class="chartypeitem">Score card
+                        <img class="ButtonControl__img" src="https://static-00.iconduck.com/assets.00/performance-icon-2048x1698-zpsn15dp.png" />
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Middle panel with background color #eff1fe -->
+        <div class="middle-panel">
+            <!-- Content for the middle panel goes here -->
+        </div>
+
+        <!-- Right panel -->
+        <div class="right-panel">
+            <!-- Content for the right panel goes here -->
+        </div>
+    </div>
+</body>
+
+</html>
