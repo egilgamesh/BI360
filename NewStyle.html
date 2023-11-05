@@ -27,6 +27,9 @@
             flex-direction: column;
             align-items: center;
             place-items: flex-start;
+            box-shadow: 8px 0px 6px -4px rgba(0, 0, 0, 1);
+            -webkit-box-shadow: 8px 0px 6px -4px rgba(0, 0, 0, 1);
+            -moz-box-shadow: 8px 0px 6px -4px rgba(0, 0, 0, 1);
         }
 
         /* Middle panel with background color #eff1fe */
@@ -101,16 +104,16 @@
             font-weight: 200;
             border-radius: 99px;
             cursor: pointer;
-            transition: color 0.15s ease-in;
+            transition: color 0.5s ease-in;
             color: lightslategray;
         }
 
 
         .active {
-            background-color: white;
+            background-color: rgb(21, 89, 145);
             transition: color 0.15s ease-in;
             font-weight: bold;
-            color: rgb(23, 24, 26);
+            color: rgb(255, 255, 255);
         }
 
         .PanelHeader {
@@ -189,10 +192,14 @@
             background-color: #799df3;
         }
 
-        .TabPage{
+        .TabPage {
             margin-top: 10px;
             display: flex;
             flex-direction: column;
+        }
+
+        #LayersPage {
+            display: none;
         }
     </style>
 </head>
@@ -202,8 +209,8 @@
     <!-- Top panel with tabs -->
     <div class="top-panel">
         <div class="top-tab">Home</div>
-        <div class="top-tab">Insert</div>
-        <div class="top-tab">Documents</div>
+        <div class="top-tab">View</div>
+        <div class="top-tab">Help</div>
         <!-- Add more tabs as needed -->
     </div>
     <!-- Main content container -->
@@ -211,10 +218,10 @@
         <!-- Left panel -->
         <div class="left-panel">
             <div class="tabs">
-                <input type="radio" id="radio-1" name="tabs" checked />
-                <label class="tab active" for="radio-1">Components</label>
-                <input type="radio" id="radio-2" name="tabs" />
-                <label class="tab" for="radio-2">Layers</label>
+                <input type="radio" id="componentsRadio" name="tabs" onclick="ShowComponents()" checked />
+                <label class="tab active" id="componentsRadioLable" for="componentsRadio">Components</label>
+                <input type="radio" id="LayerRadio" name="tabs" onclick="ShowLayer()" />
+                <label class="tab" id="LayerRadioLable" for="LayerRadio">Layers</label>
                 <span class="glider"></span>
             </div>
             <div id="ComponentsPage" class="TabPage">
@@ -255,10 +262,29 @@
 
                     </div>
                     <div class="chartypeitem">Score card
-                        <img class="ButtonControl__img" src="https://static-00.iconduck.com/assets.00/performance-icon-2048x1698-zpsn15dp.png" />
+                        <img class="ButtonControl__img"
+                            src="https://static-00.iconduck.com/assets.00/performance-icon-2048x1698-zpsn15dp.png" />
 
                     </div>
                 </div>
+            </div>
+
+
+            <div id="LayersPage" class="TabPage">
+                <span class="PanelHeader">Layers</span>
+                <div class="gridControls">
+                    <div class="ButtonControl">Text
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/756265-200.png" />
+                    </div>
+                    <div class="ButtonControl">Image
+                        <img class="ButtonControl__img"
+                            src="https://icons-for-free.com/iconfiles/png/512/image+images+photo+picture+pictures+icon-1320191040579947532.png" />
+                    </div>
+                    <div class="ButtonControl">Link
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/7046/7046086.png" />
+                    </div>
+                </div>
+                <span class="PanelHeader">Visualization Charts</span>
             </div>
 
         </div>
@@ -273,6 +299,30 @@
             <!-- Content for the right panel goes here -->
         </div>
     </div>
+    <script>
+        function ShowLayer() {
+            const componentPage = document.getElementById("ComponentsPage");
+            const componentradio= document.getElementById("componentsRadioLable");
+            const layerPage = document.getElementById("LayersPage");
+            const layerradio= document.getElementById("LayerRadioLable");
+            componentPage.style.display = "none";
+            layerPage.style.display = "block";
+            layerradio.classList.add("active");
+            componentradio.classList.remove("active");
+
+        }
+
+        function ShowComponents() {
+            const componentPage = document.getElementById("ComponentsPage");
+            const componentradio= document.getElementById("componentsRadioLable");
+            const layerPage = document.getElementById("LayersPage");
+            const layerradio= document.getElementById("LayerRadioLable");
+            componentPage.style.display = "block";
+            layerPage.style.display = "none";
+            componentradio.classList.add("active");
+            layerradio.classList.remove("active");
+        }
+    </script>
 </body>
 
 </html>
