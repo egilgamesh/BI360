@@ -139,6 +139,7 @@
             font-size: 12px;
             flex-direction: column;
             gap: 10px;
+            border-radius: 10px;
         }
 
         .ButtonControl__img {
@@ -181,10 +182,17 @@
             flex-direction: column;
             gap: 10px;
             font-size: 12px;
+            border-radius: 10px;
         }
 
         .chartypeitem:hover {
             background-color: #799df3;
+        }
+
+        .TabPage{
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -209,7 +217,7 @@
                 <label class="tab" for="radio-2">Layers</label>
                 <span class="glider"></span>
             </div>
-            <div id="ComponentsPage">
+            <div id="ComponentsPage" class="TabPage">
                 <span class="PanelHeader">Components</span>
                 <div class="gridControls">
                     <div class="ButtonControl">Text
