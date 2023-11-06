@@ -102,7 +102,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth);
+        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth,"Sales Amount");
 
     }
     else if (chartType === 'line') {
@@ -238,7 +238,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         });
 }
 
-function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width) {
+function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, barChartTitle) {
     g.selectAll(".bar")
         .data(chartData)
         .enter()
@@ -247,13 +247,13 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width) {
         .attr("x", d => xScale(d.label))
         .attr("y", d => yScale(d.value))
         .attr("width", xScale.bandwidth())
-        .attr("height", d => chartHeight - yScale(d.value))
-        .style("fill", "steelblue")
+        .attr("height", d => chartHeight - yScale(d.value) -20)
+        .style("fill", "green")
         .on("mouseover", function () {
-            d3.select(this).style("fill", "orange"); // Change the color on mouseover
+            d3.select(this).style("fill", "steelblue"); // Change the color on mouseover
         })
         .on("mouseout", function () {
-            d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
+            d3.select(this).style("fill", "green"); // Change it back on mouseout
         });
 
     g.append("g")
@@ -275,16 +275,16 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width) {
         .attr("y", d => yScale(d.value) - 10) // Adjust the position
         .attr("text-anchor", "middle")
         .text(d => d.value)
-        .style("fill", "black")
+        .style("fill", "green")
         .style("font-size", "12px");
 
     // Add title
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", 10)
+        .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Bar Chart Title");
+        .text(barChartTitle);
 }
 
 function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) {
@@ -297,7 +297,7 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .attr("class", "line")
         .attr("d", line)
         .attr("fill", "none")
-        .attr("stroke", "steelblue");
+        .attr("stroke", "green");
 
     g.selectAll(".dot")
         .data(chartData)
@@ -307,12 +307,12 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .attr("cx", d => xScale(d.label))
         .attr("cy", d => yScale(d.value))
         .attr("r", 5)
-        .style("fill", "steelblue")
+        .style("fill", "green")
         .on("mouseover", function () {
             d3.select(this).style("fill", "orange"); // Change the color on mouseover
         })
         .on("mouseout", function () {
-            d3.select(this).style("fill", "steelblue"); // Change it back on mouseout
+            d3.select(this).style("fill", "green"); // Change it back on mouseout
         });
 
     g.append("g")
@@ -340,10 +340,10 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
     // Add title
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", 10)
+        .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Line Chart Title");
+        .text("Growing Sales");
 }
 
 function AddItemInObjectListPanel(chartItemId) {
