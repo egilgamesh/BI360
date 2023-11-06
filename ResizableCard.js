@@ -23,7 +23,8 @@ class ResizableCard {
     }
 
     handleMouseDown(e) {
-        if (e.target === this.cardContainer && e.offsetX >= this.cardContainer.clientWidth - 10 && e.offsetY >= this.cardContainer.clientHeight - 10) {
+        if (e.target === this.cardContainer && e.offsetX >= this.cardContainer.clientWidth - 10 && e.offsetY >= this.cardContainer.clientHeight - 10)
+         {
             this.isResizing = true;
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().right;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().bottom;
@@ -52,10 +53,12 @@ class ResizableCard {
     }
 
     handleCardContentMouseDown(e) {
-        if (e.target === this.cardContent) {
+        const Svg = this.cardContent.querySelector(".card-content > svg");
+        if (e.target === Svg) {
             this.isDragging = true;
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().left;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().top;
+            console.log("cardClicked");
         }
     }
 
