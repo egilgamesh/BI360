@@ -32,3 +32,37 @@
     var item = document.getElementById(data);
     event.target.appendChild(item);
   }
+
+  function ShowLayer() {
+    const componentPage = document.getElementById("ComponentsPage");
+    const componentradio = document.getElementById("componentsRadioLable");
+    const layerPage = document.getElementById("LayersPage");
+    const layerradio = document.getElementById("LayerRadioLable");
+    componentPage.style.display = "none";
+    layerPage.style.display = "block";
+    layerradio.classList.add("active");
+    componentradio.classList.remove("active");
+
+}
+
+function ShowComponents() {
+    const componentPage = document.getElementById("ComponentsPage");
+    const componentradio = document.getElementById("componentsRadioLable");
+    const layerPage = document.getElementById("LayersPage");
+    const layerradio = document.getElementById("LayerRadioLable");
+    componentPage.style.display = "block";
+    layerPage.style.display = "none";
+    componentradio.classList.add("active");
+    layerradio.classList.remove("active");
+}
+
+function ShowFileMenu()
+{
+    const fileMenuContainer = document.getElementById("FileMenuContainer");
+    fileMenuContainer.style.display="Block";
+}
+function CloseFileMenu()
+{
+    const fileMenuContainer = document.getElementById("FileMenuContainer");
+    fileMenuContainer.style.display="none";
+}
