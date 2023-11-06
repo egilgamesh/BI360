@@ -2,6 +2,12 @@
 <html>
 
 <head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="stylePanel.css"> -->
+    <script src="ResizableCard.js"></script>
+    <script src="TableDragable.js"></script>
+    <script src="Data.js"></script>
     <style>
         /* Overall page styles */
         body {
@@ -36,6 +42,14 @@
         .middle-panel {
             background-color: #ffffff;
             flex: 1;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            border: #333 solid 1px;
+        }
+
+        .editor-panel {
+            background-color: #ffffff;
             flex: 1;
             padding: 20px;
             background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
@@ -48,6 +62,11 @@
             /* Add the desired background color here */
             overflow: auto;
             /* Make the entire editor panel scrollable */
+            width: 96%;
+            height: 90%;
+            border: #333 solid 1px;
+            border-radius: 2px;
+            ;
         }
 
         /* Right panel */
@@ -58,14 +77,27 @@
 
         /* Top panel with tabs */
         .top-panel {
-            background-color: #333;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 195, 204, 1) 0%, rgba(117, 52, 230, 1) 100%);
             color: #fff;
             display: flex;
+            height: 20px;
+            padding: 20px;
+            font-family:'Times New Roman', Cambria, Cochin, Georgia, Times, serif;
+            font-size: 16px;
+            font-weight: 400;
+            font-style: normal;
         }
 
         .top-tab {
-            padding: 10px 20px;
+            padding: 0 10px 00px 20px;
             cursor: pointer;
+            height: 100%;
+
+        }
+
+        .top-tab:hover {
+            background: rgb(2, 0, 36, 0.2);
         }
 
         /* Top panel with tabs */
@@ -216,7 +248,8 @@
             width: 90%;
             height: 400px;
             border: #eae8e8 solid 2px;
-            border-radius: 3px;;
+            border-radius: 3px;
+            ;
             overflow-x: hidden;
             overflow-y: scroll;
             padding-top: 20px;
@@ -255,13 +288,44 @@
             transition: filter 0.3s ease;
         }
 
-        .PropertiesPanel{
+        .PropertiesPanel {
             border: #eae8e8 solid 2px;
             border-radius: 3px;
             height: 95%;
             width: 90%;
             background-color: #fff;
             margin: 10px;
+        }
+
+        .status-bar {
+            background: #333;
+            color: #FFF;
+            padding: 5px;
+            text-align: right;
+            position: relative;
+            bottom: 0;
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-container {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            border: 2px solid #ccc;
+            resize: both;
+            overflow: hidden;
+            cursor: move;
+            background-color: #fff;
+            box-shadow: 1px 1px 1px #aaaaaa;
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .card-content {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            transition: width 0.3s, height 0.3s;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -270,6 +334,7 @@
 
     <!-- Top panel with tabs -->
     <div class="top-panel">
+        <div class="top-tab file"><i class="fa-solid fa-bars"></i></div>
         <div class="top-tab">Home</div>
         <div class="top-tab">View</div>
         <div class="top-tab">Help</div>
@@ -302,24 +367,24 @@
                 </div>
                 <span class="PanelHeader">Visualization Charts</span>
                 <div class="visualizationChartContiner">
-                    <div class="chartypeitem"> Barchart
+                    <div class="chartypeitem" onclick="addChart('bar')"> Barchart
                         <img class="ButtonControl__img"
                             src="https://icons.veryicon.com/png/o/commerce-shopping/online-retailers/bar-chart-16.png" />
                     </div>
-                    <div class="chartypeitem">LineChart
+                    <div class="chartypeitem" onclick="addChart('line')">LineChart
                         <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/245/245899.png" />
                     </div>
-                    <div class="chartypeitem">PieChart
+                    <div class="chartypeitem" onclick="addChart('pie')">PieChart
                         <img class="ButtonControl__img"
                             src="https://cdn4.iconfinder.com/data/icons/free-business-charts-black/2253/pie_chart-512.png" />
 
                     </div>
 
-                    <div class="chartypeitem">Table
+                    <div class="chartypeitem" onclick="addTable()">Table
                         <img class="ButtonControl__img" src="https://seekicon.com/free-icon-download/table_4.png" />
 
                     </div>
-                    <div class="chartypeitem"> treemap
+                    <div class="chartypeitem" onclick="addChart('treemap')"> treemap
                         <img class="ButtonControl__img" src="https://static.thenounproject.com/png/775026-200.png" />
 
                     </div>
@@ -334,7 +399,7 @@
 
             <div id="LayersPage" class="TabPage">
                 <span class="PanelHeader">Layers</span>
-                <div class="LayersControls">
+                <div class="LayersControls" id="objects-panel">
                     <div class="layerObjectControl">Chart
                         <img class="layerObjectControl__img"
                             src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
@@ -355,14 +420,40 @@
 
         <!-- Middle panel with background color #eff1fe -->
         <div class="middle-panel">
-            <!-- Content for the middle panel goes here -->
+            <div class="editor-panel" id="editor-panel" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <!-- Editor content goes here -->
+            </div>
         </div>
 
         <!-- Right panel -->
         <div class="right-panel">
             <span class="PanelHeader">Properties</span>
-            <div class="PropertiesPanel" id="PropertiesPanel">
+            <div class="PropertiesPanel" id="properties-panel">
+                <div id="properties-content">
+                    <div id="chartOptions">
+                        <label for="chartType">Chart Type:</label>
+                        <select id="chartType">
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="pie">Pie Chart</option>
+                            <option value="clusteredBar">Clustered Bar Chart</option>
+                            <option value="stackedBar">Stacked Bar Chart</option>
+                            <option value="treemap">Treemap</option>
+                        </select>
+                        </br>
+                        <label for="apiURL">API URL:</label>
+                        <input type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts">
+                        <button onclick="InsertChart()">Apply Chart</button>
+                    </div>
+                    <div id="tableOptions">
+                        <label for="tableAPIURL">API URL for Table Data:</label>
+                        <input type="text" id="tableAPIURL" value="https://jsonplaceholder.typicode.com/users">
+                        <button onclick="insertTable()">Insert Table</button>
+                    </div>
+                    <div id="PropertiesList">
 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -390,6 +481,11 @@
             layerradio.classList.remove("active");
         }
     </script>
+    <script src="scriptMenu.js"></script>
+    <script src="toolbox.js"></script>
+    <div class="status-bar">
+        &copy; 2023 CGS. All rights reserved. | Version 1.0
+    </div>
 </body>
 
 </html>

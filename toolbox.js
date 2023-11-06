@@ -33,7 +33,7 @@ function addTable() {
 
 
 
-async function AddChart() {
+async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = chartType + `-${new Date().getTime()}`;
     const apiURL = document.getElementById("apiURL").value;
@@ -122,7 +122,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
 
     // populate object list
     // Create a new chart item element
-    AddItemInObjectListPanel();
+    AddItemInObjectListPanel(chartContainer);
     // ... (rest of the code for creating the chart)
     document.getElementById("chartOptions").style.display = "none";
 }
@@ -347,25 +347,25 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
 }
 
 function AddItemInObjectListPanel(chartItemId) {
-    const chartItem = document.createElement('li');
-    chartItem.innerText = 'Chart'; // You can customize the label
+    // const chartItem = document.createElement('li');
+    // chartItem.innerText = 'Chart'; // You can customize the label
 
 
-    // Set the item's attributes
-    chartItem.setAttribute('draggable', true);
-    chartItem.setAttribute('ondragstart', 'drag(event)');
-    chartItem.setAttribute('id', "Layer_" + chartItemId.id); //prefix with layer is important, to avoid conflict with item in editor, dont' delete it
+    // // Set the item's attributes
+    // chartItem.setAttribute('draggable', true);
+    // chartItem.setAttribute('ondragstart', 'drag(event)');
+    // chartItem.setAttribute('id', "Layer_" + chartItemId.id); //prefix with layer is important, to avoid conflict with item in editor, dont' delete it
 
-    // Add a class to apply the styles
-    chartItem.classList.add('chart-item');
-    // Add a click handler to select the object
-    chartItem.addEventListener('click', function () {
-        selectObject(chartItemId);
-    });
+    // // Add a class to apply the styles
+    // chartItem.classList.add('chart-item');
+    // // Add a click handler to select the object
+    // chartItem.addEventListener('click', function () {
+    //     selectObject(chartItemId);
+    // });
 
-    // Add the new chart item to the object list
-    const objectsList = document.getElementById('objects-list');
-    objectsList.appendChild(chartItem);
+    // // Add the new chart item to the object list
+    // const objectsList = document.getElementById('objects-list');
+    // objectsList.appendChild(chartItem);
 }
 
 function selectObject(id) {
