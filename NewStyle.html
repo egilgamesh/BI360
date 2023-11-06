@@ -83,7 +83,7 @@
             display: flex;
             height: 20px;
             padding: 20px;
-            font-family:'Times New Roman', Cambria, Cochin, Georgia, Times, serif;
+            font-family: 'Times New Roman', Cambria, Cochin, Georgia, Times, serif;
             font-size: 16px;
             font-weight: 400;
             font-style: normal;
@@ -327,6 +327,47 @@
             transition: width 0.3s, height 0.3s;
             overflow: hidden;
         }
+
+        .FileMenuContainer {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 100vw;
+            background-color: #FFF;
+            z-index: 20;
+            box-shadow: 1px 1px 100px #7d7d7d;
+            transition: width 0.2s;
+        }
+
+        .FileMenu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .CGSLogo {
+            width: 70px;
+        }
+
+        .FileMenueHeader {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 10px;
+        }
+
+        .CloseFileMenu{
+            cursor: pointer;
+            display: block;
+        
+        }
+
+        .CloseFileMenu:hover{
+           background-color: rgb(2, 0, 36, 0.2);
+        }
+
     </style>
 </head>
 
@@ -334,7 +375,7 @@
 
     <!-- Top panel with tabs -->
     <div class="top-panel">
-        <div class="top-tab file"><i class="fa-solid fa-bars"></i></div>
+        <div class="top-tab file" onclick="ShowFileMenu()" ><i class="fa-solid fa-bars"></i></div>
         <div class="top-tab">Home</div>
         <div class="top-tab">View</div>
         <div class="top-tab">Help</div>
@@ -456,6 +497,18 @@
                 </div>
             </div>
         </div>
+        <div id="FileMenuContainer" class="FileMenuContainer">
+            <div id="FileMenu" class="FileMenu">
+                <div id="FileMenueHeader" class="FileMenueHeader">
+                    <img src="https://www.cgs-online.de/fileadmin/footage/MEDIA/Logos/CGS_Logo_RGB.jpg"
+                        class="CGSLogo" />
+                    <div id="CloseFileMenu" class="CloseFileMenu" onclick="CloseFileMenu()">X</div>
+                </div>
+            <hr/>
+
+            </div>
+
+        </div>
     </div>
     <script>
         function ShowLayer() {
@@ -479,6 +532,17 @@
             layerPage.style.display = "none";
             componentradio.classList.add("active");
             layerradio.classList.remove("active");
+        }
+
+        function ShowFileMenu()
+        {
+            const fileMenuContainer = document.getElementById("FileMenuContainer");
+            fileMenuContainer.style.display="Block";
+        }
+        function CloseFileMenu()
+        {
+            const fileMenuContainer = document.getElementById("FileMenuContainer");
+            fileMenuContainer.style.display="none";
         }
     </script>
     <script src="scriptMenu.js"></script>
