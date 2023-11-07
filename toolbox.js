@@ -229,6 +229,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
+        .style("font-size", "12px") // change legend text font size, this could be dynamic
         .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
         .on("mouseover", function () {
             d3.select(this).text(d => d); // Show full text on mouseover
