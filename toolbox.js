@@ -2,6 +2,29 @@
 
 const itemList = [];
 
+
+function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
+    const scorecardContainer = document.getElementById("editor-panel");
+    const scorecard = document.createElement("div");
+    scorecard.className = "scorecard";
+    scorecard.style.top=0;
+    scorecard.style.left=0;
+    const arrowClass = actual > target ? "fa-arrow-up up-icon" : "fa-arrow-down down-icon";
+    scorecard.innerHTML = `
+        <div class="scorecard-title" style="color: ${titleColor}">${title}</div>
+        <div class="actual-value" style="color: ${actualColor}">${actual}</div>
+        <div class="target-value">Target: ${target}</div>
+        <div class="percentage-difference">
+            <i class="fa ${arrowClass}"></i>
+            (${((actual - target) / target * 100).toFixed(2)}%)
+        </div>
+    `;
+    scorecard.style.border = `2px solid ${cardColor}`;
+    scorecardContainer.appendChild(scorecard);
+
+     makeTableDraggable(scorecard);
+}
+
 function addChart(chartType) {
 
     const selectedObjectProperties = document.getElementById("PropertiesList");
@@ -384,7 +407,7 @@ function selectObject(id) {
 
 async function insertTable() {
     const tableAPIURL = document.getElementById("tableAPIURL").value;
-    const editor = document.getElementById("editor-panel");
+    const editorPanel = document.getElementById("editor-panel");
 
     const tableData = await fetchTableData(tableAPIURL);
 
@@ -409,7 +432,7 @@ async function insertTable() {
             }
         });
 
-        editor.appendChild(table);
+        editorPanel.appendChild(table);
         // Make the table draggable
         makeTableDraggable(table);
 

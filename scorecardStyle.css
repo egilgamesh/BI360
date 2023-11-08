@@ -1,0 +1,29 @@
+
+/* Define CSS styles here */
+.scorecard {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    position: relative;
+}
+
+.scorecard-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.actual-value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.target-value {
+    font-size: 16px;
+}
+
+.percentage-difference {
+    font-size: 16px;
+}

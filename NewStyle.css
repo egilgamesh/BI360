@@ -301,7 +301,7 @@ input[type=radio] {
 }
 
 .card-container {
-    position: absolute;
+    position:absolute;
     width: 300px;
     height: 200px;
     border: 2px solid #ccc;
@@ -382,3 +382,22 @@ input[type=radio] {
   .SaveAsButton:hover {
     background-color: rgb(240, 239, 239);
   }
+
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #e6eef9;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  th {
+    background-color:rgb(21, 89, 145);
+    color: #fff;
+  }
+
+  tr:nth-child(even) {background-color: #f2f2f2;}

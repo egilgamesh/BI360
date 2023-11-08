@@ -3,7 +3,7 @@ let selectedElement = null;
 function makeTableDraggable(tableElement) {
     let isDragging = false;
 
-    tableElement.style.position = 'absolute';
+    tableElement.style.position = 'relative';
     tableElement.style.top = '0';
     tableElement.style.left = '0';
 
@@ -17,7 +17,6 @@ function makeTableDraggable(tableElement) {
             if (isDragging && selectedElement) {
                 selectedElement.style.left = event.clientX - offsetX + "px";
                 selectedElement.style.top = event.clientY - offsetY + "px";
-                adjustEditorDimensions();
             }
         });
 
