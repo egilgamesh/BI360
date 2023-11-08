@@ -61,6 +61,7 @@ async function InsertChart() {
     const chartItemId = chartType + `-${new Date().getTime()}`;
     const apiURL = document.getElementById("apiURL").value;
     const editor = document.getElementById("editor-panel");
+    editor.style.left = document.getElementById("editor-panel").style.left;
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
     chartContainer.top = 0;
@@ -72,7 +73,7 @@ async function InsertChart() {
     const xScale = "label";
     const yScale = "value";
     editor.appendChild(chartContainer);
-    const resizableCard = new ResizableCard(chartContainer, cardcontent, resizeCallback);
+    const resizableCard = new ResizableCard(chartContainer, cardcontent,editor, resizeCallback);
     resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, chartType);

@@ -1,5 +1,5 @@
 class ResizableCard {
-    constructor(cardContainer, cardContent, callback) {
+    constructor(cardContainer, cardContent, cage, callback) {
         this.cardContainer = cardContainer;
         this.cardContent = cardContent;
         this.isResizing = false;
@@ -7,6 +7,7 @@ class ResizableCard {
         this.isSelected = false;
         this.offsetX = 0;
         this.offsetY = 0;
+        this.cage = cage;
         this.resizeCallback = callback; // Callback function to handle resizing updates
         cardContainer.style.transition = "border 0.2s"; // Add transition for a smooth effect
         this.updateHighlight();
@@ -23,8 +24,7 @@ class ResizableCard {
     }
 
     handleMouseDown(e) {
-        if (e.target === this.cardContainer && e.offsetX >= this.cardContainer.clientWidth - 10 && e.offsetY >= this.cardContainer.clientHeight - 10)
-         {
+        if (e.target === this.cardContainer && e.offsetX >= this.cardContainer.clientWidth - 10 && e.offsetY >= this.cardContainer.clientHeight - 10) {
             this.isResizing = true;
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().right;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().bottom;
@@ -39,9 +39,27 @@ class ResizableCard {
             this.cardContainer.style.width = newWidth + "px";
             this.cardContainer.style.height = newHeight + "px";
             if (typeof this.resizeCallback === "function") {
-                this.resizeCallback(this.cardContainer,newWidth, newHeight);
+                this.resizeCallback(this.cardContainer, newWidth, newHeight);
             }
         } else if (this.isDragging) {
+            // if (this.offsetX < parseFloat(this.cage.getBoundingClientRect().left)) {
+            //     console.log("offsetX:" + this.offsetX);
+            //     console.log("offsety:" + this.offsetY);
+            //     console.log("cage left:" + this.cage.getBoundingClientRect().left);
+            //     this.offsetX = parseFloat(this.cage.style.left);
+            // }
+
+            // if(this.offsetX > parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width)){
+            //     this.offsetX = parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width);
+            // }
+
+            // if(this.offsetY < parseFloat(this.cage.getBoundingClientRect().top)){
+            //     this.offsetY = parseFloat(this.cage.getBoundingClientRect().top);
+            // }
+            // if(this.offsetY > parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height)){
+            //     this.offsetY = parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height);
+            // }
+
             this.cardContainer.style.left = e.clientX - this.offsetX + "px";
             this.cardContainer.style.top = e.clientY - this.offsetY + "px";
         }
