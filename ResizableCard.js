@@ -115,3 +115,91 @@ class ResizableCard {
 }
 
 // export default ResizableCard;
+
+//////////////////////////////// This some suggested solution, it looks what I need
+//
+// dragElement(document.querySelector(".movable"));
+
+// 	function dragElement(elmnt) {
+// 		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+// 		elmnt.onmousedown = dragMouseDown;
+
+// 		function dragMouseDown(e) {
+// 			e = e || window.event;
+// 			e.preventDefault();
+// 			pos3 = e.clientX;
+// 			pos4 = e.clientY;
+// 			document.onmouseup = closeDragElement;
+// 			document.onmousemove = elementDrag;
+// 		}
+
+// 		function elementDrag(e) {
+// 			e = e || window.event;
+// 			e.preventDefault();
+// 			pos1 = pos3 - e.clientX;
+// 			pos2 = pos4 - e.clientY;
+// 			pos3 = e.clientX;
+// 			pos4 = e.clientY;
+// 			elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+// 			elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+// 			if((elmnt.offsetTop - pos2) < 0) {
+// 				elmnt.style.top = "0px";
+// 			}
+// 			if((elmnt.offsetLeft - pos1) < 0) {
+// 				elmnt.style.left = "0px";
+// 			}
+// 			if(((elmnt.offsetTop - pos2) + elmnt.getBoundingClientRect().height) > window.innerHeight) {
+// 				elmnt.style.top = (window.innerHeight - elmnt.getBoundingClientRect().height) + "px";
+// 			}
+// 			if(((elmnt.offsetLeft - pos1) + elmnt.getBoundingClientRect().width) > window.innerWidth) {
+// 				elmnt.style.left = (window.innerWidth - elmnt.getBoundingClientRect().width) + "px";
+// 			}
+// 		}
+
+// 		function closeDragElement() {
+// 			document.onmouseup = null;
+// 			document.onmousemove = null;
+// 		}
+// 	}
+// table.movable {
+// 				position: fixed;
+// 				z-index: 999;
+// 				background-color: #f1f1f1;
+// 				text-align: center;
+// 			}
+
+// 			table.movable thead > tr:nth-of-type(2) > th,
+// 			table.movable tbody > tr > td {
+// 				font-size: 13px;
+// 			}
+
+// 			table.movable .header {
+// 				padding: 5px 10px;
+// 				cursor: move;
+// 				background-color: #3C4044;
+// 				color: #fff;
+// 			}
+
+// 			table.movable tr:nth-of-type(2) > th {
+// 				background-color: #3C4044;
+// 				color: #fff;
+// 			}
+// <table class="movable" width="300" border="2">
+// 			<thead>
+// 				<tr>
+// 					<th colspan="3" class="header">Header</th>
+// 				</tr>
+// 				<tr>
+// 					<th width="100">Sub-header 1</th>
+// 					<th width="100">Sub-header 2</th>
+// 					<th width="100">Sub-header 3</th>
+// 				</tr>
+// 			</thead>
+// 			<tbody>
+// 				<tr>
+// 					<td>1</td>
+// 					<td>2</td>
+// 					<td>3</td>
+// 				</tr>
+// 			</tbody>
+// 		</table>
