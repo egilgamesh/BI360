@@ -106,7 +106,7 @@
             color: #999;
         }
 
-        #list-view {
+        .list-view-Container {
             background-color: #ffffff;
         }
 
@@ -195,6 +195,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            align-items: stretch
 
         }
 
@@ -237,10 +238,6 @@
             font-size: 20px;
             font-weight: bold;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .ListViewContainer {
-            align-items: stretch
         }
 
         .TapbuttonContainre {
@@ -351,7 +348,7 @@
                     <div class="tab active">Files</div>
                     <div class="tab">Dashboard</div>
                 </div>
-                <div id="list-view">
+                <div id="list-view" class="list-view-Container">
                     <table class="list-view">
                         <thead>
                             <tr>
