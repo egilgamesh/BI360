@@ -40,7 +40,7 @@ async function customizeChart() {
     chartContainer.style.width = "600px";
     chartContainer.style.height = "400px";
     chartContainer.style.position = "relative"; // Add this line to set the position property to 'relative'
-    chartContainer.style.border = "2px dashed #000"; // Add this line to create a border for the chart
+    //chartContainer.style.border = "2px dashed #000"; // Add this line to create a border for the chart
 
     chartContainer.classList.add("chart-card");
     // Make the chart container draggable

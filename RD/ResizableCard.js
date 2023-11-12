@@ -30,6 +30,7 @@ class ResizableCard {
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().right;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().bottom;
             e.preventDefault();
+            document.body.style.userSelect = 'none';
         }
     }
 
@@ -73,6 +74,9 @@ class ResizableCard {
     handleMouseUp() {
         this.isResizing = false;
         this.isDragging = false;
+        this.isSelected = false;
+        updateHighlight();
+        document.body.style.userSelect = 'auto';
     }
 
     handleCardContentMouseDown(e) {
@@ -97,9 +101,12 @@ class ResizableCard {
 
     updateHighlight() {
         if (this.isSelected) {
-            this.cardContainer.style.border = "2px solid #F96161";
+          //  this.cardContainer.style.border = "2px solid #F96161";
+          this.cardContainer.classList.remove("card-container");
+          this.cardContainer.classList.add("card-container-selected");
         } else {
-            this.cardContainer.style.border = "2px solid #ccc";
+          this.cardContainer.classList.remove("card-container-selected");
+            this.cardContainer.classList.add("card-container");
         }
     }
 

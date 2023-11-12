@@ -1,28 +1,44 @@
-let isDragging = false;
-let selectedElement = null;
-function makeTableDraggable(tableElement) {
+function makeElementDraggable(element) {
     let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
 
-    tableElement.style.position = 'relative';
-    tableElement.style.top = '0';
-    tableElement.style.left = '0';
+    element.style.position = 'relative';
+    element.style.cursor = 'move';
 
-    tableElement.addEventListener("mousedown", (event) => {
+    element.addEventListener("mousedown", (event) => {
         isDragging = true;
-        selectedElement = tableElement;
-        const offsetX = event.clientX - tableElement.getBoundingClientRect().left;
-        const offsetY = event.clientY - tableElement.getBoundingClientRect().top;
 
-        document.addEventListener("mousemove", (event) => {
-            if (isDragging && selectedElement) {
-                selectedElement.style.left = event.clientX - offsetX + "px";
-                selectedElement.style.top = event.clientY - offsetY + "px";
-            }
-        });
+        // Calculate offset based on the mouse position and the current position of the element
+        offsetX = Math.min(event.clientX , element.getBoundingClientRect().left) ;
+        offsetY = Math.min(event.clientY , element.getBoundingClientRect().top);
 
-        document.addEventListener("mouseup", () => {
+        element.style.cursor = 'move';
+        document.body.style.userSelect = 'none';
+
+        // Set the initial position directly, considering the initial offset
+        element.style.left = event.clientX - offsetX + "px";
+        element.style.top = event.clientY - offsetY + "px";
+    });
+
+    document.addEventListener("mousemove", (event) => {
+        if (isDragging) {
+            // Set the position directly, considering the initial offset
+            element.style.left = event.clientX - offsetX + "px";
+            element.style.top = event.clientY - offsetY + "px";
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        if (isDragging) {
             isDragging = false;
-            selectedElement = null;
-        });
+
+            element.style.cursor = 'move';
+            document.body.style.userSelect = 'auto';
+        }
     });
 }
+
+// Example usage for a table element
+const tableElement = document.getElementById("yourTableId"); // Replace with your actual table ID
+makeElementDraggable(tableElement);

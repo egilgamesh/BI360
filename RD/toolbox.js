@@ -22,7 +22,7 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     scorecard.style.border = `2px solid ${cardColor}`;
     scorecardContainer.appendChild(scorecard);
 
-     makeTableDraggable(scorecard);
+    makeElementDraggable(scorecard);
 }
 
 function addChart(chartType) {
@@ -61,7 +61,6 @@ async function InsertChart() {
     const chartItemId = chartType + `-${new Date().getTime()}`;
     const apiURL = document.getElementById("apiURL").value;
     const editor = document.getElementById("editor-panel");
-    editor.style.left = document.getElementById("editor-panel").style.left;
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
     chartContainer.top = 0;
@@ -435,7 +434,7 @@ async function insertTable() {
 
         editorPanel.appendChild(table);
         // Make the table draggable
-        makeTableDraggable(table);
+        makeElementDraggable(table);
 
     } else {
         alert('Failed to fetch data from the API for the table.');
@@ -468,7 +467,7 @@ function saveAsHTML() {
     const blob = new Blob([htmlContent], { type: "text/html" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "editor_content.html";
+    a.download = "report.html";
     a.style.display = "none";
     document.body.appendChild(a);
 
