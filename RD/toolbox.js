@@ -25,6 +25,28 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     makeElementDraggable(scorecard);
 }
 
+function GenerateCommunityCard()
+{
+
+    const scorecardContainer = document.getElementById("editor-panel");
+    const scorecard = document.createElement("div");
+    scorecard.className = "scorecard";
+    scorecard.style.top=0;
+    scorecard.style.left=0;
+
+    const jsonData = [
+        { "Key": "Software engineer", "value": 10 },
+        { "Key": "HR", "value": 8 },
+        { "Key": "technical support", "value": 5 },
+        { "Key": "financial accounting manager", "value": 15 }
+    ];
+
+    const keyAttribute = "Key";
+    const humanChart = new HumanChart(jsonData, keyAttribute);
+    scorecardContainer.appendChild(humanChart.getChartContainer());
+    makeElementDraggable(humanChart);
+}
+
 function addChart(chartType) {
 
     const selectedObjectProperties = document.getElementById("PropertiesList");

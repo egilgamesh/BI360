@@ -38,7 +38,3 @@ function makeElementDraggable(element) {
         }
     });
 }
-
-// Example usage for a table element
-const tableElement = document.getElementById("yourTableId"); // Replace with your actual table ID
-makeElementDraggable(tableElement);

@@ -406,3 +406,38 @@ input[type=radio] {
   }
 
   tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+
+  .card {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #dadada;
+}
+
+.group {
+    margin-bottom: 10px;
+}
+
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.icons {
+    display: flex;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.percentage {
+    margin-top: 5px;
+}
