@@ -41,7 +41,7 @@
                     <div class="ButtonControl" onclick="addText()">Text
                         <img class="ButtonControl__img" src="https://static.thenounproject.com/png/756265-200.png" />
                     </div>
-                    <div class="ButtonControl">Image
+                    <div class="ButtonControl" onclick="addImage()">Image
                         <img class="ButtonControl__img"
                             src="https://icons-for-free.com/iconfiles/png/512/image+images+photo+picture+pictures+icon-1320191040579947532.png" />
                     </div>
@@ -167,10 +167,17 @@
                     </div>
 
                     <div id="TextOptions" class="TextOptions">
-                        <label class="PanelHeader" for="tableAPIURL">Text Value:</label>
+                        <label class="PanelHeader" for="TextBoxValue">Text Value:</label>
                         <input class="property" type="text" id="TextBoxValue" value="">
                         <button onclick="InsertText('TextBoxValue')">Insert TextBox</button>
                     </div>
+
+                    <div id="ImageOption" class="ImageOption">
+                        <label class="PanelHeader" for="ImageSourcePath">Image Source :</label>
+                        <input class="property" type="text" id="ImageSourcePath" value="">
+                        <button onclick="InsertImage('ImageSourcePath')">Insert Image</button>
+                    </div>
+
                     <div id="PropertiesList">
 
                     </div>

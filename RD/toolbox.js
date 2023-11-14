@@ -36,6 +36,17 @@ function InsertText(TextString) {
     makeElementDraggable(scorecard);
 }
 
+function InsertImage(ImageSourcePath) {
+    const scorecardContainer = document.getElementById("editor-panel");
+    const textboxControl = document.getElementById(ImageSourcePath).value;
+    const scorecard = document.createElement("img");
+    scorecard.style.top = 0;
+    scorecard.style.left = 0;
+    scorecard.src = textboxControl;
+    scorecardContainer.appendChild(scorecard);
+    makeElementDraggable(scorecard);
+}
+
 function GenerateCommunityCard() {
 
     const scorecardContainer = document.getElementById("editor-panel");
@@ -92,6 +103,13 @@ function addText() {
     document.getElementById("chartOptions").style.display = "none";
     document.getElementById("tableOptions").style.display = "none";
     document.getElementById("TextOptions").style.display = "block";
+}
+
+function addImage() {
+    document.getElementById("chartOptions").style.display = "none";
+    document.getElementById("tableOptions").style.display = "none";
+    document.getElementById("TextOptions").style.display = "none";
+    document.getElementById("ImageOption").style.display = "block";
 }
 
 

@@ -75,6 +75,14 @@
     display: flex;
     flex-direction: column;
     display: none;
+    justify-content: start;
+}
+
+.ImageOption{
+    display: flex;
+    flex-direction: column;
+    display: none;
+    justify-content: start;
 }
 /* Top panel with tabs */
 .top-panel {
