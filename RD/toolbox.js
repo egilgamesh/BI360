@@ -28,23 +28,28 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
 function InsertText(TextString) {
     const scorecardContainer = document.getElementById("editor-panel");
     const textboxControl = document.getElementById(TextString).value;
-    const scorecard = document.createElement("div");
-    scorecard.style.top = 0;
-    scorecard.style.left = 0;
-    scorecard.innerHTML = textboxControl;
-    scorecardContainer.appendChild(scorecard);
-    makeElementDraggable(scorecard);
+    if (textboxControl) {
+        const scorecard = document.createElement("div");
+        scorecard.style.top = 0;
+        scorecard.style.left = 0;
+        scorecard.innerHTML = textboxControl;
+        scorecardContainer.appendChild(scorecard);
+        makeElementDraggable(scorecard);
+    }
+
 }
 
 function InsertImage(ImageSourcePath) {
     const scorecardContainer = document.getElementById("editor-panel");
     const textboxControl = document.getElementById(ImageSourcePath).value;
-    const scorecard = document.createElement("img");
-    scorecard.style.top = 0;
-    scorecard.style.left = 0;
-    scorecard.src = textboxControl;
-    scorecardContainer.appendChild(scorecard);
-    makeElementDraggable(scorecard);
+    if (textboxControl) {
+        const scorecard = document.createElement("img");
+        scorecard.style.top = 0;
+        scorecard.style.left = 0;
+        scorecard.src = textboxControl;
+        scorecardContainer.appendChild(scorecard);
+        makeElementDraggable(scorecard);
+    }
 }
 
 function GenerateCommunityCard() {
