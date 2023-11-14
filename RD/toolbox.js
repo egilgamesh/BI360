@@ -91,11 +91,17 @@ function addChart(chartType) {
     if (chartTypeElement) {
         chartTypeElement.value = chartType;
     }
+
+    document.getElementById("tableOptions").style.display = "none";
+    document.getElementById("TextOptions").style.display = "none";
+    document.getElementById("ImageOption").style.display = "none";
 }
 
 function addTable() {
     document.getElementById("chartOptions").style.display = "none";
     document.getElementById("tableOptions").style.display = "block";
+    document.getElementById("TextOptions").style.display = "none";
+    document.getElementById("ImageOption").style.display = "none";
 }
 
 
@@ -103,6 +109,7 @@ function addText() {
     document.getElementById("chartOptions").style.display = "none";
     document.getElementById("tableOptions").style.display = "none";
     document.getElementById("TextOptions").style.display = "block";
+    document.getElementById("ImageOption").style.display = "none";
 }
 
 function addImage() {
