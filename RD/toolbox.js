@@ -6,6 +6,8 @@ const itemList = [];
 function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
+    const ElementItemId = GetUniqueID(chartType);
+    ElementItemId.id =ElementItemId;
     scorecard.className = "scorecard";
     scorecard.style.top = 0;
     scorecard.style.left = 0;
@@ -28,8 +30,10 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
 function InsertText(TextString) {
     const scorecardContainer = document.getElementById("editor-panel");
     const textboxControl = document.getElementById(TextString).value;
+    const ElementItemId = GetUniqueID(chartType);
     if (textboxControl) {
         const scorecard = document.createElement("div");
+        scorecard.id = ElementItemId;
         scorecard.style.top = 0;
         scorecard.style.left = 0;
         scorecard.innerHTML = textboxControl;
@@ -42,8 +46,10 @@ function InsertText(TextString) {
 function InsertImage(ImageSourcePath) {
     const scorecardContainer = document.getElementById("editor-panel");
     const textboxControl = document.getElementById(ImageSourcePath).value;
+    const ElementItemId = GetUniqueID(chartType);
     if (textboxControl) {
         const scorecard = document.createElement("img");
+        scorecard.id = ElementItemId;
         scorecard.style.top = 0;
         scorecard.style.left = 0;
         scorecard.src = textboxControl;
@@ -56,6 +62,8 @@ function GenerateCommunityCard() {
 
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
+    const ElementItemId = GetUniqueID(chartType);
+    scorecard.id = ElementItemId;
     scorecard.className = "scorecard";
     scorecard.style.top = 0;
     scorecard.style.left = 0;
@@ -127,7 +135,7 @@ function addImage() {
 
 async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
-    const chartItemId = chartType + `-${new Date().getTime()}`;
+    const chartItemId = GetUniqueID(chartType);
     const apiURL = document.getElementById("apiURL").value;
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
@@ -164,6 +172,10 @@ async function InsertChart() {
     }
 
     document.getElementById("chartOptions").style.display = "none";
+}
+
+function GetUniqueID(chartType) {
+    return chartType + `-${new Date().getTime()}`;
 }
 
 function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute) {
