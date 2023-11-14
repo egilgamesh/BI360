@@ -189,19 +189,6 @@ function updateChart(chartContainer, newWidth, newHeight) {
         BuildChart(chartContainer, itemToUpdate.dataSource, itemToUpdate.type, chartContainer.id,
              itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
     }
-
-
-
-    // Here's a simple example using D3.js to update an SVG chart's dimensions:
-    // const svg = d3.select(chartContainer); // Replace with your chart's SVG selection
-    // svg.attr("width", newWidth)
-    //    .attr("height", newHeight);
-
-    // childDiv.setAttribute("width", newWidth);
-    // childDiv.setAttribute("height", newHeight);
-    // xScale.range([0, newWidth]);
-    // yScale.range([newHeight, 0]);
-    // You can also update scales, axes, and other chart components as needed.
 }
 
 
