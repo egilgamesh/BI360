@@ -24,6 +24,8 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     scorecard.style.border = `2px solid ${cardColor}`;
     makeElementDraggable(scorecard);
     scorecardContainer.appendChild(scorecard);
+   
+   ///
     const chart = {
         id: ElementItemId, type: Scorecard, dataSource: chartData, title: title, actual: actual, container: scorecard, width: width,
         height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top

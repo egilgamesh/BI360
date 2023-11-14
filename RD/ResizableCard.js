@@ -25,12 +25,25 @@ class ResizableCard {
 
     handleMouseDown(e) {
         if (e.target === this.cardContainer && e.offsetX >= this.cardContainer.clientWidth - 10
-                     && e.offsetY >= this.cardContainer.clientHeight - 10) {
+            && e.offsetY >= this.cardContainer.clientHeight - 10) {
             this.isResizing = true;
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().right;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().bottom;
             e.preventDefault();
             document.body.style.userSelect = 'none';
+        }
+    }
+
+
+
+    handleCardContentMouseDown(e) {
+        const Svg = this.cardContainer.querySelector(".card-container-selected > div  > svg");
+        console.log(Svg);
+        if (e.target === Svg) {
+            this.isDragging = true;
+            this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().left;
+            this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().top;
+            console.log("cardClicked");
         }
     }
 
@@ -49,25 +62,25 @@ class ResizableCard {
             this.cardContainer.style.left = e.clientX - this.offsetX + "px";
             this.cardContainer.style.top = e.clientY - this.offsetY + "px";
 
-        //     if (parseFloat(this.cardContainer.style.left) < parseFloat(this.cage.getBoundingClientRect().left)) {
-        //         console.log("this.cardContainer.style.left: " + this.cardContainer.style.left);
-        //         console.log("cage left: " + this.cage.getBoundingClientRect().left);
-        //         this.cardContainer.style.left  = parseFloat(this.cage.getBoundingClientRect().left);
-        //     }
+            //     if (parseFloat(this.cardContainer.style.left) < parseFloat(this.cage.getBoundingClientRect().left)) {
+            //         console.log("this.cardContainer.style.left: " + this.cardContainer.style.left);
+            //         console.log("cage left: " + this.cage.getBoundingClientRect().left);
+            //         this.cardContainer.style.left  = parseFloat(this.cage.getBoundingClientRect().left);
+            //     }
 
-        // // console.log("cardContainer.style.left:" + this.cardContainer.style.left );
-        // //     console.log("cage left:" + this.cage.getBoundingClientRect().left);
+            // // console.log("cardContainer.style.left:" + this.cardContainer.style.left );
+            // //     console.log("cage left:" + this.cage.getBoundingClientRect().left);
 
-        //     if(this.cardContainer.style.left > parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width)){
-        //         this.cardContainer.style.top = parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width);
-        //     }
+            //     if(this.cardContainer.style.left > parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width)){
+            //         this.cardContainer.style.top = parseFloat(this.cage.getBoundingClientRect().left) + parseFloat(this.cage.getBoundingClientRect().width);
+            //     }
 
-        //     if(this.cardContainer.style.top < parseFloat(this.cage.getBoundingClientRect().top)){
-        //         this.cardContainer.style.top  = parseFloat(this.cage.getBoundingClientRect().top);
-        //     }
-        //     if(this.cardContainer.style.top > parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height)){
-        //         this.cardContainer.style.top = parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height);
-        //     }
+            //     if(this.cardContainer.style.top < parseFloat(this.cage.getBoundingClientRect().top)){
+            //         this.cardContainer.style.top  = parseFloat(this.cage.getBoundingClientRect().top);
+            //     }
+            //     if(this.cardContainer.style.top > parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height)){
+            //         this.cardContainer.style.top = parseFloat(this.cage.getBoundingClientRect().top) + parseFloat(this.cage.getBoundingClientRect().height);
+            //     }
         }
     }
 
@@ -79,15 +92,6 @@ class ResizableCard {
         document.body.style.userSelect = 'auto';
     }
 
-    handleCardContentMouseDown(e) {
-        const Svg = this.cardContent.querySelector(".card-content > svg");
-        if (e.target === Svg) {
-            this.isDragging = true;
-            this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().left;
-            this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().top;
-            console.log("cardClicked");
-        }
-    }
 
     handleMouseOver() {
         this.isSelected = true;
@@ -101,11 +105,11 @@ class ResizableCard {
 
     updateHighlight() {
         if (this.isSelected) {
-          //  this.cardContainer.style.border = "2px solid #F96161";
-          this.cardContainer.classList.remove("card-container");
-          this.cardContainer.classList.add("card-container-selected");
+            //  this.cardContainer.style.border = "2px solid #F96161";
+            this.cardContainer.classList.remove("card-container");
+            this.cardContainer.classList.add("card-container-selected");
         } else {
-          this.cardContainer.classList.remove("card-container-selected");
+            this.cardContainer.classList.remove("card-container-selected");
             this.cardContainer.classList.add("card-container");
         }
     }
