@@ -7,8 +7,8 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
     scorecard.className = "scorecard";
-    scorecard.style.top=0;
-    scorecard.style.left=0;
+    scorecard.style.top = 0;
+    scorecard.style.left = 0;
     const arrowClass = actual > target ? "fa-arrow-up up-icon" : "fa-arrow-down down-icon";
     scorecard.innerHTML = `
         <div class="scorecard-title" style="color: ${titleColor}">${title}</div>
@@ -25,14 +25,23 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     makeElementDraggable(scorecard);
 }
 
-function GenerateCommunityCard()
-{
+function AddText(TextString) {
+    const scorecardContainer = document.getElementById("editor-panel");
+    const scorecard = document.createElement("div");
+    scorecard.style.top = 0;
+    scorecard.style.left = 0;
+    scorecard.innerHTML = TextString
+    scorecardContainer.appendChild(scorecard);
+    makeElementDraggable(scorecard);
+}
+
+function GenerateCommunityCard() {
 
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
     scorecard.className = "scorecard";
-    scorecard.style.top=0;
-    scorecard.style.left=0;
+    scorecard.style.top = 0;
+    scorecard.style.left = 0;
 
     const jsonData = [
         { "Key": "Software engineer", "value": 10 },
@@ -95,7 +104,7 @@ async function InsertChart() {
     const xScale = "label";
     const yScale = "value";
     editor.appendChild(chartContainer);
-    const resizableCard = new ResizableCard(chartContainer, cardcontent,editor, resizeCallback);
+    const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, chartType);
@@ -123,7 +132,7 @@ async function InsertChart() {
 function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute) {
     const chartcontainer = document.getElementById(chartContainer.id);
     const cardcontent = chartcontainer.querySelector(".card-content");
-    cardcontent.innerHTML="";
+    cardcontent.innerHTML = "";
     const margin = { top: 20, right: 20, bottom: 40, left: 40 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
@@ -148,7 +157,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth,"Sales Amount");
+        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth, "Sales Amount");
 
     }
     else if (chartType === 'line') {
@@ -187,7 +196,7 @@ function updateChart(chartContainer, newWidth, newHeight) {
         itemToUpdate.width = newWidth;
         itemToUpdate.height = newHeight;
         BuildChart(chartContainer, itemToUpdate.dataSource, itemToUpdate.type, chartContainer.id,
-             itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
+            itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
     }
 }
 
@@ -281,7 +290,7 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, b
         .attr("x", d => xScale(d.label))
         .attr("y", d => yScale(d.value))
         .attr("width", xScale.bandwidth())
-        .attr("height", d => chartHeight - yScale(d.value) -20)
+        .attr("height", d => chartHeight - yScale(d.value) - 20)
         .style("fill", "green")
         .on("mouseover", function () {
             d3.select(this).style("fill", "steelblue"); // Change the color on mouseover

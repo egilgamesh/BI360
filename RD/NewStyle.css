@@ -61,6 +61,14 @@
 .chartOptions{
     display: flex;
     flex-direction: column;
+    display: none;
+}
+
+
+.tableOptions{
+    display: flex;
+    flex-direction: column;
+    display: none;
 }
 /* Top panel with tabs */
 .top-panel {

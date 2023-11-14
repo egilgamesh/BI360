@@ -38,7 +38,7 @@
             <div id="ComponentsPage" class="TabPage">
                 <span class="PanelHeader">Components</span>
                 <div class="gridControls">
-                    <div class="ButtonControl">Text
+                    <div class="ButtonControl" onclick="AddText('Header report')">Text
                         <img class="ButtonControl__img" src="https://static.thenounproject.com/png/756265-200.png" />
                     </div>
                     <div class="ButtonControl">Image
@@ -160,7 +160,7 @@
                         <input class="property" type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts?userId=1">
                         <button onclick="InsertChart()">Apply Chart</button>
                     </div>
-                    <div id="tableOptions">
+                    <div id="tableOptions" class="tableOptions">
                         <label class="PanelHeader" for="tableAPIURL">API URL for Table Data:</label>
                         <input class="property" type="text" id="tableAPIURL" value="https://jsonplaceholder.typicode.com/users">
                         <button onclick="insertTable()">Insert Table</button>
