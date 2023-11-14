@@ -25,12 +25,13 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     makeElementDraggable(scorecard);
 }
 
-function AddText(TextString) {
+function InsertText(TextString) {
     const scorecardContainer = document.getElementById("editor-panel");
+    const textboxControl = document.getElementById(TextString).value;
     const scorecard = document.createElement("div");
     scorecard.style.top = 0;
     scorecard.style.left = 0;
-    scorecard.innerHTML = TextString
+    scorecard.innerHTML = textboxControl;
     scorecardContainer.appendChild(scorecard);
     makeElementDraggable(scorecard);
 }
@@ -86,6 +87,12 @@ function addTable() {
     document.getElementById("tableOptions").style.display = "block";
 }
 
+
+function addText() {
+    document.getElementById("chartOptions").style.display = "none";
+    document.getElementById("tableOptions").style.display = "none";
+    document.getElementById("TextOptions").style.display = "block";
+}
 
 
 async function InsertChart() {
