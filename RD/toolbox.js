@@ -43,8 +43,9 @@ function GenerateCommunityCard()
 
     const keyAttribute = "Key";
     const humanChart = new HumanChart(jsonData, keyAttribute);
-    scorecardContainer.appendChild(humanChart.getChartContainer());
-    makeElementDraggable(humanChart);
+    scorecard.appendChild(humanChart.getChartContainer())
+    scorecardContainer.appendChild(scorecard);
+    makeElementDraggable(scorecard);
 }
 
 function addChart(chartType) {
