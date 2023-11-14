@@ -1,3 +1,5 @@
+// todo: we have to pass variable, if the card is only draggable with fixed size
+
 class ResizableCard {
     constructor(cardContainer, cardContent, cage, callback) {
         this.cardContainer = cardContainer;
@@ -37,7 +39,7 @@ class ResizableCard {
 
 
     handleCardContentMouseDown(e) {
-        const Svg = this.cardContainer.querySelector(".card-container-selected > div  > svg");
+        const Svg = this.cardContainer.querySelector(".card-content  > svg");
         console.log(Svg);
         if (e.target === Svg) {
             this.isDragging = true;
