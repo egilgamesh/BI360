@@ -10,6 +10,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         header {
@@ -17,6 +18,8 @@
             color: #fff;
             text-align: center;
             padding: 1em 0;
+            width: 100%;
+            z-index: 2;
         }
 
         h1 {
@@ -25,6 +28,7 @@
 
         main {
             margin: 20px;
+            flex: 1;
         }
 
         section {
@@ -105,12 +109,45 @@
         .remove-response:hover {
             text-decoration: underline;
         }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            flex: 0 0 250px;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+        .endpoint-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .endpoint-item {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .endpoint-item:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Your API Documentation</h1>
     </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Endpoints</h2>
+        <ul id="sidebar-endpoint-list" class="endpoint-list">
+            <!-- Endpoints will be dynamically added here -->
+        </ul>
+    </aside>
 
     <main>
         <!-- Form to add a new endpoint -->
@@ -147,10 +184,10 @@
 
         <!-- Endpoints Section -->
         <section id="endpoints">
-            <h2>Endpoints</h2>
-            <ul id="endpoint-list">
-                <!-- Endpoints will be dynamically added here -->
-            </ul>
+            <h2>Endpoint Details</h2>
+            <div id="endpoint-details">
+                <!-- Endpoint details will be dynamically added here -->
+            </div>
         </section>
     </main>
 
@@ -158,9 +195,20 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Function to add a new endpoint
             function addEndpoint(endpointData) {
-                // Create HTML elements for the endpoint using endpointData
-                const endpointElement = document.createElement('li');
-                endpointElement.innerHTML = `
+                // Create HTML elements for the endpoint in the sidebar
+                const sidebarEndpointItem = document.createElement('li');
+                sidebarEndpointItem.className = 'endpoint-item';
+                sidebarEndpointItem.textContent = `${endpointData.method} ${endpointData.path}`;
+                sidebarEndpointItem.onclick = function () {
+                    displayEndpointDetails(endpointData);
+                };
+
+                // Append the endpoint to the sidebar
+                document.getElementById('sidebar-endpoint-list').appendChild(sidebarEndpointItem);
+
+                // Create HTML elements for the endpoint details
+                const endpointDetails = document.getElementById('endpoint-details');
+                endpointDetails.innerHTML = `
                     <h3>${endpointData.method} ${endpointData.path}</h3>
                     <p><strong>Summary:</strong> ${endpointData.summary}</p>
                     <p><strong>Description:</strong> ${endpointData.description}</p>
@@ -168,23 +216,12 @@
                     <ul class="response-list">
                         ${endpointData.responses.map((response, index) => `
                             <li class="response-item">
-                                <label for="response-code-${index}">Response Code:</label>
-                                <input type="text" id="response-code-${index}" name="response-code-${index}" value="${response.code}" required>
-
-                                <label for="response-desc-${index}">Description:</label>
-                                <input type="text" id="response-desc-${index}" name="response-desc-${index}" value="${response.description}" required>
-
-                                <label for="response-content-${index}">Content (JSON Schema):</label>
-                                <textarea id="response-content-${index}" name="response-content-${index}" rows="4" required>${JSON.stringify(response.content, null, 2)}</textarea>
-
-                                <span class="remove-response" onclick="removeResponse(${index})">Remove</span>
+                                <strong>${response.code}</strong>: ${response.description}
+                                <pre>${JSON.stringify(response.content, null, 2)}</pre>
                             </li>
                         `).join('')}
                     </ul>
                 `;
-
-                // Append the endpoint to the endpoint list
-                document.getElementById('endpoint-list').appendChild(endpointElement);
             }
 
             // Function to add a new response to the form
@@ -261,6 +298,25 @@
                 responseList.innerHTML = ''; // Clear responses
             };
 
+            // Function to display endpoint details in the main panel
+            function displayEndpointDetails(endpointData) {
+                const endpointDetails = document.getElementById('endpoint-details');
+                endpointDetails.innerHTML = `
+                    <h3>${endpointData.method} ${endpointData.path}</h3>
+                    <p><strong>Summary:</strong> ${endpointData.summary}</p>
+                    <p><strong>Description:</strong> ${endpointData.description}</p>
+                    <h4>Responses:</h4>
+                    <ul class="response-list">
+                        ${endpointData.responses.map((response, index) => `
+                            <li class="response-item">
+                                <strong>${response.code}</strong>: ${response.description}
+                                <pre>${JSON.stringify(response.content, null, 2)}</pre>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            }
+
             // Example: Adding a sample endpoint
             const exampleEndpoint = {
                 path: '/example',
@@ -281,7 +337,9 @@
                 ]
             };
 
+            // Initialize with the sample endpoint
             addEndpoint(exampleEndpoint);
+            displayEndpointDetails(exampleEndpoint);
         });
     </script>
 </body>
