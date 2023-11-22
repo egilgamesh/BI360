@@ -2,6 +2,22 @@
 
 const itemList = [];
 
+function SaveJson() {
+    // Convert the list to JSON format
+    const jsonData = JSON.stringify(itemList, null, 2);
+  
+    // Create a Blob with the JSON data
+    const blob = new Blob([jsonData], { type: 'application/json' });
+  
+    // Create a download link
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = "report.json";
+  
+    // Trigger a click on the link to start the download
+    downloadLink.click();
+  }
+
 
 function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
     const scorecardContainer = document.getElementById("editor-panel");
