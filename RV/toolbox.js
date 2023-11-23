@@ -1,4 +1,10 @@
 //TODO: we have to use ResizableCard library to handle DND and sizable
+// a dirty code to re render report in report viewer, still need more cleaning and enhancement, 
+//unified presentation layer function,
+ //make a SRP file for render chart, and another one to update it, to use it in tow places
+
+
+ // try to find snap aligment machnizim, try to use lib if it better
 
 const itemList = [];
 
@@ -684,3 +690,7 @@ function adjustEditorDimensions() {
     editor.style.height = totalHeight + padding + "px";
     editor.style.width = totalWidth + padding + "px";
 }
+
+
+
+
