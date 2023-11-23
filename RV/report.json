@@ -1,0 +1,114 @@
+[
+  {
+    "id": "bar-1700700893936",
+    "type": "bar",
+    "dataSource": [
+      {
+        "label": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        "value": 74
+      },
+      {
+        "label": "qui est esse",
+        "value": 12
+      },
+      {
+        "label": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+        "value": 59
+      },
+      {
+        "label": "eum et est occaecati",
+        "value": 20
+      },
+      {
+        "label": "nesciunt quas odio",
+        "value": 18
+      },
+      {
+        "label": "dolorem eum magni eos aperiam quia",
+        "value": 34
+      },
+      {
+        "label": "magnam facilis autem",
+        "value": 20
+      },
+      {
+        "label": "dolorem dolore est ipsam",
+        "value": 24
+      },
+      {
+        "label": "nesciunt iure omnis dolorem tempora et accusantium",
+        "value": 50
+      },
+      {
+        "label": "optio molestias id quia eum",
+        "value": 27
+      }
+    ],
+    "xattribute": "label",
+    "yattribute": "value",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 440.09088134765625,
+    "height": 310.5454559326172,
+    "left": 341.4545593261719,
+    "top": 82.7272720336914
+  },
+  {
+    "id": "pie-1700700899825",
+    "type": "pie",
+    "dataSource": [
+      {
+        "label": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        "value": 74
+      },
+      {
+        "label": "qui est esse",
+        "value": 12
+      },
+      {
+        "label": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+        "value": 59
+      },
+      {
+        "label": "eum et est occaecati",
+        "value": 20
+      },
+      {
+        "label": "nesciunt quas odio",
+        "value": 18
+      },
+      {
+        "label": "dolorem eum magni eos aperiam quia",
+        "value": 34
+      },
+      {
+        "label": "magnam facilis autem",
+        "value": 20
+      },
+      {
+        "label": "dolorem dolore est ipsam",
+        "value": 24
+      },
+      {
+        "label": "nesciunt iure omnis dolorem tempora et accusantium",
+        "value": 50
+      },
+      {
+        "label": "optio molestias id quia eum",
+        "value": 27
+      }
+    ],
+    "xattribute": "label",
+    "yattribute": "value",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 347.09088134765625,
+    "height": 250.54541015625,
+    "left": 341.4545593261719,
+    "top": 394.727294921875
+  }
+]
