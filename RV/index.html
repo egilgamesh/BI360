@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script>
+     function timeAgo(timestamp) {
+        const currentDate = new Date();
+        //const inputDate = new Date(timestamp);
+
+        const timeDifference = currentDate - timestamp;
+        const seconds = Math.floor(timeDifference / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) {
+            return days === 1 ? "1 day ago" : days + " days ago";
+        } else if (hours > 0) {
+            return hours === 1 ? "1 hour ago" : hours + " hours ago";
+        } else if (minutes > 0) {
+            return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
+        } else {
+            return seconds === 1 ? "1 second ago" : seconds + " seconds ago";
+        }
+    }
+
+    // Example usage:
+    const timestamp = 1637700000000; // Replace this with your timestamp
+    const timeAgoString = timeAgo(timestamp);
+    </script>
     <style>
         body {
             background-color: #F5F5F5;
@@ -394,7 +420,9 @@
                         <div class="comment">
                             <div class="CommentHeader">
                                 <div class="ChatUserName">Jawad</div>
-                                <div class="timeago">2d</div>
+                                <div id="11" class="timeago">
+                                    <script>document.getElementById(11).innerHTML= timeAgo(new Date().getTime() - (24 * 60 * 60 * 1000))</script>
+                                </div>
                             </div>
                             <div class="comment-text">
                                 <span class="comment-text-contents">This is a great file!</span>
@@ -410,7 +438,9 @@
                         <div class="comment">
                             <div class="CommentHeader">
                                 <div class="ChatUserName">Mira</div>
-                                <div class="timeago">2d</div>
+                                <div id="12" class="timeago">
+                                    <script>document.getElementById(12).innerHTML= timeAgo(new Date().getTime() - (48 * 60 * 60 * 1000))</script>
+                                </div>
                             </div>
                             <div class="comment-text">
                                 <span class="comment-text-contents">This is a great file!</span>
