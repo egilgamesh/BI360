@@ -37,7 +37,7 @@ class BreadcrumbComponent extends HTMLElement {
                 }
 
                 .breadcrumb-item:not(:last-child)::after {
-                    content: '>';
+                    content: '/';
                     margin: 0 8px;
                     color: #666;
                 }
