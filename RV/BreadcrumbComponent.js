@@ -4,12 +4,6 @@ class BreadcrumbComponent extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
             <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 20px;
-                    background-color: #f7f7f7;
-                }
-
                 .breadcrumb {
                     list-style: none;
                     padding: 10px;
@@ -67,7 +61,7 @@ class BreadcrumbComponent extends HTMLElement {
     }
 
     connectedCallback() {
-        const url = this.getAttribute('url');
+        const url = this.getAttribute('urltext');
         this.generateBreadcrumb(url);
     }
 
