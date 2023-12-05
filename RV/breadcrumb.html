@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .breadcrumb {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item {
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #3498db;
+            transition: color 0.3s, background-color 0.3s;
+            border-radius: 3px;
+        }
+
+        .breadcrumb-item:hover {
+            background-color: #ecf0f1;
+            color: #2980b9;
+        }
+
+        .breadcrumb-item:not(:last-child)::after {
+            content: '>';
+            margin: 0 8px;
+            color: #666;
+        }
+
+        .breadcrumb-item:last-child {
+            background-color: #ddd;
+        }
+
+        .breadcrumb-item:last-child::after {
+            content: none;
+        }
+
+        .breadcrumb-item i {
+            margin-right: 5px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a {
+            margin-right: 5px;
+            color: #555;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <ul class="breadcrumb" id="breadcrumb">
+        <!-- Breadcrumb items will be dynamically added here using JavaScript -->
+    </ul>
+
+    <script>
+        function generateBreadcrumb(url) {
+            const breadcrumb = document.getElementById('breadcrumb');
+            const urlObject = new URL(url);
+            const parts = urlObject.pathname.split('/').filter(Boolean); // Remove empty parts
+
+            for (let i = 0; i < parts.length; i++) {
+                const listItem = document.createElement('li');
+                listItem.classList.add('breadcrumb-item');
+
+                const icon = document.createElement('i');
+                icon.className = i === 0 ? 'fas fa-home' : i != parts.length -1? 'fas fa-folder': 'fas fa-chart-bar'; // Use home icon for the first part
+
+                const link = document.createElement('a');
+                link.textContent = i === 0 ? 'Home' : parts[i];
+                link.href = urlObject.origin + urlObject.pathname.substring(0, urlObject.pathname.indexOf(parts[i]) + parts[i].length);
+                
+                listItem.appendChild(icon);
+                listItem.appendChild(link);
+                breadcrumb.appendChild(listItem);
+            }
+        }
+
+        // Example usage:
+        generateBreadcrumb('http://localhost/user/documents/project/file.txt');
+    </script>
+
+</body>
+</html>
