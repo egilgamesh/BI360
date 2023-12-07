@@ -283,7 +283,7 @@ class ChatComponent extends HTMLElement {
 
             const userNameDiv = document.createElement("div");
             userNameDiv.className = "ChatUserName";
-            userNameDiv.innerText = "Jawad";
+            userNameDiv.innerText = chatitem.username;
 
             const timeAgoDiv = document.createElement("div");
             timeAgoDiv.id = chatitem.id
