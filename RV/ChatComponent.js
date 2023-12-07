@@ -266,6 +266,7 @@ class ChatComponent extends HTMLElement {
         chat.forEach(chatitem => {
             const commentItem = document.createElement("li");
             commentItem.className = "CommentItem";
+            commentItem.id= chatitem.id;
 
             const commentInfo = document.createElement("div");
             commentInfo.className = "comment-info";
@@ -286,7 +287,6 @@ class ChatComponent extends HTMLElement {
             userNameDiv.innerText = chatitem.username;
 
             const timeAgoDiv = document.createElement("div");
-            timeAgoDiv.id = chatitem.id
             timeAgoDiv.className = "timeago";
 
 
