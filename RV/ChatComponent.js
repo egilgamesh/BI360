@@ -37,7 +37,7 @@ class ChatComponent extends HTMLElement {
                 margin-right: 10px;
             }
     
-            .comments .comment-info {
+            .comment-info {
                 font-size: 13px;
                 font-weight: bold;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -46,12 +46,12 @@ class ChatComponent extends HTMLElement {
     
             }
     
-            .comments .comment-text {
+           .comment-text {
                 font-size: 12px;
                 color: #8B8181;
             }
     
-            .comments .reply-button {
+            .reply-button {
                 font-size: 12px;
                 cursor: pointer;
                 color: #5B5A5A;
@@ -177,6 +177,7 @@ class ChatComponent extends HTMLElement {
     
             .CommentItem {
                 margin-top: 30px;
+                list-style-type: none;
             }
     
             .CommentHeader {
@@ -202,6 +203,11 @@ class ChatComponent extends HTMLElement {
                 color: #8B8181;
                 font-size: 12px;
                 font-weight: normal;
+            }
+
+            .chatContainer{
+                margin-left: 0px;
+                padding: 0px;
             }
             </style>
             <ul class="chatContainer" id="chatContainer"></ul>
@@ -283,10 +289,10 @@ class ChatComponent extends HTMLElement {
             timeAgoDiv.id = "11";
             timeAgoDiv.className = "timeago";
 
-            const timeAgoScript = document.createElement("script");
-            timeAgoScript.innerText = `document.getElementById('11').innerHTML = timeAgo(${new Date().getTime() - (24 * 60 * 60 * 1000)});`;
+          //  const timeAgoScript = document.createElement("script");
+            // timeAgoScript.innerText = `document.getElementById('11').innerHTML = timeAgo(${new Date().getTime() - (24 * 60 * 60 * 1000)});`;
 
-            timeAgoDiv.appendChild(timeAgoScript);
+            // timeAgoDiv.appendChild(timeAgoScript);
 
             commentHeader.appendChild(userNameDiv);
             commentHeader.appendChild(timeAgoDiv);
