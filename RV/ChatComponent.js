@@ -242,9 +242,9 @@ class ChatComponent extends HTMLElement {
 
     timeAgo(timestamp) {
         const currentDate = new Date();
-        //const inputDate = new Date(timestamp);
+        const inputDate = new Date(timestamp);
 
-        const timeDifference = currentDate - timestamp;
+        const timeDifference = currentDate - inputDate;
         const seconds = Math.floor(timeDifference / 1000);
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
@@ -286,13 +286,11 @@ class ChatComponent extends HTMLElement {
             userNameDiv.innerText = "Jawad";
 
             const timeAgoDiv = document.createElement("div");
-            timeAgoDiv.id = "11";
+            timeAgoDiv.id = chatitem.id
             timeAgoDiv.className = "timeago";
 
-          //  const timeAgoScript = document.createElement("script");
-            // timeAgoScript.innerText = `document.getElementById('11').innerHTML = timeAgo(${new Date().getTime() - (24 * 60 * 60 * 1000)});`;
 
-            // timeAgoDiv.appendChild(timeAgoScript);
+            timeAgoDiv.innerHTML = this.timeAgo(chatitem.timeago);
 
             commentHeader.appendChild(userNameDiv);
             commentHeader.appendChild(timeAgoDiv);
