@@ -159,6 +159,8 @@ async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = GetUniqueID(chartType);
     const apiURL = document.getElementById("apiURL").value;
+    const yaxisvalue = document.getElementById("y-axisValue").value; // get the y axis from api
+    const xaxisvalue = document.getElementById("x-axisValue").value; // get x axis from api
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;

@@ -1,0 +1,311 @@
+body {
+    background-color: #F5F5F5;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+}
+
+#left-panel {
+    width: 220px;
+    background-color: #fff;
+    padding: 20px;
+    border-right: 1px solid #ececec;
+}
+
+#user-info {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+#user-info img {
+    margin-right: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+}
+
+#user-info div {
+    display: flex;
+    flex-direction: column;
+}
+
+#tree-list {
+    margin-top: 10px;
+}
+
+.tree-node {
+    margin-left: 0px;
+    list-style: none;
+    color: #AEACAC;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+}
+
+.tree-node i {
+    margin-right: 10px;
+    color: #AEACAC;
+    font-size: 10px;
+    margin-top: 12px;
+}
+
+.FileExplorerContainer {
+    position: relative;
+    margin-top: 60px;
+    margin-left: 0px;
+}
+
+.PanelHeader {
+    margin-top: 25px;
+    align-items: start;
+    color: lightslategray;
+    margin-left: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#middle-panel {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-right: 1px solid #ececec;
+}
+
+#search-box {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    align-self: flex-end;
+}
+
+#search-box:focus {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #3D85C6;
+    outline: #3D85C6;
+    outline-width: 4px;
+}
+
+#search-box::placeholder {
+    color: #999;
+}
+
+.list-view-Container {
+    background-color: #ffffff;
+}
+
+#right-panel {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments {
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-y: auto;
+    height: 90%;
+    width: 100%
+}
+
+.comments h2 {
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.comments ul {
+    list-style: none;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.comments li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.comments img {
+    width: 30px;
+    height: 30px;
+    border-radius: 10%;
+    margin-right: 10px;
+}
+
+.comments .comment-info {
+    font-size: 13px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.comments .comment-text {
+    font-size: 12px;
+    color: #8B8181;
+}
+
+.comments .reply-button {
+    font-size: 12px;
+    cursor: pointer;
+    color: #5B5A5A;
+    font-weight: 500;
+}
+
+.ProfileInfo {
+    margin-left: 10px;
+}
+
+.Username {
+    font-weight: bold;
+    color: #5B5A5A;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+
+}
+
+.userEmail {
+    font-weight: normal;
+    color: #8B8181;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.ListViewContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: stretch
+}
+
+
+.list-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 13px;
+    border: 1px solid #ddd;
+
+}
+
+.list-view th,
+.list-view td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+
+}
+
+.list-view th {
+    background-color: #d8d8d8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    color: #7e7e7e;
+}
+
+.list-view tr {
+    background-color: #fff;
+
+}
+
+.list-view tr:hover {
+    background-color: #e1f2ff;
+    cursor: pointer;
+}
+
+.ListViewHeader {
+    margin-top: 35px;
+    align-items: start;
+    color: #515151;
+    margin-left: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.TapbuttonContainre {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.tab {
+    color: #999;
+    cursor: pointer;
+}
+
+.active {
+    color: #515151;
+    border-bottom: 2px solid #515151;
+}
+
+.commentBoxContainer {
+    position: absolute;
+    bottom: 10px;
+    border-top: 1px solid #d0d0d0;
+    margin-left: 0px;
+}
+
+.CommentTextBox {
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.CommentTextBox:focus {
+    margin-top: 10px;
+    outline: none;
+    border: 1px solid #d0d0d0;
+}
+
+.ChatUserName {
+    color: #5B5A5A;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.CommentItem {
+    margin-top: 30px;
+}
+
+.CommentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.timeago {
+    color: #8B8181;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 5px;
+}
+
+.comment-text-contents {
+    color: #8B8181;
+    font-size: 12px;
+    font-weight: normal;
+}
