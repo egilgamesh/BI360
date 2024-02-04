@@ -170,8 +170,8 @@ async function InsertChart() {
     const cardcontent = document.createElement("div");
     cardcontent.classList.add("card-content");
     chartContainer.appendChild(cardcontent);
-    const xScale = "label";
-    const yScale = "value";
+    const xScale = "label"; // this taken from user now
+    const yScale = "value"; //this taken from user now
     editor.appendChild(chartContainer);
     const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
@@ -184,9 +184,9 @@ async function InsertChart() {
         // const chart = { id: chartItemId, type: chartType, dataSource: chartData,
         //     xattribute:xScale,yattribute:yScale, container: cardcontent, chartWidth, chartHeight };
         // itemList.push(chart);
-        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xScale, yScale);
+        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xaxisvalue, yaxisvalue);
         const chart = {
-            id: chartItemId, type: chartType, dataSource: chartData, xattribute: xScale, yattribute: yScale, container: chartContainer, width: width,
+            id: chartItemId, type: chartType, dataSource: chartData, xattribute: xaxisvalue, yattribute: yaxisvalue, container: chartContainer, width: width,
             height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
         };
         itemList.push(chart);
