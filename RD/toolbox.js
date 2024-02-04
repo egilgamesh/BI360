@@ -176,7 +176,7 @@ async function InsertChart() {
     const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
-    const chartData = await fetchChartData(apiURL, chartType);
+    const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(),chartType); // chart type has been not pass
     const width = 600;
     const height = 400;
     if (chartData) {
@@ -209,6 +209,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
     const margin = { top: 20, right: 20, bottom: 40, left: 40 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
+    console.log("CheckChartHeight:" + chartHeight)
 
     const svg = d3.select(cardcontent)
         .append("svg")
@@ -225,12 +226,12 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .padding(0.1);
 
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(chartData, d => d[yAttribute])])
+        .domain([0, d3.max(chartData, d => +d[yAttribute])])
         .nice()
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth, "Sales Amount");
+        CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, chartWidth, "Sales Amount");
 
     }
     else if (chartType === 'line') {
@@ -354,16 +355,16 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         });
 }
 
-function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, barChartTitle) {
+function CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, width, barChartTitle) {
     g.selectAll(".bar")
         .data(chartData)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", d => xScale(d.label))
-        .attr("y", d => yScale(d.value))
+        .attr("x", d => xScale(d[xAttribute]))
+        .attr("y", d => yScale(d[yAttribute]))
         .attr("width", xScale.bandwidth())
-        .attr("height", d => chartHeight - yScale(d.value) - 20)
+        .attr("height", d => chartHeight - yScale(d[yAttribute]) - 20)
         .style("fill", "green")
         .on("mouseover", function () {
             d3.select(this).style("fill", "steelblue"); // Change the color on mouseover
@@ -387,12 +388,12 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, b
         .enter()
         .append("text")
         .attr("class", "bar-label")
-        .attr("x", d => xScale(d.label) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d.value) - 10) // Adjust the position
+        .attr("x", d => xScale(d[xAttribute]) + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d[yAttribute]) - 10) // Adjust the position
         .attr("text-anchor", "middle")
-        .text(d => d.value)
+        .text(d => d[yAttribute])
         .style("fill", "green")
-        .style("font-size", "12px");
+        .style("font-size", "8px");
 
     // Add title
     svg.append("text")
