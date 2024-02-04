@@ -161,6 +161,7 @@ async function InsertChart() {
     const apiURL = document.getElementById("apiURL").value;
     const yaxisvalue = document.getElementById("y-axisValue").value; // get the y axis from api
     const xaxisvalue = document.getElementById("x-axisValue").value; // get x axis from api
+    const chartTitleValue = document.getElementById("ChartTitleValue").value; // get x axis from api
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
     chartContainer.id = chartItemId;
@@ -184,7 +185,7 @@ async function InsertChart() {
         // const chart = { id: chartItemId, type: chartType, dataSource: chartData,
         //     xattribute:xScale,yattribute:yScale, container: cardcontent, chartWidth, chartHeight };
         // itemList.push(chart);
-        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xaxisvalue, yaxisvalue);
+        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xaxisvalue, yaxisvalue, chartTitleValue);
         const chart = {
             id: chartItemId, type: chartType, dataSource: chartData, xattribute: xaxisvalue, yattribute: yaxisvalue, container: chartContainer, width: width,
             height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
@@ -202,7 +203,7 @@ function GetUniqueID(chartType) {
     return chartType + `-${new Date().getTime()}`;
 }
 
-function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute) {
+function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute, chartTitleValue) {
     const chartcontainer = document.getElementById(chartContainer.id);
     const cardcontent = chartcontainer.querySelector(".card-content");
     cardcontent.innerHTML = "";
@@ -231,11 +232,11 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, chartWidth, "Sales Amount");
+        CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
 
     }
     else if (chartType === 'line') {
-        CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, chartWidth);
+        CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, chartWidth , chartTitleValue);
     }
     else if (chartType === 'pie') {
         CreatePieChart(chartWidth, chartHeight, g, chartData);
@@ -401,10 +402,10 @@ function CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, char
         .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text(barChartTitle);
+        .text(barChartTitle); //todo: title disappear once user drag and move the charts
 }
 
-function CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, width) {
+function CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, width, chartTitleValue) {
     const line = d3.line()
         .x(d => xScale(d[xAttribute]))
         .y(d => yScale(d[yAttribute]));
@@ -460,7 +461,7 @@ function CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, cha
         .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Growing Sales");
+        .text(chartTitleValue); // todo: the title will disapper once user move the charts
 }
 
 function AddItemInObjectListPanel(chartItemId) {
