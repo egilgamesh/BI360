@@ -235,7 +235,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
 
     }
     else if (chartType === 'line') {
-        CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, chartWidth);
+        CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, chartWidth);
     }
     else if (chartType === 'pie') {
         CreatePieChart(chartWidth, chartHeight, g, chartData);
@@ -404,10 +404,10 @@ function CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, char
         .text(barChartTitle);
 }
 
-function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) {
+function CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, width) {
     const line = d3.line()
-        .x(d => xScale(d.label))
-        .y(d => yScale(d.value));
+        .x(d => xScale(d[xAttribute]))
+        .y(d => yScale(d[yAttribute]));
 
     g.append("path")
         .datum(chartData)
@@ -421,8 +421,8 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .enter()
         .append("circle")
         .attr("class", "dot")
-        .attr("cx", d => xScale(d.label))
-        .attr("cy", d => yScale(d.value))
+        .attr("cx", d => xScale(d[xAttribute]))
+        .attr("cy", d => yScale(d[yAttribute]))
         .attr("r", 5)
         .style("fill", "green")
         .on("mouseover", function () {
@@ -447,10 +447,10 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .enter()
         .append("text")
         .attr("class", "line-label")
-        .attr("x", d => xScale(d.label))
-        .attr("y", d => yScale(d.value) - 15) // Adjust the position
+        .attr("x", d => xScale(d[xAttribute]))
+        .attr("y", d => yScale(d[yAttribute]) - 15) // Adjust the position
         .attr("text-anchor", "middle")
-        .text(d => d.value)
+        .text(d => d[yAttribute])
         .style("fill", "black")
         .style("font-size", "12px");
 
