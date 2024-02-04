@@ -281,7 +281,7 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
         .padding(2);
 
     const root = d3.hierarchy({ children: chartData })
-        .sum(d => d.value);
+        .sum(d => d.value); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     treemap(root);
 
@@ -295,7 +295,7 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
     cell.append("rect")
         .attr("width", d => d.x1 - d.x0)
         .attr("height", d => d.y1 - d.y0)
-        .attr("fill", d => color(d.parent.data.label));
+        .attr("fill", d => color(d.parent.data.label)); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     cell.append("text")
         .selectAll("tspan")
@@ -310,7 +310,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
     const radius = Math.min(chartWidth, chartHeight) / 2;
 
     const pie = d3.pie()
-        .value(d => d.value);
+        .value(d => d.value); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     const arc = d3.arc()
         .innerRadius(0)
@@ -326,10 +326,10 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
 
     arcs.append("path")
         .attr("d", arc)
-        .attr("fill", d => color(d.data.label));
+        .attr("fill", d => color(d.data.label)); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     const legend = g.selectAll(".legend")
-        .data(chartData.map(d => d.label))
+        .data(chartData.map(d => d.label)) //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", (d, i) => `translate(50,${i * 20})`);
@@ -348,7 +348,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .style("font-size", "12px") // change legend text font size, this could be dynamic
         .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
         .on("mouseover", function () {
-            d3.select(this).text(d => d); // Show full text on mouseover
+            d3.select(this).text(d => d); // Show full text on mouseover //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         })
         .on("mouseout", function () {
             d3.select(this).text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d);
