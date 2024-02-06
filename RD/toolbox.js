@@ -192,7 +192,6 @@ async function InsertChart() {
             height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
         };
         itemList.push(chart);
-        console.log(itemList);
     } else {
         alert("Failed to fetch data from the API for the chart.");
     }

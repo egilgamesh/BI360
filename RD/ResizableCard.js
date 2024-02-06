@@ -40,12 +40,10 @@ class ResizableCard {
 
     handleCardContentMouseDown(e) {
         const Svg = this.cardContainer.querySelector(".card-content  > svg");
-        console.log(Svg);
         if (e.target === Svg) {
             this.isDragging = true;
             this.offsetX = e.clientX - this.cardContainer.getBoundingClientRect().left;
             this.offsetY = e.clientY - this.cardContainer.getBoundingClientRect().top;
-            console.log("cardClicked");
         }
     }
 
