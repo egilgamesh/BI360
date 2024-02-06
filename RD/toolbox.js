@@ -155,13 +155,30 @@ function addImage() {
     document.getElementById("ImageOption").style.display = "block";
 }
 
-
+function GetApiUrl()
+{
+    const apiUrl = 'http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns';
+    const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
+    const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
+    const [selectedYTable, selectedYaxisColumn] = yaxisvalue.split('.');
+    console.log(yaxisvalue);
+    const [selectedXTable, selectedXaxisColumn] = xaxisvalue.split('.');
+    const dataSourceName  ='CGSEDW2023';
+    const queryString = `?dataSourceName=${dataSourceName}` +
+    `&SelectedTables=${selectedXTable}` +
+    `&SelectedTables=${selectedYTable}` +
+    `&SelectedColumns[${selectedXTable}]=${selectedXaxisColumn}`+
+    `&SelectedColumns[${selectedYTable}]=${selectedYaxisColumn}`;
+    const fullUrl = apiUrl + queryString;
+    console.log('Constructed URL:', fullUrl);
+    return fullUrl;
+}
 async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = GetUniqueID(chartType);
-    const apiURL = document.getElementById("apiURL").value;
-    const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
-    const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
+    const apiURL = GetApiUrl();// document.getElementById("apiURL").value;
+    const yaxisvalue = document.getElementById("yaxisValue").value.split('.')[1]; // get the y axis from api
+    const xaxisvalue = document.getElementById("xaxisValue").value.split('.')[1]; // get x axis from api
     const chartTitleValue = document.getElementById("ChartTitleValue").value; // get x axis from api
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
@@ -665,16 +682,16 @@ function createDropdown(data, dropdownId) {
         // Add columns as options to the optgroup
         table.columns.forEach(column => {
             const option = document.createElement("option");
-            option.value = `${column.name}`;
-            option.text = column.name;
+            option.value = `${table.tableName}.${column.name}`;
+            option.text = table.tableName + '.' +column.name;
             optGroup.appendChild(option);
         });
 
           // Add aggregate columns as options to the optgroup
           table.aggregateColumns.forEach(aggregateColumn => {
             const option = document.createElement("option");
-            option.value = `${aggregateColumn.name}`;
-            option.text = aggregateColumn.name;
+            option.value = `${table.tableName}.${aggregateColumn.name}`;
+            option.text = table.tableName + '.' +aggregateColumn.name;
             optGroup.appendChild(option);
         });
 
