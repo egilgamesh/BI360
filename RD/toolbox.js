@@ -155,7 +155,7 @@ function addImage() {
     document.getElementById("ImageOption").style.display = "block";
 }
 
-function GetApiUrl()
+function GetApiUrl(dataSource)
 {
     const apiUrl = 'http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns';
     const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
@@ -163,7 +163,7 @@ function GetApiUrl()
     const [selectedYTable, selectedYaxisColumn] = yaxisvalue.split('.');
     console.log(yaxisvalue);
     const [selectedXTable, selectedXaxisColumn] = xaxisvalue.split('.');
-    const dataSourceName  ='CGSEDW2023';
+    const dataSourceName  =dataSource;
     const queryString = `?dataSourceName=${dataSourceName}` +
     `&SelectedTables=${selectedXTable}` +
     `&SelectedTables=${selectedYTable}` +
@@ -176,7 +176,7 @@ function GetApiUrl()
 async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = GetUniqueID(chartType);
-    const apiURL = GetApiUrl();// document.getElementById("apiURL").value;
+    const apiURL = GetApiUrl('CGSEDW2023');// document.getElementById("apiURL").value;
     const yaxisvalue = document.getElementById("yaxisValue").value.split('.')[1]; // get the y axis from api
     const xaxisvalue = document.getElementById("xaxisValue").value.split('.')[1]; // get x axis from api
     const chartTitleValue = document.getElementById("ChartTitleValue").value; // get x axis from api
