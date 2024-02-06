@@ -35,3 +35,22 @@ async function fetchTableData(tableAPIURL) {
         return null;
     }
 }
+
+
+async function getMetaData(url, dataSourceName) {
+    const fullUrl = `${url}?dataSourceName=${dataSourceName}`;
+    fetch(fullUrl)
+        .then(response => {
+            // Check if the response is successful (status code 200)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(`Error: ${error.message}`);
+        });
+}
