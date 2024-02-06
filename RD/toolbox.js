@@ -5,25 +5,25 @@ const itemList = [];
 function SaveJson() {
     // Convert the list to JSON format
     const jsonData = JSON.stringify(itemList, null, 2);
-  
+
     // Create a Blob with the JSON data
     const blob = new Blob([jsonData], { type: 'application/json' });
-  
+
     // Create a download link
     const downloadLink = document.createElement('a');
     downloadLink.href = URL.createObjectURL(blob);
     downloadLink.download = "report.json";
-  
+
     // Trigger a click on the link to start the download
     downloadLink.click();
-  }
+}
 
 
 function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
     const ElementItemId = GetUniqueID(chartType);
-    ElementItemId.id =ElementItemId;
+    ElementItemId.id = ElementItemId;
     scorecard.className = "scorecard";
     scorecard.style.top = 0;
     scorecard.style.left = 0;
@@ -40,8 +40,8 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     scorecard.style.border = `2px solid ${cardColor}`;
     makeElementDraggable(scorecard);
     scorecardContainer.appendChild(scorecard);
-   
-   ///
+
+    ///
     const chart = {
         id: ElementItemId, type: Scorecard, dataSource: chartData, title: title, actual: actual, container: scorecard, width: width,
         height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
@@ -104,7 +104,7 @@ function GenerateCommunityCard() {
     makeElementDraggable(scorecard);
 }
 
-function addChart(chartType) {
+async function addChart(chartType) {
 
     const selectedObjectProperties = document.getElementById("PropertiesList");
     const chartOptions = document.getElementById("chartOptions");
@@ -117,6 +117,7 @@ function addChart(chartType) {
 
     if (chartOptions) {
         chartOptions.style.display = "block"; // Set the style if the element exists
+        await populateDropDownList();
     }
 
     if (tableOptions) {
@@ -159,8 +160,8 @@ async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = GetUniqueID(chartType);
     const apiURL = document.getElementById("apiURL").value;
-    const yaxisvalue = document.getElementById("y-axisValue").value; // get the y axis from api
-    const xaxisvalue = document.getElementById("x-axisValue").value; // get x axis from api
+    const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
+    const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
     const chartTitleValue = document.getElementById("ChartTitleValue").value; // get x axis from api
     const editor = document.getElementById("editor-panel");
     const chartContainer = document.createElement("div");
@@ -177,7 +178,7 @@ async function InsertChart() {
     const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
-    const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(),chartType); // chart type has been not pass
+    const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
     const width = 600;
     const height = 400;
     if (chartData) {
@@ -210,7 +211,6 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
     const margin = { top: 20, right: 20, bottom: 40, left: 40 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
-    console.log("CheckChartHeight:" + chartHeight)
 
     const svg = d3.select(cardcontent)
         .append("svg")
@@ -232,11 +232,11 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
+        CreateBarChart(g, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
 
     }
     else if (chartType === 'line') {
-        CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, chartWidth , chartTitleValue);
+        CreateLineChart(xScale, xAttribute, yScale, yAttribute, g, chartData, chartHeight, svg, chartWidth, chartTitleValue);
     }
     else if (chartType === 'pie') {
         CreatePieChart(chartWidth, chartHeight, g, chartData);
@@ -356,7 +356,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         });
 }
 
-function CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, chartHeight, svg, width, barChartTitle) {
+function CreateBarChart(g, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, width, barChartTitle) {
     g.selectAll(".bar")
         .data(chartData)
         .enter()
@@ -405,7 +405,7 @@ function CreateBarChart(g, chartData, xScale,xAttribute, yScale,yAttribute, char
         .text(barChartTitle); //todo: title disappear once user drag and move the charts
 }
 
-function CreateLineChart(xScale,xAttribute, yScale,yAttribute, g, chartData, chartHeight, svg, width, chartTitleValue) {
+function CreateLineChart(xScale, xAttribute, yScale, yAttribute, g, chartData, chartHeight, svg, width, chartTitleValue) {
     const line = d3.line()
         .x(d => xScale(d[xAttribute]))
         .y(d => yScale(d[yAttribute]));
@@ -621,4 +621,65 @@ function adjustEditorDimensions() {
     // Set the dimensions of the editor based on its content
     editor.style.height = totalHeight + padding + "px";
     editor.style.width = totalWidth + padding + "px";
+}
+
+async function populateDropDownList()
+{
+    {
+        const apiUrl = "http://localhost:5006/api/DataGateway/GetDataModelMetadata";
+        const dataSourceName = "CGSEDW2023";
+        const dropdownIdYaxis = document.getElementById("yaxisValue").id;
+        const dropdownIdXaxis = document.getElementById("xaxisValue").id;
+    
+        await getMetaData(apiUrl, dataSourceName)
+            .then(data => {
+                if (data) {
+                    createDropdown(data, dropdownIdYaxis);
+                } else {
+                    console.error("Failed to fetch data.");
+                }
+            });
+    
+        await getMetaData(apiUrl, dataSourceName)
+            .then(data => {
+                if (data) {
+                    createDropdown(data, dropdownIdXaxis);
+                } else {
+                    console.error("Failed to fetch data.");
+                }
+            });
+    }
+}
+
+function createDropdown(data, dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+
+    if (!dropdown) {
+        console.error("Dropdown element not found");
+        return;
+    }
+    dropdown.innerHTML='';
+    data.forEach(table => {
+        const optGroup = document.createElement("optgroup");
+        optGroup.label = table.tableName;
+
+        // Add columns as options to the optgroup
+        table.columns.forEach(column => {
+            const option = document.createElement("option");
+            option.value = `${column.name}`;
+            option.text = column.name;
+            optGroup.appendChild(option);
+        });
+
+          // Add aggregate columns as options to the optgroup
+          table.aggregateColumns.forEach(aggregateColumn => {
+            const option = document.createElement("option");
+            option.value = `${aggregateColumn.name}`;
+            option.text = aggregateColumn.name;
+            optGroup.appendChild(option);
+        });
+
+        // Add the optgroup to the dropdown
+        dropdown.appendChild(optGroup);
+    });
 }

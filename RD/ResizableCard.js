@@ -90,7 +90,7 @@ class ResizableCard {
         this.isResizing = false;
         this.isDragging = false;
         this.isSelected = false;
-        updateHighlight();
+        this.updateHighlight();
         document.body.style.userSelect = 'auto';
     }
 

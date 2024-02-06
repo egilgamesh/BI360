@@ -5,10 +5,7 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="scorecardStyle.css">
-
-
-    
+    <link rel="stylesheet" href="scorecardStyle.css"> 
     <script src="ResizableCard.js"></script>
     <script src="TableDragable.js"></script>
     <script src="Data.js"></script>
@@ -158,10 +155,10 @@
                         </br>
                         <label class="PanelHeader" for="apiURL">API URL:</label>
                         <input class="property" type="text" id="apiURL" value="http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023&SelectedTables=DimGeography&SelectedTables=FactInternetSales&SelectedColumns[DimGeography]=EnglishCountryRegionName&SelectedColumns[FactInternetSales]=Sum_of_Sales_Amount">
-                        <label class="PanelHeader" for="y-axisValue">Y-Axis:</label>
-                        <select class="property" type="text" id="y-axisValue" value="FactInternetSales_Sum_of_Sales_Amount"></select>
-                        <label class="PanelHeader" for="x-axisValue">X-Axis:</label>
-                        <select class="property" type="text" id="x-axisValue" value="EnglishCountryRegionName"></select>
+                        <label class="PanelHeader" for="yaxisValue">Y-Axis:</label>
+                        <select class="wider-dropdown"  id="yaxisValue"></select>
+                        <label class="PanelHeader" for="xaxisValue">X-Axis:</label>
+                        <select class="wider-dropdown" id="xaxisValue"></select>
                         <label class="PanelHeader" for="ChartTitleValue">Title:</label>
                         <input class="property" type="text" id="ChartTitleValue" value="Sales Growth">
                         <button onclick="InsertChart()">Apply Chart</button>
