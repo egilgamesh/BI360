@@ -654,7 +654,7 @@ function adjustEditorDimensions() {
 async function populateDropDownList() {
     {
         const apiUrl = "http://localhost:5006/api/DataGateway/GetDataModelMetadata";
-        const dataSourceName = "CGSEDW2023";
+        const dataSourceName = GetDataSourceNameFromQueryString();
         const dropdownIdYaxis = document.getElementById("yaxisValue").id;
         const dropdownIdXaxis = document.getElementById("xaxisValue").id;
 
