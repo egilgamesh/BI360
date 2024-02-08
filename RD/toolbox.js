@@ -1,6 +1,17 @@
 //TODO: we have to use ResizableCard library to handle DND and sizable
 
 const itemList = [];
+function GetDataSourceNameFromQueryString() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var DataSourceName = urlParams.get('DataSource');
+    console.log("Datasourcename:" + DataSourceName)
+    if (!DataSourceName)
+        console.log("Nothing to print as datasource")
+    if (DataSourceName)
+        return DataSourceName;
+    else
+        return "FailedDataSource"
+}
 
 function SaveJson() {
     // Convert the list to JSON format
@@ -155,28 +166,29 @@ function addImage() {
     document.getElementById("ImageOption").style.display = "block";
 }
 
-function GetApiUrl(dataSource)
-{
+function GetApiUrl(dataSource) {
     const apiUrl = 'http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns';
     const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
     const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
     const [selectedYTable, selectedYaxisColumn] = yaxisvalue.split('.');
     console.log(yaxisvalue);
     const [selectedXTable, selectedXaxisColumn] = xaxisvalue.split('.');
-    const dataSourceName  =dataSource;
+    const dataSourceName = dataSource;
     const queryString = `?dataSourceName=${dataSourceName}` +
-    `&SelectedTables=${selectedXTable}` +
-    `&SelectedTables=${selectedYTable}` +
-    `&SelectedColumns[${selectedXTable}]=${selectedXaxisColumn}`+
-    `&SelectedColumns[${selectedYTable}]=${selectedYaxisColumn}`;
+        `&SelectedTables=${selectedXTable}` +
+        `&SelectedTables=${selectedYTable}` +
+        `&SelectedColumns[${selectedXTable}]=${selectedXaxisColumn}` +
+        `&SelectedColumns[${selectedYTable}]=${selectedYaxisColumn}`;
     const fullUrl = apiUrl + queryString;
     console.log('Constructed URL:', fullUrl);
     return fullUrl;
 }
+// datasource 'CGSEDW2023'
 async function InsertChart() {
     const chartType = document.getElementById("chartType").value;
     const chartItemId = GetUniqueID(chartType);
-    const apiURL = GetApiUrl('CGSEDW2023');// document.getElementById("apiURL").value;
+    const dataSourceName = GetDataSourceNameFromQueryString()
+    const apiURL = GetApiUrl(dataSourceName);// document.getElementById("apiURL").value;
     const yaxisvalue = document.getElementById("yaxisValue").value.split('.')[1]; // get the y axis from api
     const xaxisvalue = document.getElementById("xaxisValue").value.split('.')[1]; // get x axis from api
     const chartTitleValue = document.getElementById("ChartTitleValue").value; // get x axis from api
@@ -639,14 +651,13 @@ function adjustEditorDimensions() {
     editor.style.width = totalWidth + padding + "px";
 }
 
-async function populateDropDownList()
-{
+async function populateDropDownList() {
     {
         const apiUrl = "http://localhost:5006/api/DataGateway/GetDataModelMetadata";
         const dataSourceName = "CGSEDW2023";
         const dropdownIdYaxis = document.getElementById("yaxisValue").id;
         const dropdownIdXaxis = document.getElementById("xaxisValue").id;
-    
+
         await getMetaData(apiUrl, dataSourceName)
             .then(data => {
                 if (data) {
@@ -655,7 +666,7 @@ async function populateDropDownList()
                     console.error("Failed to fetch data.");
                 }
             });
-    
+
         await getMetaData(apiUrl, dataSourceName)
             .then(data => {
                 if (data) {
@@ -674,7 +685,7 @@ function createDropdown(data, dropdownId) {
         console.error("Dropdown element not found");
         return;
     }
-    dropdown.innerHTML='';
+    dropdown.innerHTML = '';
     data.forEach(table => {
         const optGroup = document.createElement("optgroup");
         optGroup.label = table.tableName;
@@ -683,15 +694,15 @@ function createDropdown(data, dropdownId) {
         table.columns.forEach(column => {
             const option = document.createElement("option");
             option.value = `${table.tableName}.${column.name}`;
-            option.text = table.tableName + '.' +column.name;
+            option.text = table.tableName + '.' + column.name;
             optGroup.appendChild(option);
         });
 
-          // Add aggregate columns as options to the optgroup
-          table.aggregateColumns.forEach(aggregateColumn => {
+        // Add aggregate columns as options to the optgroup
+        table.aggregateColumns.forEach(aggregateColumn => {
             const option = document.createElement("option");
             option.value = `${table.tableName}.${aggregateColumn.name}`;
-            option.text = table.tableName + '.' +aggregateColumn.name;
+            option.text = table.tableName + '.' + aggregateColumn.name;
             optGroup.appendChild(option);
         });
 

@@ -10,11 +10,12 @@
             background-color: #fff;
             margin: 0px;
             height: 100vw;
-
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
         }
 
         .Container {
-            margin: 0;
+            margin: 30px;
             display: flex;
             flex: 1;
             flex-direction: column;
@@ -49,10 +50,10 @@
             color: #000000;
             background-color: #dbdbdb;
             font-size: 18px;
-    
+
         }
 
-        .searchTerm:focus {
+        .SearchTextbox:focus {
             color: #00B4CC;
         }
 
@@ -60,6 +61,108 @@
             width: 40px;
             height: 40px;
             font-size: 26px;
+        }
+
+        .PopularDataSource {
+            margin-top: 125px;
+            display: flex;
+            flex-direction: column;
+            margin-left: 125px;
+            margin-right: 125px;
+        }
+
+        .DatasourceCardsLabels {
+            justify-content: space-between;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .CreateNewDataSourceButton {
+            background-color: #dbdbdb;
+            color: rgb(10, 9, 9);
+            width: 150px;
+            height: 40px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 700;
+        }
+
+        .dataSourceLable {
+            color: #595959;
+            font-size: large;
+            font-weight: 400;
+
+        }
+
+        .DatasourceCards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 10px;
+            background-color: #fff;
+            margin-top: 25px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .DatasourceCard {
+            display: flex;
+            align-items: flex-start;
+            /* justify-content: center; */
+            background-color: #dbdbdb;
+            font-size: large;
+            text-align: left;
+            width: 300px;
+            height: 120px;
+            flex-direction: column;
+            gap: 44px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .DSTitle {
+            color: #4f4f4f;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .DSdesc {
+            color: #797979;
+            padding: 10px 0px 0px 10px;
+            font-size: 14px;
+        }
+
+        .CardsContainer {
+            margin: 0 105px 0 105px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            /* padding: 20px; */
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin: 0;
+        }
+
+
+        .footer-content a {
+            color: #fff;
+
+            text-decoration: none;
+
         }
     </style>
 </head>
@@ -72,17 +175,49 @@
                 <i class="fa-solid fa-bars"></i>
             </div>
 
-                <input type="search" placeholder="Find template" class="SearchTextbox">
+            <input type="search" placeholder="Find template" class="SearchTextbox">
 
-            <div id="Createbutton">
+            <div id="CreatebuttonNewDatasource">
                 <button class="NewButton">New</button>
             </div>
         </div>
-        <div>
+        <div class="CardsContainer">
+            <div id="PopularDataSource" class="PopularDataSource">
+                <div id="DatasourceCardsLabels" class="DatasourceCardsLabels">
+                    <span class="dataSourceLable"> Popular Data Source</span>
+                    <button id="CreateNewDataSourceButton" class="CreateNewDataSourceButton"> New Datasource</button>
+                </div>
+                <div id="DatasourceCards" class="DatasourceCards">
+                    <div class="DatasourceCard" onclick="CustomerKPI()">
+                        <span class="DSTitle">Customer CGSEDW2023 KPI</span>
+                        <span class="DSdesc">CGS Customer Sales EDW KPI</span>
+                    </div>
+                    <div class="DatasourceCard">
+                        <span class="DSTitle">Auditing KPI</span>
+                        <span class="DSdesc">Customer Base KPI</span>
 
+                    </div>
+                    <div class="DatasourceCard">
+                        <span class="DSTitle">CGS KPI</span>
+                        <span class="DSdesc">Customer Base KPI</span>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 CGS. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        function CustomerKPI() {
+            var parameterValue = "CGSEDW2023"; // Your parameter value
+            window.location.href = "../RD/?DataSource=" + parameterValue;
 
+        }
+    </script>
 </body>
 
 </html>
