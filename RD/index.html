@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="scorecardStyle.css"> 
+    <script src="ResizableCard.js"></script>
+    <script src="TableDragable.js"></script>
+    <script src="Data.js"></script>
+</head>
+
+<body>
+
+    <!-- Top panel with tabs -->
+    <div class="top-panel">
+        <div class="top-tab file" onclick="ShowFileMenu()" ><i class="fa-solid fa-bars"></i></div>
+        <div class="top-tab">Home</div>
+        <div class="top-tab">View</div>
+        <div class="top-tab">Help</div>
+        <!-- Add more tabs as needed -->
+    </div>
+    <!-- Main content container -->
+    <div class="content">
+        <!-- Left panel -->
+        <div class="left-panel">
+            <div class="tabs">
+                <input type="radio" id="componentsRadio" name="tabs" onclick="ShowComponents()" checked />
+                <label class="tab active" id="componentsRadioLable" for="componentsRadio">Components</label>
+                <input type="radio" id="LayerRadio" name="tabs" onclick="ShowLayer()" />
+                <label class="tab" id="LayerRadioLable" for="LayerRadio">Layers</label>
+                <span class="glider"></span>
+            </div>
+            <div id="ComponentsPage" class="TabPage">
+                <span class="PanelHeader">Components</span>
+                <div class="gridControls">
+                    <div class="ButtonControl" onclick="addText()">Text
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/756265-200.png" />
+                    </div>
+                    <div class="ButtonControl" onclick="addImage()">Image
+                        <img class="ButtonControl__img"
+                            src="https://icons-for-free.com/iconfiles/png/512/image+images+photo+picture+pictures+icon-1320191040579947532.png" />
+                    </div>
+                    <div class="ButtonControl">Link
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/7046/7046086.png" />
+                    </div>
+                </div>
+                <span class="PanelHeader">Popular Charts</span>
+                <div class="visualizationChartContiner">
+                    <div class="chartypeitem" onclick="addChart('bar')"> Barchart
+                        <img class="ButtonControl__img"
+                            src="https://icons.veryicon.com/png/o/commerce-shopping/online-retailers/bar-chart-16.png" />
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('line')">LineChart
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/245/245899.png" />
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('pie')">PieChart
+                        <img class="ButtonControl__img"
+                            src="https://cdn4.iconfinder.com/data/icons/free-business-charts-black/2253/pie_chart-512.png" />
+
+                    </div>
+
+                    <div class="chartypeitem" onclick="addTable()">Table
+                        <img class="ButtonControl__img" src="https://seekicon.com/free-icon-download/table_4.png" />
+
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('treemap')"> treemap
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/775026-200.png" />
+
+                    </div>
+                    <div class="chartypeitem" onclick="generateScorecard('Revenue', 1000000, 1100000, 'green','black', 'green')">Score card
+                        <img class="ButtonControl__img"
+                            src="https://static-00.iconduck.com/assets.00/performance-icon-2048x1698-zpsn15dp.png" />
+
+                    </div>
+                </div>
+
+                <span class="PanelHeader">More Charts</span>
+
+                <div class="visualizationChartContiner">
+                    <div class="chartypeitem" onclick="addChart('bar')"> Cluster Bar
+                        <img class="ButtonControl__img"
+                            src="https://icons.veryicon.com/png/o/commerce-shopping/online-retailers/bar-chart-16.png" />
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('line')">Stack Bar
+                        <img class="ButtonControl__img" src="https://cdn-icons-png.flaticon.com/512/245/245899.png" />
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('pie')">Donut Chart
+                        <img class="ButtonControl__img"
+                            src="https://cdn4.iconfinder.com/data/icons/free-business-charts-black/2253/pie_chart-512.png" />
+
+                    </div>
+
+                    <div class="chartypeitem" onclick="addTable()">Table
+                        <img class="ButtonControl__img" src="https://seekicon.com/free-icon-download/table_4.png" />
+
+                    </div>
+                    <div class="chartypeitem" onclick="addChart('treemap')"> treemap
+                        <img class="ButtonControl__img" src="https://static.thenounproject.com/png/775026-200.png" />
+
+                    </div>
+                    <div class="chartypeitem" onclick="GenerateCommunityCard()">Community 
+                        <img class="ButtonControl__img"
+                            src="https://cdn-icons-png.flaticon.com/512/3127/3127995.png" />
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="LayersPage" class="TabPage">
+                <span class="PanelHeader">Layers</span>
+                <div class="LayersControls" id="objects-panel">
+                    <div class="layerObjectControl">Chart
+                        <img class="layerObjectControl__img"
+                            src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
+                    </div>
+                    <div class="layerObjectControl">Image
+                        <img class="layerObjectControl__img"
+                            src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
+                    </div>
+                    <div class="layerObjectControl">Table
+                        <img class="layerObjectControl__img"
+                            src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
+                    </div>
+                </div>
+                <span class="PanelHeader">Information</span>
+            </div>
+
+        </div>
+
+        <!-- Middle panel with background color #eff1fe -->
+        <div class="middle-panel">
+            <div class="editor-panel" id="editor-panel" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <!-- Editor content goes here -->
+            </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="right-panel">
+            <span class="PanelHeader">Properties</span>
+            <div class="PropertiesPanel" id="properties-panel">
+                <div id="properties-content">
+                    <div id="chartOptions" class="chartOptions">
+                        <label class="PanelHeader" for="chartType">Chart Type:</label>
+                        <select id="chartType" class="property">
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="pie">Pie Chart</option>
+                            <option value="clusteredBar">Clustered Bar Chart</option>
+                            <option value="stackedBar">Stacked Bar Chart</option>
+                            <option value="treemap">Treemap</option>
+                        </select>
+                        </br>
+                        <!-- <label class="PanelHeader" for="apiURL">API URL:</label>
+                        <input class="property" type="text" id="apiURL" value="http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023&SelectedTables=DimGeography&SelectedTables=FactInternetSales&SelectedColumns[DimGeography]=EnglishCountryRegionName&SelectedColumns[FactInternetSales]=Sum_of_Sales_Amount">
+          -->
+                        <label class="PanelHeader" for="xaxisValue">X-Axis:</label>
+                        <select class="wider-dropdown" id="xaxisValue"></select>
+                        <label class="PanelHeader" for="yaxisValue">Y-Axis:</label>
+                        <select class="wider-dropdown"  id="yaxisValue"></select>
+                        <label class="PanelHeader" for="ChartTitleValue">Title:</label>
+                        <input class="property" type="text" id="ChartTitleValue" value="Sales Growth">
+                        <button onclick="InsertChart()">Apply Chart</button>
+                    </div>
+                    <div id="tableOptions" class="tableOptions">
+                        <label class="PanelHeader" for="tableAPIURL">API URL for Table Data:</label>
+                        <input class="property" type="text" id="tableAPIURL" value="https://jsonplaceholder.typicode.com/users">
+                        <button onclick="insertTable()">Insert Table</button>
+                    </div>
+
+                    <div id="TextOptions" class="TextOptions">
+                        <label class="PanelHeader" for="TextBoxValue">Text Value:</label>
+                        <input class="property" type="text" id="TextBoxValue" value="">
+                        <button onclick="InsertText('TextBoxValue')">Insert TextBox</button>
+                    </div>
+
+                    <div id="ImageOption" class="ImageOption">
+                        <label class="PanelHeader" for="ImageSourcePath">Image Source :</label>
+                        <input class="property" type="text" id="ImageSourcePath" value="">
+                        <button onclick="InsertImage('ImageSourcePath')">Insert Image</button>
+                    </div>
+
+                    <div id="PropertiesList">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="FileMenuContainer" class="FileMenuContainer">
+            <div id="FileMenu" class="FileMenu">
+                <div id="FileMenueHeader" class="FileMenueHeader">
+                    <img src="https://www.cgs-online.de/fileadmin/footage/MEDIA/Logos/CGS_Logo_RGB.jpg"
+                        class="CGSLogo" />
+                        <p> X360</p>
+                    <div id="CloseFileMenu" class="CloseFileMenu" onclick="CloseFileMenu()">X</div>
+                </div>
+                <hr class="headline">
+                <div id="SaveAs" class="SaveAsButton" onclick="SaveJson()"><i class="fa fa-folder"></i> Save As</div>
+            </div>
+        </div>
+    </div>
+    <script src="scriptMenu.js"></script>
+    <script src="toolbox.js"></script>
+    <script src="HumanChart.js"></script>
+    <div class="status-bar">
+        &copy; 2023 CGS. All rights reserved. | Version 1.0
+    </div>
+</body>
+
+</html>

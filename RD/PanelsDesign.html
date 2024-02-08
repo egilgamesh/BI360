@@ -5,6 +5,9 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="stylePanel.css">
+  <script src="ResizableCard.js"></script>
+  <script src="TableDragable.js"></script>
+  <script src="Data.js"></script>
 </head>
 
 <body>
@@ -45,7 +48,7 @@
 
   <div class="main-container">
     <div class="objects-panel" id="objects-panel">
-      <div class="expand-button" onclick="toggleObjectsPanel()"><i class="fas fa-chevron-left"></i></div>
+      <div id="ObjectToggleButton" class="expand-button" onclick="toggleObjectsPanel()"><i class="fas fa-chevron-left"></i></div>
       <h3>Objects Panel</h3>
       <ul id="objects-list">
       </ul>
@@ -72,7 +75,7 @@
           </br>
             <label for="apiURL">API URL:</label>
             <input type="text" id="apiURL" value="https://jsonplaceholder.typicode.com/posts">
-            <button onclick="customizeChart()">Apply Chart</button>
+            <button onclick="AddChart()">Apply Chart</button>
           </div>
           <div id="tableOptions">
             <label for="tableAPIURL">API URL for Table Data:</label>
@@ -94,5 +97,4 @@
     &copy; 2023 CGS. All rights reserved. | Version 1.0
   </div>
 </body>
-
 </html>

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "bar-1701779713111",
+    "type": "bar",
+    "dataSource": [
+      {
+        "label": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        "value": 74
+      },
+      {
+        "label": "qui est esse",
+        "value": 12
+      },
+      {
+        "label": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+        "value": 59
+      },
+      {
+        "label": "eum et est occaecati",
+        "value": 20
+      },
+      {
+        "label": "nesciunt quas odio",
+        "value": 18
+      },
+      {
+        "label": "dolorem eum magni eos aperiam quia",
+        "value": 34
+      },
+      {
+        "label": "magnam facilis autem",
+        "value": 20
+      },
+      {
+        "label": "dolorem dolore est ipsam",
+        "value": 24
+      },
+      {
+        "label": "nesciunt iure omnis dolorem tempora et accusantium",
+        "value": 50
+      },
+      {
+        "label": "optio molestias id quia eum",
+        "value": 27
+      }
+    ],
+    "xattribute": "label",
+    "yattribute": "value",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 366.79364013671875,
+    "height": 268.78981018066406,
+    "left": 311.21209716796875,
+    "top": 82.59468841552734
+  }
+]
