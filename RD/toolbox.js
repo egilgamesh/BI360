@@ -171,7 +171,6 @@ function GetApiUrl(dataSource) {
     const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
     const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
     const [selectedYTable, selectedYaxisColumn] = yaxisvalue.split('.');
-    console.log(yaxisvalue);
     const [selectedXTable, selectedXaxisColumn] = xaxisvalue.split('.');
     const dataSourceName = dataSource;
     const queryString = `?dataSourceName=${dataSourceName}` +
@@ -709,4 +708,48 @@ function createDropdown(data, dropdownId) {
         // Add the optgroup to the dropdown
         dropdown.appendChild(optGroup);
     });
+}
+
+async function SalesKPI()
+{
+await PredefineChart('bar');
+}
+
+
+async function PredefineChart(chartTyp) {
+    const chartType = chartTyp;
+    const chartItemId = GetUniqueID(chartType);
+    //const dataSourceName = GetDataSourceNameFromQueryString()
+    const apiURL ="http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023PG&SelectedTables=dimgeography&SelectedTables=factinternetsales&SelectedColumns[dimgeography]=englishcountryregionname&SelectedColumns[factinternetsales]=sum_of_sales_amount"
+    const yaxisvalue = "sum_of_sales_amount"; // get the y axis from api englishcountryregionname
+    const xaxisvalue = "englishcountryregionname"; // get x axis from api
+    const chartTitleValue = "Sales KPI"; // get x axis from api
+    const editor = document.getElementById("editor-panel");
+    const chartContainer = document.createElement("div");
+    chartContainer.id = chartItemId;
+    chartContainer.top = 0;
+    chartContainer.left = 0;
+    chartContainer.classList.add("card-container");
+    const cardcontent = document.createElement("div");
+    cardcontent.classList.add("card-content");
+    chartContainer.appendChild(cardcontent);
+    editor.appendChild(chartContainer);
+    const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
+    resizableCard.id = chartItemId;
+    ShowChartProperties(chartContainer, resizableCard);
+    const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
+    const width = 600;
+    const height = 400;
+    if (chartData) {
+        BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xaxisvalue, yaxisvalue, chartTitleValue);
+        const chart = {
+            id: chartItemId, type: chartType, dataSource: chartData, xattribute: xaxisvalue, yattribute: yaxisvalue, container: chartContainer, width: width,
+            height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
+        };
+        itemList.push(chart);
+    } else {
+        alert("Failed to fetch data from the API for the chart.");
+    }
+
+    document.getElementById("chartOptions").style.display = "none";
 }

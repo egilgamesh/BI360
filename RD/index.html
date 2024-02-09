@@ -16,7 +16,7 @@
     <!-- Top panel with tabs -->
     <div class="top-panel">
         <div class="top-tab file" onclick="ShowFileMenu()" ><i class="fa-solid fa-bars"></i></div>
-        <div class="top-tab">Home</div>
+        <div class="top-tab" onclick="window.location.href='../ForkHome/'">Home</div>
         <div class="top-tab">View</div>
         <div class="top-tab">Help</div>
         <!-- Add more tabs as needed -->
@@ -110,20 +110,21 @@
 
 
             <div id="LayersPage" class="TabPage">
-                <span class="PanelHeader">Layers</span>
+                <span class="PanelHeader">Predefined KPI</span>
                 <div class="LayersControls" id="objects-panel">
-                    <div class="layerObjectControl">Chart
+                    <div class="layerObjectControl" onclick="SalesKPI()">Sales KPI
+                        <img class="layerObjectControl__img"
+                            src="https://cdn-icons-png.flaticon.com/512/9086/9086360.png" />
+                            
+                    </div>
+                    <!-- <div class="layerObjectControl">AuditKPI
                         <img class="layerObjectControl__img"
                             src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
                     </div>
-                    <div class="layerObjectControl">Image
+                    <div class="layerObjectControl">ReportKPI
                         <img class="layerObjectControl__img"
                             src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
-                    </div>
-                    <div class="layerObjectControl">Table
-                        <img class="layerObjectControl__img"
-                            src="https://cdn.icon-icons.com/icons2/1369/PNG/512/-visibility-off_90249.png" />
-                    </div>
+                    </div> -->
                 </div>
                 <span class="PanelHeader">Information</span>
             </div>
