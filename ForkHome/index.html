@@ -62,6 +62,7 @@
             width: 40px;
             height: 40px;
             font-size: 26px;
+            cursor: pointer;
         }
 
         .PopularDataSource {
@@ -109,7 +110,7 @@
             display: flex;
             align-items: flex-start;
             /* justify-content: center; */
-            background-color: #dbdbdb;
+            background-color: #ffffff;
             font-size: large;
             text-align: left;
             width: 300px;
@@ -119,8 +120,11 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 18px;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
         }
-
+        .DatasourceCard:hover{
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+        }
         .DSTitle {
             color: #4f4f4f;
             padding: 10px;
@@ -212,10 +216,6 @@
 
         }
         function CreateDataSourceCards(data) {
-            // <div class="DatasourceCard" onclick="CustomerKPI()">
-            //     <span class="DSTitle">Customer CGSEDW2023 KPI</span>
-            //     <span class="DSdesc">CGS Customer Sales EDW KPI</span>
-            // </div>
             console.log(data);
             const CardsDataSource = document.getElementById("DatasourceCards");
             data.forEach(element => {
@@ -223,10 +223,24 @@
                 const DsTitle = document.createElement('span');
                 DsTitle.textContent = element.dataSourceName;
                 const DSdesc = document.createElement('span');
-                DSdesc.textContent =  element.dataSourceName;
+                DSdesc.textContent = element.dataSourceName;
                 dataSourcCard.className = "DatasourceCard";
                 DsTitle.className = "DSTitle";
                 DSdesc.className = "DSdesc";
+                if (element.type === "SqlServer") {
+                    dataSourcCard.style.backgroundImage = `url('https://www.cotec.de/media/7a/ca/6f/1702389217/Microsoft%20SQL%20Server%20Logo.jpg')`;
+                }
+                if (element.type === "PostgresSQL") {
+                    dataSourcCard.style.backgroundImage = `url('https://miro.medium.com/v2/resize:fit:955/1*eUTK5gvvm8H1_kGR_S6Ncg.png')`;
+                }
+                dataSourcCard.style.backdropFilter = "blur(1150px)";
+                // dataSourcCard.style.backgroundColor = "rgba(150, 150, 150, 0.9)";
+                dataSourcCard.style.backgroundBlendMode = "multiply";
+                dataSourcCard.style.backgroundSize = "150px 70px"; 
+                dataSourcCard.style.backgroundPosition = "150px";
+                dataSourcCard.style.backgroundRepeat = "no-repeat";
+
+    
 
                 dataSourcCard.addEventListener("click", (event) => {
                     var parameterValue = element.dataSourceName; // Your parameter value
