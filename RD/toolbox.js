@@ -49,7 +49,7 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
         </div>
     `;
     scorecard.style.border = `2px solid ${cardColor}`;
-    initInteractJS(scorecard);
+    const resizableCard =new IntractClient(scorecard);
     scorecardContainer.appendChild(scorecard);
 
     ///
@@ -116,7 +116,8 @@ function GenerateCommunityCard() {
     scorecard.appendChild(humanChart.getChartContainer())
     scorecardContainer.appendChild(scorecard);
     // makeElementDraggable(scorecard);
-    initInteractJS(scorecard);
+    const resizableCard =new IntractClient(scorecard);
+
 
 }
 
@@ -740,7 +741,9 @@ async function PredefineChart(chartTyp) {
     cardcontent.classList.add("card-content");
     chartContainer.appendChild(cardcontent);
     editor.appendChild(chartContainer);
-    const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
+    const resizableCard =new IntractClient(chartContainer);
+
+    // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
