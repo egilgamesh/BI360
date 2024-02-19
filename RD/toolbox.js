@@ -71,7 +71,7 @@ function InsertText(TextString) {
         scorecard.style.left = 0;
         scorecard.innerHTML = textboxControl;
         scorecardContainer.appendChild(scorecard);
-        initInteractJS(scorecard);
+        const resizableCard =new IntractClient(scorecard);
         // makeElementDraggable(scorecard);
     }
 
@@ -88,9 +88,7 @@ function InsertImage(ImageSourcePath) {
         scorecard.style.left = 0;
         scorecard.src = textboxControl;
         scorecardContainer.appendChild(scorecard);
-        initInteractJS(scorecard);
-
-        // makeElementDraggable(scorecard);
+        const resizableCard =new IntractClient(scorecard);
     }
 }
 
