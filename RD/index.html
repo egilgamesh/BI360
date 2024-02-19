@@ -9,6 +9,55 @@
     <script src="ResizableCard.js"></script>
     <script src="TableDragable.js"></script>
     <script src="Data.js"></script>
+    <script src="https://unpkg.com/interactjs"></script>
+    <style>
+          #editor-container {
+            position: relative;
+            border: 2px solid black;
+            margin: 10px;
+            overflow: auto; /* Enable container scrolling */
+        }
+
+        .draggable-item {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            user-select: none;
+            position: absolute;
+        }
+
+        .bounding-box {
+            box-sizing: border-box;
+            position: absolute;
+            border: 2px dashed red;
+            pointer-events: none; /* Allow interactions to pass through */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: top left;
+            display: none; /* Initially hide the bounding box */
+        }
+
+        .draggable-item.selected .bounding-box {
+            display: block; /* Show the bounding box when the item is selected */
+        }
+
+        .info-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 2px;
+            font-size: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -133,8 +182,11 @@
 
         <!-- Middle panel with background color #eff1fe -->
         <div class="middle-panel">
-            <div class="editor-panel" id="editor-panel" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <!-- <div class="editor-panel" id="editor-panel" ondrop="drop(event)" ondragover="allowDrop(event)"> -->
                 <!-- Editor content goes here -->
+            <!-- </div> -->
+            <div id="editor-panel" class="editor-panel">
+                <!-- <button onclick="addDraggableItem()">Add Draggable & Resizable Item</button> -->
             </div>
         </div>
 
@@ -203,8 +255,36 @@
         </div>
     </div>
     <script src="scriptMenu.js"></script>
+    <script src="interactClient.js"></script>
     <script src="toolbox.js"></script>
     <script src="HumanChart.js"></script>
+    <script>
+        // function addDraggableItem() {
+        //     // Create a new draggable & resizable item
+        //     var newDraggableItem = document.createElement('div');
+        //     newDraggableItem.className = 'draggable-item';
+        //     newDraggableItem.innerHTML = 'Drag me!';
+    
+    
+        //     // Create a bounding box for the item
+        //     var boundingBox = document.createElement('div');
+        //     boundingBox.className = 'bounding-box';
+        //     newDraggableItem.appendChild(boundingBox);
+    
+        //     // Create an info overlay for the item
+        //     var infoOverlay = document.createElement('div');
+        //     infoOverlay.className = 'info-overlay';
+        //     newDraggableItem.appendChild(infoOverlay);
+    
+        //     // Append the new item to the container
+        //     document.getElementById('editor-panel').appendChild(newDraggableItem);
+    
+        //     // Initialize InteractJS for the new item
+        //     initInteractJS(newDraggableItem);
+        // }
+    
+    </script>
+
     <div class="status-bar">
         &copy; 2023 CGS. All rights reserved. | Version 1.0
     </div>

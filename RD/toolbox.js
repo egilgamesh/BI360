@@ -49,7 +49,7 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
         </div>
     `;
     scorecard.style.border = `2px solid ${cardColor}`;
-    makeElementDraggable(scorecard);
+    initInteractJS(scorecard);
     scorecardContainer.appendChild(scorecard);
 
     ///
@@ -71,7 +71,8 @@ function InsertText(TextString) {
         scorecard.style.left = 0;
         scorecard.innerHTML = textboxControl;
         scorecardContainer.appendChild(scorecard);
-        makeElementDraggable(scorecard);
+        initInteractJS(scorecard);
+        // makeElementDraggable(scorecard);
     }
 
 }
@@ -87,7 +88,9 @@ function InsertImage(ImageSourcePath) {
         scorecard.style.left = 0;
         scorecard.src = textboxControl;
         scorecardContainer.appendChild(scorecard);
-        makeElementDraggable(scorecard);
+        initInteractJS(scorecard);
+
+        // makeElementDraggable(scorecard);
     }
 }
 
@@ -112,7 +115,9 @@ function GenerateCommunityCard() {
     const humanChart = new HumanChart(jsonData, keyAttribute);
     scorecard.appendChild(humanChart.getChartContainer())
     scorecardContainer.appendChild(scorecard);
-    makeElementDraggable(scorecard);
+    // makeElementDraggable(scorecard);
+    initInteractJS(scorecard);
+
 }
 
 async function addChart(chartType) {
@@ -203,8 +208,9 @@ async function InsertChart() {
     const xScale = "label"; // this taken from user now
     const yScale = "value"; //this taken from user now
     editor.appendChild(chartContainer);
-    const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
-    resizableCard.id = chartItemId;
+    // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
+    const resizableCard =new IntractClient(chartContainer);
+    // resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
     const width = 600;
