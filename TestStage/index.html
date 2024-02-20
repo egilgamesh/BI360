@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties Panel</title>
+  <style>
+    /* Add custom styles for the properties panel */
+    properties-panel {
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    properties-panel h3 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    properties-panel label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    properties-panel input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sample Text -->
+  <div>
+    <h2>Sample Text</h2>
+    <p class="text-item" id="sample-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+
+  <!-- Sample Image -->
+  <div>
+    <h2>Sample Image</h2>
+    <img src="sample.jpg" class="image-item" id="sample-image" alt="Sample Image">
+  </div>
+
+  <!-- Sample Web Component -->
+  <div>
+    <h2>Sample Web Component</h2>
+    <sample-component id="sample-component"></sample-component>
+  </div>
+
+  <!-- Properties Panel Web Component -->
+  <properties-panel></properties-panel>
+
+  <script>
+    class PropertiesPanel extends HTMLElement {
+      #shadow;
+
+      constructor() {
+        super();
+        this.#shadow = this.attachShadow({ mode: 'open' });
+      }
+
+      connectedCallback() {
+        this.render();
+      }
+
+      set propertiesControls(controls) {
+        this.renderControls(controls);
+      }
+
+      renderControls(controls) {
+        this.clearContent();
+
+        if (!Array.isArray(controls) || controls.length === 0) {
+          this.renderError('No properties controls provided.');
+          return;
+        }
+
+        controls.forEach(control => {
+          const { type, label, ...attributes } = control;
+          const input = document.createElement('input');
+          input.type = type || 'text';
+
+          if (label) {
+            const labelElement = document.createElement('label');
+            labelElement.textContent = label;
+            this.#shadow.appendChild(labelElement);
+          }
+
+          Object.entries(attributes).forEach(([key, value]) => {
+            input.setAttribute(key, value);
+          });
+
+          this.#shadow.appendChild(input);
+        });
+      }
+
+      renderError(message) {
+        const errorMessage = document.createElement('p');
+        errorMessage.textContent = message;
+        this.#shadow.appendChild(errorMessage);
+      }
+
+      clearContent() {
+        this.#shadow.innerHTML = '';
+      }
+    }
+
+    customElements.define('properties-panel', PropertiesPanel);
+
+    // Example usage:
+    const propertiesPanel = document.querySelector('properties-panel');
+    const sampleText = document.getElementById('sample-text');
+    const sampleImage = document.getElementById('sample-image');
+    const sampleComponent = document.getElementById('sample-component');
+
+    // Render text controls
+    propertiesPanel.propertiesControls = [
+      { type: 'text', label: 'Font Size:', value: window.getComputedStyle(sampleText).fontSize }
+      // Add more controls as needed
+    ];
+
+    // Uncomment the line below to render image controls
+    // propertiesPanel.propertiesControls = [
+    //   { type: 'text', label: 'Image Width:', value: sampleImage.width }
+    //   // Add more controls as needed
+    // ];
+
+    // Uncomment the line below to render controls for the web component
+    // propertiesPanel.propertiesControls = [
+    //   { type: 'text', label: 'Component Property:', value: sampleComponent.someProperty }
+    //   // Add more controls as needed
+    // ];
+  </script>
+</body>
+</html>

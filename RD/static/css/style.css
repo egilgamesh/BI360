@@ -88,7 +88,8 @@
   /* Top panel with tabs */
   .top-panel {
       background: rgb(2, 0, 36);
-      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 195, 204, 1) 0%, rgba(117, 52, 230, 1) 100%);
+      /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 195, 204, 1) 0%, rgba(117, 52, 230, 1) 100%); */
+      background: rgb(37, 66, 172);
       color: #fff;
       display: flex;
       height: 3px;
