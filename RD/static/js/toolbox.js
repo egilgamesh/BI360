@@ -183,7 +183,7 @@ function GetApiUrl(dataSource) {
         `&SelectedColumns[${selectedXTable}]=${selectedXaxisColumn}` +
         `&SelectedColumns[${selectedYTable}]=${selectedYaxisColumn}`;
     const fullUrl = apiUrl + queryString;
-    console.log('Constructed URL:', fullUrl);
+//    console.log('Constructed URL:', fullUrl); // enable it to debug the caller url
     return fullUrl;
 }
 // datasource 'CGSEDW2023'

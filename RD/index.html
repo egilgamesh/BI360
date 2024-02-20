@@ -5,7 +5,7 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="../RD/static/css/style.css">
-    <link rel="stylesheet" href="scorecardStyle.css"> 
+    <link rel="stylesheet" href="../RD/static/css/scorecardStyle.css"> 
     <script src="../RD/static/js/ResizableCard.js"></script>
     <script src="../RD/static/js/TableDragable.js"></script>
     <script src="../RD/static/js/Data.js"></script>
@@ -29,33 +29,6 @@
             cursor: grab;
             user-select: none;
             position: absolute;
-        }
-
-        .bounding-box {
-            box-sizing: border-box;
-            position: absolute;
-            border: 2px dashed red;
-            pointer-events: none; /* Allow interactions to pass through */
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform-origin: top left;
-            display: none; /* Initially hide the bounding box */
-        }
-
-        .draggable-item.selected .bounding-box {
-            display: block; /* Show the bounding box when the item is selected */
-        }
-
-        .info-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 2px;
-            font-size: 10px;
         }
     </style>
 </head>
