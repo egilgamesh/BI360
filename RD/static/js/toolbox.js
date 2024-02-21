@@ -558,7 +558,9 @@ async function insertTable() {
 
         editorPanel.appendChild(table);
         // Make the table draggable
-        makeElementDraggable(table);
+    const resizableCard =new IntractClient(table);
+
+        // makeElementDraggable(table);
 
     } else {
         alert('Failed to fetch data from the API for the table.');
