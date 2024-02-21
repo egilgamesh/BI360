@@ -204,8 +204,6 @@ async function InsertChart() {
     const cardcontent = document.createElement("div");
     cardcontent.classList.add("card-content");
     chartContainer.appendChild(cardcontent);
-    const xScale = "label"; // this taken from user now
-    const yScale = "value"; //this taken from user now
     editor.appendChild(chartContainer);
     // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     const resizableCard =new IntractClient(chartContainer);
@@ -251,7 +249,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
 
 
 
-    const g = svg.append("g")
+    const graph = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
     const xScale = d3.scaleBand()
         .domain(chartData.map(d => d[xAttribute]))
@@ -264,17 +262,17 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .range([chartHeight, 0]);
 
     if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
+        CreateBarChart(graph, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
 
     }
     else if (chartType === 'line') {
-        CreateLineChart(xScale, xAttribute, yScale, yAttribute, g, chartData, chartHeight, svg, chartWidth, chartTitleValue);
+        CreateLineChart(xScale, xAttribute, yScale, yAttribute, graph, chartData, chartHeight, svg, chartWidth, chartTitleValue);
     }
     else if (chartType === 'pie') {
-        CreatePieChart(chartWidth, chartHeight, g, chartData);
+        CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute);
     }
     else if (chartType === 'treemap') {
-        CreateTreeMapChart(chartWidth, chartHeight, chartData, g);
+        CreateTreeMapChart(chartWidth, chartHeight, chartData, graph);
     }
 
 
@@ -339,17 +337,17 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
         .text(d => d);
 }
 
-function CreatePieChart(chartWidth, chartHeight, g, chartData) {
+function CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute) {
     const radius = Math.min(chartWidth, chartHeight) / 2;
 
     const pie = d3.pie()
-        .value(d => d.value); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
+        .value(d => yScale(d[yAttribute])); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     const arc = d3.arc()
         .innerRadius(0)
         .outerRadius(radius);
 
-    const arcs = g.selectAll(".arc")
+    const arcs = graph.selectAll(".arc")
         .data(pie(chartData))
         .enter().append("g")
         .attr("class", "arc")
@@ -359,10 +357,10 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
 
     arcs.append("path")
         .attr("d", arc)
-        .attr("fill", d => color(d.data.label)); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
+        .attr("fill", d => color(xScale(d.data[xAttribute]))); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
-    const legend = g.selectAll(".legend")
-        .data(chartData.map(d => d.label)) //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
+    const legend = graph.selectAll(".legend")
+        .data(chartData.map(d => d[xAttribute])) //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", (d, i) => `translate(50,${i * 20})`);
@@ -371,7 +369,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .attr("x", chartWidth - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .attr("fill", (d, i) => color(i));
+        .attr("fill", (d, i) => color(xScale(d)));
 
     legend.append("text")
         .attr("x", chartWidth - 24)
@@ -379,7 +377,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .style("font-size", "12px") // change legend text font size, this could be dynamic
-        .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
+        .text(d => (d.length > 20) ? d.substring(0, 20) + '...' : d)
         .on("mouseover", function () {
             d3.select(this).text(d => d); // Show full text on mouseover //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         })
