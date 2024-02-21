@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <link rel="stylesheet" href="FileExplorer.css">
-    <script src="BreadcrumbComponent.js" defer></script>
-    <script src="ChatComponent.js" defer></script>
+    <link rel="stylesheet" href="../RV/static/css/FileExplorer.css">
+    <script src="../RV/static/js/BreadcrumbComponent.js" defer></script>
+    <script src="../RV/static/js/ChatComponent.js" defer></script>
     <title>Report Viewer</title>
 </head>
 
@@ -76,7 +76,7 @@
     <div id="right-panel">
         <div id="comments" class="comments">
             <h2>Comments</h2>
-            <chat-component chatData="chatdata.json"></chat-component>
+            <chat-component chatData="../RV/static/js/chatdata.json"></chat-component>
         </div>
         <div class="commentBoxContainer">
             <input type="text" class="CommentTextBox" placeholder="Leave a comment ...">
