@@ -24,6 +24,15 @@ class ResizableTextElement extends HTMLElement {
         /* You can place the CSS styles here */
         .controls-container{
           display:none;
+          z-index:2;
+        }
+        .Confirm{
+          color:green;
+          cursor: pointer;
+          font-size=12px;
+        }
+        .Confirm:hover{
+          font-size=14px;
         }
       </style>
       <div class="panel">
@@ -70,6 +79,7 @@ class ResizableTextElement extends HTMLElement {
                 <option value="capitalize">Capitalize</option>
               </select>
               <input type="number" class="line-height-input" min="1" step="0.1" placeholder="Line Height">
+              <div class="Confirm"><span>&#10003;</span></div>
             </div>
           </div>
           <div class="editable-text" contentEditable="true">Editable Text</div>
@@ -86,8 +96,11 @@ class ResizableTextElement extends HTMLElement {
       controlsContainer.style.display = 'block';
     });
 
+    const confirmBtton = this.shadowRoot.querySelector('.Confirm');
+
+
         // Hide controls-container when editable-text loses focus
-        editableText.addEventListener('blur', () => {
+        confirmBtton.addEventListener('click', () => {
           controlsContainer.style.display = 'none';
         });
 
