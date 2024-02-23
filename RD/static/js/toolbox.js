@@ -60,20 +60,23 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     itemList.push(chart);
 }
 
-function InsertText(TextString) {
+function InsertTextControl() {
     const scorecardContainer = document.getElementById("editor-panel");
-    const textboxControl = document.getElementById(TextString).value;
+    // const textboxControl = document.getElementById(TextString).value;
     const ElementItemId = GetUniqueID(chartType);
-    if (textboxControl) {
-        const scorecard = document.createElement("div");
+
+    // <resizable-text-element></resizable-text-element>
+
+    // if (textboxControl) {
+        const scorecard = document.createElement("resizable-text-element");
         scorecard.id = ElementItemId;
         scorecard.style.top = 0;
         scorecard.style.left = 0;
-        scorecard.innerHTML = textboxControl;
+        // scorecard.innerHTML = textboxControl;
         scorecardContainer.appendChild(scorecard);
         const resizableCard =new IntractClient(scorecard);
         // makeElementDraggable(scorecard);
-    }
+    // }
 
 }
 

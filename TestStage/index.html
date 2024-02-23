@@ -1,179 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Properties Panel</title>
-</head>
-
-<body>
-  <!-- Sample Text -->
-  <div>
-    <h2>Sample Text</h2>
-    <p class="text-item" id="sample-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  </div>
-
-  <!-- Sample Image -->
-  <div>
-    <h2>Sample Image</h2>
-    <img
-      src="data:image/jpeg;base64,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"
-      class="image-item" id="sample-image" alt="Sample Image">
-  </div>
-
-  <!-- Properties Panel Web Component -->
-  <properties-panel></properties-panel>
-
-  <script>
-    // Define Properties Panel Web Component
-    class PropertiesPanel extends HTMLElement {
-      constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-      }
-
-      connectedCallback() {
-        this.render();
-      }
-
-      set domElement(element) {
-        this.renderControls(element);
-      }
-
-      renderControls(element) {
-        // Clear existing content
-        this.shadowRoot.innerHTML = '';
-
-        if (!element || !(element instanceof HTMLElement)) {
-          console.error('Invalid DOM element.');
-          return;
-        }
-
-        // Render controls based on element type
-        if (element.tagName === 'P') {
-          this.renderTextControls(element);
-        } else if (element.tagName === 'IMG') {
-          this.renderImageControls(element);
-        } else {
-          console.error('Unsupported element type.');
-        }
-      }
-
-      renderTextControls(element) {
-        // Render text controls
-        const template = `
-          <h3>Text Properties</h3>
-          <label for="font-size">Font Size:</label>
-          <input type="number" id="font-size" value="${this.getStylePropertyValue(element, 'fontSize')}">
-
-          <label for="font-style">Font Style:</label>
-          <select id="font-style">
-            <option value="normal">Normal</option>
-            <option value="italic">Italic</option>
-            <option value="bold">Bold</option>
-          </select>
-
-          <label for="font-color">Font Color:</label>
-          <input type="color" id="font-color" value="${this.getStylePropertyValue(element, 'color')}">
-
-          <label for="font-family">Font Family:</label>
-          <input type="text" id="font-family" value="${this.getStylePropertyValue(element, 'fontFamily')}">
-
-          <label for="alignment">Alignment:</label>
-          <select id="alignment">
-            <option value="left">Left</option>
-            <option value="center">Center</option>
-            <option value="right">Right</option>
-          </select>
-        `;
-
-        this.renderControlsTemplate(element, template);
-      }
-
-      // New method to render the provided template
-      renderTemplate(template) {
-        this.shadowRoot.innerHTML = template;
-
-        // Set up event listeners
-        const inputs = this.shadowRoot.querySelectorAll('input, select');
-        inputs.forEach(input => {
-          input.addEventListener('input', () => this.updateProperties());
-        });
-      }
-
-      renderImageControls(element) {
-        // Render image controls
-        const template = `
-          <h3>Image Properties</h3>
-          <label for="image-width">Width:</label>
-          <input type="number" id="image-width" value="${this.getStylePropertyValue(element, 'width')}">
-
-          <label for="image-height">Height:</label>
-          <input type="number" id="image-height" value="${this.getStylePropertyValue(element, 'height')}">
-        `;
-
-        this.renderControlsTemplate(element, template);
-      }
-
-      renderControlsTemplate(element, template) {
-        const container = document.createElement('div');
-        container.innerHTML = template;
-        this.shadowRoot.appendChild(container);
-
-        // Set up event listeners
-        const inputs = container.querySelectorAll('input, select');
-        inputs.forEach(input => {
-          input.addEventListener('input', () => this.updateProperties(element));
-        });
-      }
-
-      getStylePropertyValue(element, property) {
-        return getComputedStyle(element)[property];
-      }
-
-      updateProperties(element) {
-        if (element.tagName === 'P') {
-          this.updateTextProperties(element);
-        } else if (element.tagName === 'IMG') {
-          this.updateImageProperties(element);
-        }
-      }
-
-      updateTextProperties(element) {
-        const fontSizeInput = this.shadowRoot.getElementById('font-size');
-        const fontStyleSelect = this.shadowRoot.getElementById('font-style');
-        const fontColorInput = this.shadowRoot.getElementById('font-color');
-        const fontFamilyInput = this.shadowRoot.getElementById('font-family');
-        const alignmentSelect = this.shadowRoot.getElementById('alignment');
-
-        element.style.fontSize = `${fontSizeInput.value}px`;
-        element.style.fontStyle = fontStyleSelect.value;
-        element.style.color = fontColorInput.value;
-        element.style.fontFamily = fontFamilyInput.value;
-        element.style.textAlign = alignmentSelect.value;
-      }
-
-      updateImageProperties(element) {
-        const imageWidthInput = this.shadowRoot.getElementById('image-width');
-        const imageHeightInput = this.shadowRoot.getElementById('image-height');
-
-        element.style.width = `${imageWidthInput.value}px`;
-        element.style.height = `${imageHeightInput.value}px`;
-      }
+  <title>Resizable Text Elements with Font Styling - Web Component</title>
+  <style>
+    .panel {
+      width: 400px;
+      height: 300px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      position: relative;
     }
+    .text-element {
+      border: 1px solid #000;
+      padding: 5px;
+      margin: 20px 0; /* Increased margin for more space */
+      resize: both;
+      overflow: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .controls-container {
+      margin-top: 20px; /* Margin between controls box and text element */
+    }
+    .input-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 15px; /* Increased padding for more margin */
+      margin-bottom: 20px; /* Margin between controls box and text element */
+    }
+  </style>
+</head>
+<body>
 
-    // Define custom element
-    customElements.define('properties-panel', PropertiesPanel);
+<resizable-text-element></resizable-text-element>
 
-    // Example usage:
-    const propertiesPanel = document.querySelector('properties-panel');
-    const sampleText = document.getElementById('sample-text');
-    const sampleImage = document.getElementById('sample-image');
+<script src="../RD/static/js/TextControl.js">
 
-    propertiesPanel.domElement = sampleText; // Render text controls
-    propertiesPanel.domElement = sampleImage; // Render image controls
-  </script>
+</script>
+
 </body>
-
 </html>
