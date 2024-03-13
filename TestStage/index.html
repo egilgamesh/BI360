@@ -1,130 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resizable Text Elements with Font Styling - Web Component</title>
-  <style>
-    .panel {
-      width: 400px;
-      height: 300px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      position: relative;
-    }
-    .text-element {
-      border: 1px solid #000;
-      padding: 5px;
-      margin: 20px 0; /* Increased margin for more space */
-      resize: both;
-      overflow: auto;
-      position: relative;
-      z-index: 1;
-    }
-    .controls-container {
-      margin-top: 20px; /* Margin between controls box and text element */
-    }
-    .input-box {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 15px; /* Increased padding for more margin */
-      margin-bottom: 20px; /* Margin between controls box and text element */
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Attendance Calendar</title>
+<style>
+  .calendar {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .month, .weekdays, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .month, .weekdays {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .month {
+    font-size: 20px;
+  }
+
+  .weekdays div, .days div {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .days div:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
 
-<resizable-image-element></resizable-image-element>
+<div class="calendar">
+  <div class="view-controls">
+    <button onclick="showMonthView()">Month View</button>
+    <button onclick="showWeekView()">Week View</button>
+    <button onclick="showDayView()">Day View</button>
+  </div>
+  <div class="month"></div>
+  <div class="weekdays"></div>
+  <div class="days"></div>
+</div>
 
 <script>
-class ResizableImageElement extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.imageFormats = { // Object to store image formats
-      width: '100px',
-      height: '100px',
-      border: '1px solid #000000',
-      borderRadius: '0',
-      boxShadow: 'none',
-      opacity: '1'
-    };
-    this.src = 'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg'; // Default image source
-    this.render();
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    const monthElement = document.querySelector('.month');
+    const weekdaysElement = document.querySelector('.weekdays');
+    const daysElement = document.querySelector('.days');
 
-  static get observedAttributes() {
-    return ['src']; // Define observed attributes
-  }
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Handle changes to observed attributes
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'src') {
-      const imageElement = this.shadowRoot.querySelector('.resizable-image');
-      imageElement.setAttribute('src', newValue);
+    function renderMonthCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+
+      monthElement.textContent = months[month] + ' ' + year;
+
+      let daysHTML = '';
+      for (let i = 0; i < weekdays.length; i++) {
+        daysHTML += `<div>${weekdays[i]}</div>`;
+      }
+      weekdaysElement.innerHTML = daysHTML;
+
+      const firstDayOfMonth = new Date(year, month, 1);
+      const lastDayOfMonth = new Date(year, month + 1, 0);
+      const totalDays = lastDayOfMonth.getDate();
+      const startDay = firstDayOfMonth.getDay();
+
+      daysHTML = '';
+      for (let i = 0; i < startDay; i++) {
+        daysHTML += `<div></div>`;
+      }
+      for (let i = 1; i <= totalDays; i++) {
+        daysHTML += `<div>${i}</div>`;
+      }
+      daysElement.innerHTML = daysHTML;
     }
-  }
 
-  render() {
-    const template = `
-      <style>
-        /* Define styles for the web component */
-        /* These styles are scoped to the shadow DOM of the web component */
-        /* You can place the CSS styles here */
-        .controls-container {
-          display: none;
-        }
-        .resizable-image {
-          display: block;
-          max-width: 50%;
-          max-height: 50%;
-        }
-      </style>
-      <div class="panel">
-        <div class="image-element">
-          <div class="controls-container">
-            <!-- Image controls content -->
-          </div>
-          <img class="resizable-image" src="${this.src}" alt="Resizable Image">
-        </div>
-      </div>
-    `;
-    this.shadowRoot.innerHTML = template;
+    function renderWeekCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
 
-    const controlsContainer = this.shadowRoot.querySelector('.controls-container');
-    const imageElement = this.shadowRoot.querySelector('.resizable-image');
+      const weekStart = new Date(year, month, day - date.getDay());
+      const weekEnd = new Date(year, month, day - date.getDay() + 6);
 
-    // Toggle controls-container display on image click
-    imageElement.addEventListener('click', () => {
-      controlsContainer.style.display = 'block';
-    });
+      monthElement.textContent = `${months[month]} ${weekStart.getDate()} - ${weekEnd.getDate()}, ${year}`;
 
-    // Hide controls-container when image loses focus
-    imageElement.addEventListener('blur', () => {
-      controlsContainer.style.display = 'none';
-    });
+      let daysHTML = '';
+      for (let i = 0; i < weekdays.length; i++) {
+        daysHTML += `<div>${weekdays[i]}</div>`;
+      }
+      weekdaysElement.innerHTML = daysHTML;
 
-    // Attach event listeners for image formatting changes...
-  }
+      daysHTML = '';
+      for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(weekStart);
+        currentDate.setDate(weekStart.getDate() + i);
+        daysHTML += `<div>${currentDate.getDate()}</div>`;
+      }
+      daysElement.innerHTML = daysHTML;
+    }
 
-  updateImageStyle(event, styleProperty) {
-    const value = event.target.value;
-    const imageElement = event.target.closest('.image-element').querySelector('.resizable-image');
-    imageElement.style[styleProperty] = value;
-    // Update imageFormats object
-    this.imageFormats[styleProperty] = value;
-  }
+    function renderDayCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
 
-  // Method to get current image formats
-  getImageFormats() {
-    return this.imageFormats;
-  }
-}
+      monthElement.textContent = `${months[month]} ${day}, ${year}`;
 
-// Define the custom element tag
-customElements.define('resizable-image-element', ResizableImageElement);
+      let daysHTML = '';
+      for (let i = 0; i < weekdays.length; i++) {
+        daysHTML += `<div>${weekdays[i]}</div>`;
+      }
+      weekdaysElement.innerHTML = daysHTML;
 
+      daysHTML = '';
+      daysHTML += `<div>${day}</div>`;
+      daysElement.innerHTML = daysHTML;
+    }
 
+    function showMonthView() {
+      const today = new Date();
+      renderMonthCalendar(today);
+    }
+
+    function showWeekView() {
+      const today = new Date();
+      renderWeekCalendar(today);
+    }
+
+    function showDayView() {
+      const today = new Date();
+      renderDayCalendar(today);
+    }
+
+    showMonthView(); // By default, show the month view
+  });
 </script>
 
 </body>

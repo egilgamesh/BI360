@@ -1,0 +1,177 @@
+body {
+    /* background-color: #fff; */
+    /* background: rgb(2, 0, 36);
+    background-image: linear-gradient(to top, #ffffff, #fdfdff, #fbfcff, #f8faff, #f5f9ff, #f2f7ff, #eff6ff, #ecf4ff, #eaf1ff, #eaedff, #ece9ff, #efe5ff); */
+    margin: 0px;
+    height: 100vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Set the background to pastel gradient */
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+
+    /* Fallback for browsers that don't support gradients */
+    background-color: #e0e0e0;
+
+    /* Ensure the gradient covers the entire viewport */
+    background-size: cover;
+
+    /* Ensure the gradient is fixed in position */
+    background-attachment: fixed;
+}
+
+.Container {
+    margin: 30px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.Headerbar {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.NewButton {
+    background-color: black;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border-radius: 30px;
+}
+
+.SearchTextbox {
+    width: 50%;
+    padding: 0px 0px 0px 30px;
+    height: 40px;
+    border-radius: 5px 5px 5px 5px;
+    border: #f9f9f9 1px solid;
+    outline: none;
+    color: #000000;
+    background-color: #dbdbdb;
+    font-size: 18px;
+
+}
+
+.SearchTextbox:focus {
+    color: #00B4CC;
+}
+
+.BurgerMenu {
+    width: 40px;
+    height: 40px;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.PopularDataSource {
+    margin-top: 125px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 125px;
+    margin-right: 125px;
+}
+
+.DatasourceCardsLabels {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
+
+.CreateNewDataSourceButton {
+    background-color: #dbdbdb;
+    color: rgb(10, 9, 9);
+    width: 150px;
+    height: 40px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 700;
+}
+
+.dataSourceLable {
+    color: #595959;
+    font-size: large;
+    font-weight: 400;
+
+}
+
+.DatasourceCards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+    /* background-color: #fff; */
+    margin-top: 25px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.DatasourceCard {
+    display: flex;
+    align-items: flex-start;
+    /* justify-content: center; */
+    background-color: #ffffff;
+    font-size: large;
+    text-align: left;
+    width: 300px;
+    height: 120px;
+    flex-direction: column;
+    gap: 44px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 18px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+.DatasourceCard:hover {
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.DSTitle {
+    color: #4f4f4f;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.DSdesc {
+    color: #797979;
+    padding: 10px 0px 0px 10px;
+    font-size: 14px;
+}
+
+.CardsContainer {
+    margin: 0 105px 0 105px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    /* padding: 20px; */
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 0;
+}
+
+
+.footer-content a {
+    color: #fff;
+
+    text-decoration: none;
+
+}
