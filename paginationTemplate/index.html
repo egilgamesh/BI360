@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Content Filling</title>
+</head>
+<body>
+    <div id="template">
+        <!-- Initial placeholders -->
+        <h1>Title: {{title}}</h1>
+        <p>Content: {{content}}</p>
+        <p>Author: {{author}}</p>
+    </div>
+
+    <button onclick="addPlaceholder()">Add Placeholder</button>
+    <button onclick="generateContent()">Generate</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="html-docx.js"></script>
+    <script>
+        function addPlaceholder() {
+            var placeholder = prompt("Enter placeholder name:");
+            if (placeholder) {
+                var template = document.getElementById('template');
+                var newElement = document.createElement('p');
+                newElement.textContent = placeholder + ": {{" + placeholder.toLowerCase() + "}}";
+                template.appendChild(newElement);
+            }
+        }
+
+        function generateContent() {
+            // Simulate data retrieval from database
+            var data = {
+                title: "Sample Title",
+                content: "This is a sample content.",
+                author: "John Doe"
+            };
+
+            // Replace placeholders with actual values
+            var template = document.getElementById('template').innerHTML;
+            var placeholders = template.match(/{{\w+}}/g);
+            if (placeholders) {
+                placeholders.forEach(function(placeholder) {
+                    var key = placeholder.substring(2, placeholder.length - 2);
+                    template = template.replace(new RegExp(placeholder, 'g'), data[key.toLowerCase()]);
+                });
+            }
+
+            // Convert HTML template to Word document
+            var converted = htmlDocx.asBlob(template);
+            saveAs(converted, 'generated_document.docx');
+        }
+    </script>
+</body>
+</html>
