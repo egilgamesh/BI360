@@ -1,58 +1,82 @@
 [
   {
-    "id": "bar-1701779713111",
+    "id": "bar-1711098302876",
     "type": "bar",
     "dataSource": [
       {
-        "label": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-        "value": 74
+        "englishcountryregionname": "Australia",
+        "sum_of_sales_amount": 362440028.8
       },
       {
-        "label": "qui est esse",
-        "value": 12
+        "englishcountryregionname": "Canada",
+        "sum_of_sales_amount": 144382676.97
       },
       {
-        "label": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
-        "value": 59
+        "englishcountryregionname": "France",
+        "sum_of_sales_amount": 126912851.52
       },
       {
-        "label": "eum et est occaecati",
-        "value": 20
+        "englishcountryregionname": "Germany",
+        "sum_of_sales_amount": 188130303.4
       },
       {
-        "label": "nesciunt quas odio",
-        "value": 18
+        "englishcountryregionname": "United Kingdom",
+        "sum_of_sales_amount": 179760748.72
       },
       {
-        "label": "dolorem eum magni eos aperiam quia",
-        "value": 34
-      },
-      {
-        "label": "magnam facilis autem",
-        "value": 20
-      },
-      {
-        "label": "dolorem dolore est ipsam",
-        "value": 24
-      },
-      {
-        "label": "nesciunt iure omnis dolorem tempora et accusantium",
-        "value": 50
-      },
-      {
-        "label": "optio molestias id quia eum",
-        "value": 27
+        "englishcountryregionname": "United States",
+        "sum_of_sales_amount": 1030413608.35
       }
     ],
-    "xattribute": "label",
-    "yattribute": "value",
+    "xattribute": "englishcountryregionname",
+    "yattribute": "sum_of_sales_amount",
     "container": {
       "top": 0,
       "left": 0
     },
-    "width": 366.79364013671875,
-    "height": 268.78981018066406,
-    "left": 311.21209716796875,
-    "top": 82.59468841552734
+    "width": 600,
+    "height": 400,
+    "left": 311.6666564941406,
+    "top": 82.82551574707031
+  },
+  {
+    "id": "line-1711098311807",
+    "type": "line",
+    "dataSource": [
+      {
+        "englishcountryregionname": "Australia",
+        "sum_of_sales_amount": 362440028.8
+      },
+      {
+        "englishcountryregionname": "Canada",
+        "sum_of_sales_amount": 144382676.97
+      },
+      {
+        "englishcountryregionname": "France",
+        "sum_of_sales_amount": 126912851.52
+      },
+      {
+        "englishcountryregionname": "Germany",
+        "sum_of_sales_amount": 188130303.4
+      },
+      {
+        "englishcountryregionname": "United Kingdom",
+        "sum_of_sales_amount": 179760748.72
+      },
+      {
+        "englishcountryregionname": "United States",
+        "sum_of_sales_amount": 1030413608.35
+      }
+    ],
+    "xattribute": "englishcountryregionname",
+    "yattribute": "sum_of_sales_amount",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 600,
+    "height": 400,
+    "left": 925.6640625,
+    "top": 82.82551574707031
   }
 ]

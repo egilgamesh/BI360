@@ -44,7 +44,7 @@ function SaveJson() {
             const chartContainer = document.createElement("div");
             chartContainer.id = element.id;
             chartContainer.top = element.top;
-            chartContainer.left = element.id.left;
+            chartContainer.left = element.left;
             chartContainer.classList.add("card-container");
             const cardcontent = document.createElement("div");
             cardcontent.classList.add("card-content");
@@ -60,7 +60,7 @@ function SaveJson() {
             const height = element.height;
 
 
-            BuildChart(element.id, element.dataSource, element.type, element.id,
+            BuildChart(chartContainer, element.dataSource, element.type, element.id,
                 element.width, element.height, element.xattribute, element.yattribute);
 
 
@@ -272,8 +272,8 @@ function GetUniqueID(chartType) {
     return chartType + `-${new Date().getTime()}`;
 }
 
-function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute) {
-    const chartcontainer = document.getElementById(chartContainer);
+function BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute, chartTitleValue) {
+    const chartcontainer = document.getElementById(chartContainer.id);
     const cardcontent = chartcontainer.querySelector(".card-content");
     cardcontent.innerHTML = "";
     const margin = { top: 20, right: 20, bottom: 40, left: 40 };
@@ -287,7 +287,8 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
 
 
 
-    const g = svg.append("g")
+
+        const graph = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
     const xScale = d3.scaleBand()
         .domain(chartData.map(d => d[xAttribute]))
@@ -295,28 +296,28 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .padding(0.1);
 
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(chartData, d => d[yAttribute])])
+        .domain([0, d3.max(chartData, d => +d[yAttribute])])
         .nice()
         .range([chartHeight, 0]);
 
-    if (chartType === 'bar') {
-        CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, chartWidth, "Sales Amount");
-
-    }
-    else if (chartType === 'line') {
-        CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, chartWidth);
-    }
-    else if (chartType === 'pie') {
-        CreatePieChart(chartWidth, chartHeight, g, chartData);
-    }
-    else if (chartType === 'treemap') {
-        CreateTreeMapChart(chartWidth, chartHeight, chartData, g);
-    }
-
-
-    else {
-        // Handle other chart types here
-    }
+        if (chartType === 'bar') {
+            CreateBarChart(graph, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
+    
+        }
+        else if (chartType === 'line') {
+            CreateLineChart(xScale, xAttribute, yScale, yAttribute, graph, chartData, chartHeight, svg, chartWidth, chartTitleValue);
+        }
+        else if (chartType === 'pie') {
+            CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute);
+        }
+        else if (chartType === 'treemap') {
+            CreateTreeMapChart(chartWidth, chartHeight, chartData, graph);
+        }
+    
+    
+        else {
+            // Handle other chart types here
+        }
 
     // populate object list
     // Create a new chart item element
@@ -350,7 +351,7 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
         .padding(2);
 
     const root = d3.hierarchy({ children: chartData })
-        .sum(d => d.value);
+        .sum(d => d.value); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     treemap(root);
 
@@ -364,7 +365,7 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
     cell.append("rect")
         .attr("width", d => d.x1 - d.x0)
         .attr("height", d => d.y1 - d.y0)
-        .attr("fill", d => color(d.parent.data.label));
+        .attr("fill", d => color(d.parent.data.label)); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     cell.append("text")
         .selectAll("tspan")
@@ -375,17 +376,17 @@ function CreateTreeMapChart(chartWidth, chartHeight, chartData, g) {
         .text(d => d);
 }
 
-function CreatePieChart(chartWidth, chartHeight, g, chartData) {
+function CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute) {
     const radius = Math.min(chartWidth, chartHeight) / 2;
 
     const pie = d3.pie()
-        .value(d => d.value);
+        .value(d => yScale(d[yAttribute])); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
     const arc = d3.arc()
         .innerRadius(0)
         .outerRadius(radius);
 
-    const arcs = g.selectAll(".arc")
+    const arcs = graph.selectAll(".arc")
         .data(pie(chartData))
         .enter().append("g")
         .attr("class", "arc")
@@ -395,10 +396,10 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
 
     arcs.append("path")
         .attr("d", arc)
-        .attr("fill", d => color(d.data.label));
+        .attr("fill", d => color(xScale(d.data[xAttribute]))); //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
 
-    const legend = g.selectAll(".legend")
-        .data(chartData.map(d => d.label))
+    const legend = graph.selectAll(".legend")
+        .data(chartData.map(d => d[xAttribute])) //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", (d, i) => `translate(50,${i * 20})`);
@@ -407,7 +408,7 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .attr("x", chartWidth - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .attr("fill", (d, i) => color(i));
+        .attr("fill", (d, i) => color(xScale(d)));
 
     legend.append("text")
         .attr("x", chartWidth - 24)
@@ -415,25 +416,25 @@ function CreatePieChart(chartWidth, chartHeight, g, chartData) {
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .style("font-size", "12px") // change legend text font size, this could be dynamic
-        .text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d)
+        .text(d => (d.length > 20) ? d.substring(0, 20) + '...' : d)
         .on("mouseover", function () {
-            d3.select(this).text(d => d); // Show full text on mouseover
+            d3.select(this).text(d => d); // Show full text on mouseover //TODO: this should be change to use attribute xScale,xAttribute, yScale,yAttribute instead
         })
         .on("mouseout", function () {
             d3.select(this).text(d => (d.length > 12) ? d.substring(0, 12) + '...' : d);
         });
 }
 
-function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, barChartTitle) {
+function CreateBarChart(g, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, width, barChartTitle) {
     g.selectAll(".bar")
         .data(chartData)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", d => xScale(d.label))
-        .attr("y", d => yScale(d.value))
+        .attr("x", d => xScale(d[xAttribute]))
+        .attr("y", d => yScale(d[yAttribute]))
         .attr("width", xScale.bandwidth())
-        .attr("height", d => chartHeight - yScale(d.value) - 20)
+        .attr("height", d => chartHeight - yScale(d[yAttribute]) - 20)
         .style("fill", "green")
         .on("mouseover", function () {
             d3.select(this).style("fill", "steelblue"); // Change the color on mouseover
@@ -457,12 +458,12 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, b
         .enter()
         .append("text")
         .attr("class", "bar-label")
-        .attr("x", d => xScale(d.label) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d.value) - 10) // Adjust the position
+        .attr("x", d => xScale(d[xAttribute]) + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d[yAttribute]) - 10) // Adjust the position
         .attr("text-anchor", "middle")
-        .text(d => d.value)
+        .text(d => d[yAttribute])
         .style("fill", "green")
-        .style("font-size", "12px");
+        .style("font-size", "8px");
 
     // Add title
     svg.append("text")
@@ -470,13 +471,13 @@ function CreateBarChart(g, chartData, xScale, yScale, chartHeight, svg, width, b
         .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text(barChartTitle);
+        .text(barChartTitle); //todo: title disappear once user drag and move the charts
 }
 
-function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) {
+function CreateLineChart(xScale, xAttribute, yScale, yAttribute, g, chartData, chartHeight, svg, width, chartTitleValue) {
     const line = d3.line()
-        .x(d => xScale(d.label))
-        .y(d => yScale(d.value));
+        .x(d => xScale(d[xAttribute]))
+        .y(d => yScale(d[yAttribute]));
 
     g.append("path")
         .datum(chartData)
@@ -490,8 +491,8 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .enter()
         .append("circle")
         .attr("class", "dot")
-        .attr("cx", d => xScale(d.label))
-        .attr("cy", d => yScale(d.value))
+        .attr("cx", d => xScale(d[xAttribute]))
+        .attr("cy", d => yScale(d[yAttribute]))
         .attr("r", 5)
         .style("fill", "green")
         .on("mouseover", function () {
@@ -516,10 +517,10 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .enter()
         .append("text")
         .attr("class", "line-label")
-        .attr("x", d => xScale(d.label))
-        .attr("y", d => yScale(d.value) - 15) // Adjust the position
+        .attr("x", d => xScale(d[xAttribute]))
+        .attr("y", d => yScale(d[yAttribute]) - 15) // Adjust the position
         .attr("text-anchor", "middle")
-        .text(d => d.value)
+        .text(d => d[yAttribute])
         .style("fill", "black")
         .style("font-size", "12px");
 
@@ -529,7 +530,7 @@ function CreateLineChart(xScale, yScale, g, chartData, chartHeight, svg, width) 
         .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Growing Sales");
+        .text(chartTitleValue); // todo: the title will disapper once user move the charts
 }
 
 function AddItemInObjectListPanel(chartItemId) {
