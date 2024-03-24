@@ -25,10 +25,9 @@ class TextItem extends ReportItem {
 
 // Image report item class
 class ImageItem extends ReportItem {
-    constructor(id, src, alt, width, height, top, left) {
+    constructor(id, src, width, height, top, left) {
         super('image', id, top, left,width,height);
-        this.src = src;
-        this.alt = alt;
+        this.source = src;
     }
 }
 

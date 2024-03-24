@@ -87,23 +87,17 @@ function InsertTextControl() {
 
 function InsertImage(ImageSourcePath) {
   const scorecardContainer = document.getElementById("editor-panel");
-  const ImageUrlControl = document.getElementById(ImageSourcePath).value;
+  const ImageUrl = document.getElementById(ImageSourcePath).value;
   const ElementItemId = GetUniqueID(chartType);
-
-  if (ImageUrlControl) {
-    const image = new ImageItem();
-    image.id = ElementItemId;
-    image.top=0;
-    image.left=0;
-    image.source = ImageUrlControl;
-    image.type ="image";
+  if (ImageUrl) {
+    const image = new ImageItem(ElementItemId,ImageUrl,300, 300,0,0);
     const imageItem = document.createElement("img");
     imageItem.id = image.id;
     imageItem.style.top = image.top;
     imageItem.style.left = image.left;
     imageItem.src = image.source;
     scorecardContainer.appendChild(imageItem);
-    const resizableImage = new IntractClient(imageItem);
+    const resizableImage = new IntractClient(imageItem, resizeCallback);
     itemList.push(image)
     console.log(itemList);
   }
