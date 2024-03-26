@@ -8,26 +8,6 @@
 
 const itemList = [];
 
-async function SaveJson() {
-    // Convert the list to JSON format
-   // const jsonData = JSON.stringify(itemList, null, 2);
-
-    // Create a Blob with the JSON data
-    //const blob = new Blob([jsonData], { type: 'application/json' });
-
-    // // Create a download link
-    // const downloadLink = document.createElement('a');
-    // downloadLink.href = URL.createObjectURL(blob);
-    // downloadLink.download = "report.json";
-
-    // // Trigger a click on the link to start the download
-    // downloadLink.click();
-    document.getElementById("saveDialog").style.display = "block";
-
-await PostNewReport("",itemList)
-}
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const jsonFilePath = 'report.json';

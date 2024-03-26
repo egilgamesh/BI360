@@ -9,6 +9,8 @@
     <script src="../RV/static/js/BreadcrumbComponent.js" defer></script>
     <script src="../RV/static/js/ChatComponent.js" defer></script>
     <script src="../RV/static/js/loadingFiles.js" defer></script>
+    <script src="../RV/static/js/Data.js" defer></script>
+    <script src="../RV/static/js/DynamicTable.js" defer></script>
 
     <title>Report Viewer</title>
 </head>
@@ -28,8 +30,8 @@
             <span class="PanelHeader">Folders Explorer</span>
             <ul id="tree-list">
                 <li class="tree-node"><i class="fa-solid fa-house"></i>Home</li>
-                <li class="tree-node"><i class="fa-solid fa-user"></i>My Space</li>
-                <li class="tree-node"> <i class="fa-solid fa-share-nodes"></i>Shared with me</li>
+                <li class="tree-node" onclick="LoadReportsBySpace(0)"><i class="fa-solid fa-user"></i>My Space</li>
+                <li class="tree-node" onclick="LoadReportsBySpace(1)"> <i class="fa-solid fa-share-nodes"></i>Shared with me</li>
             </ul>
         </div>
 
@@ -45,28 +47,10 @@
                     <div class="tab">Dashboard</div>
                 </div>
                 <breadcrumb-component urltext="http://localhost/user/documents/project/"></breadcrumb-component>
-                <div id="list-view" class="list-view-Container">
-                    <table class="list-view">
-                        <thead>
-                            <tr>
-                                <th>File Name</th>
-                                <th>Date Modified</th>
-                                <th>Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Sales Growth Report</td>
-                                <td>2023-11-13</td>
-                                <td>Dashboard</td>
-                            </tr>
-                            <tr>
-                                <td>Sales Growth Filter</td>
-                                <td>2023-11-08</td>
-                                <td>Filter</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div  class="list-view-Container">
+                    <div id="list-view" class="list-view">
+
+                    </div>
                 </div>
             </div>
 
@@ -84,15 +68,6 @@
             <input type="text" class="CommentTextBox" placeholder="Leave a comment ...">
         </div>
     </div>
-    <div id="saveDialog" class="dialog">
-        <div class="dialog-content">
-          <span class="close">&times;</span>
-          <h2 style="margin-top: 0;">Save Content</h2>
-          <label for="fileName" class="label">File Name:</label>
-          <input type="text" id="fileName" class="input">
-          <button id="downloadButton" class="save-button">Save</button>
-        </div>
-      </div>
 </body>
 
 </html>
