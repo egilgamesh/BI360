@@ -46,3 +46,12 @@ function CloseFileMenu()
     const fileMenuContainer = document.getElementById("FileMenuContainer");
     fileMenuContainer.style.display="none";
 }
+
+function CloseSaveDialogBox() {
+  document.getElementById("saveDialog").style.display = "none";
+}
+
+async function ShowSaveDialog() {
+  document.getElementById("saveDialog").style.display = "block";
+  document.getElementById("FileMenuContainer").style.display = "none";
+}

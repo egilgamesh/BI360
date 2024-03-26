@@ -69,7 +69,7 @@ async function PostNewReport(url, Report) {
         }
 
         const responseData = await response; // Parse response as text
-        console.log('Response data:', responseData); // Log the response data
+        return responseData.ok;
         // Handle success here if needed
     } catch (error) {
         console.error('Error:', error);

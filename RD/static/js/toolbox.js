@@ -13,30 +13,26 @@ function GetDataSourceNameFromQueryString() {
         return "FailedDataSource"
 }
 
-async function SaveJson() {
-    // Convert the list to JSON format
-    // const jsonData = JSON.stringify(itemList, null, 2);
 
-    // // Create a Blob with the JSON data
-    // const blob = new Blob([jsonData], { type: 'application/json' });
 
-    // // Create a download link
-    // const downloadLink = document.createElement('a');
-    // downloadLink.href = URL.createObjectURL(blob);
-    // downloadLink.download = "report.json";
 
-    // // Trigger a click on the link to start the download
-    // downloadLink.click();
-    const reportObject = {
-        "reportName": "Api Test",
-        "reportAuthor": 0,
+
+async function SaveReport(ReportNameTextBoxID, Author, SpaceID)
+{
+    const filename = document.getElementById(ReportNameTextBoxID).value;
+        const reportObject = {
+        "reportName": filename,
+        "reportAuthor": Author,
         "reportCreateDate": new Date().toISOString(),
         "reportLastChange": new Date().toISOString(),
-        "reportSpaceId": 0,
+        "reportSpaceId": SpaceID,
         "reportMetaData": JSON.stringify(itemList, null, 2).toString()
       };
         //todo: take url to app config
-    await PostNewReport("https://localhost:5007/api/Reports/NewReport",reportObject)
+    const response = await PostNewReport("https://localhost:5007/api/Reports/NewReport",reportObject);
+    console.log(response);
+    if(response)
+    document.getElementById("saveDialog").style.display = "none";
 }
 
 

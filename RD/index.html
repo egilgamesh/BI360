@@ -194,7 +194,7 @@
                     </div>
                     <div id="tableOptions" class="tableOptions">
                         <label class="PanelHeader" for="tableAPIURL">API URL for Table Data:</label>
-                        <input class="property" type="text" id="tableAPIURL" value="http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023Oracle&SelectedTables=DIMGEOGRAPHY&SelectedTables=FACTINTERNETSALES&SelectedColumns[DIMGEOGRAPHY]=ENGLISHCOUNTRYREGIONNAME&SelectedColumns[FACTINTERNETSALES]=SUM_OF_SALES_AMOUNT">
+                        <input class="property" type="text" id="tableAPIURL" value="https://localhost:5007/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023Oracle&SelectedTables=DIMGEOGRAPHY&SelectedTables=FACTINTERNETSALES&SelectedColumns[DIMGEOGRAPHY]=ENGLISHCOUNTRYREGIONNAME&SelectedColumns[FACTINTERNETSALES]=SUM_OF_SALES_AMOUNT">
                         <button onclick="insertTable()">Insert Table</button>
                     </div>
 
@@ -225,7 +225,7 @@
                     <div id="CloseFileMenu" class="CloseFileMenu" onclick="CloseFileMenu()">X</div>
                 </div>
                 <hr class="headline">
-                <div id="SaveAs" class="SaveAsButton" onclick="SaveJson()"><i class="fa fa-folder"></i> Save As</div>
+                <div id="SaveReport" class="SaveAsButton" onclick="ShowSaveDialog()"><i class="fa fa-folder"></i> Save As</div>
             </div>
         </div>
     </div>
@@ -237,6 +237,15 @@
     <div class="status-bar">
         &copy; 2023 CGS. All rights reserved. | Version 1.0
     </div>
+    <div id="saveDialog" class="dialog">
+        <div class="dialog-content">
+          <span class="closeSaveDialog" onclick="CloseSaveDialogBox()">&times;</span>
+          <h2 style="margin-top: 0;">Save Content</h2>
+          <label for="fileName" class="label">File Name:</label>
+          <input type="text" id="fileName" class="input">
+          <div id="SaveAs" class="save-button" onclick="SaveReport('fileName', 1,1)">Save</button>
+        </div>
+      </div>
 </body>
 
 </html>

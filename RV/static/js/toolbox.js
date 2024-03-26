@@ -22,6 +22,8 @@ async function SaveJson() {
 
     // // Trigger a click on the link to start the download
     // downloadLink.click();
+    document.getElementById("saveDialog").style.display = "block";
+
 await PostNewReport("",itemList)
 }
 

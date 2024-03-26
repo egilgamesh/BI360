@@ -29,3 +29,4 @@ function saveAsHTML() {
     a.click();
     document.body.removeChild(a);
 }
+
