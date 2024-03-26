@@ -1,7 +1,9 @@
+import DynamicTable from './DynamicTable.js';
+import AppConfig from './AppConfig.js';
 
-async function LoadReportsBySpace(space) {
-    document.getElementById("list-view").innerHTML="";
-    const url = "https://localhost:5007/api/Reports/GetReportBySpaceId?id=" + space;
+export async function LoadReportsBySpace(space) {
+    document.getElementById("list-view").innerHTML = "";
+    const url = AppConfig.apiUrl +"/Reports/GetReportBySpaceId?id=" + space;
     console.log(url);
     const reports = await fetchTableData(url);
     const tableOptions = {
@@ -14,3 +16,4 @@ async function LoadReportsBySpace(space) {
 
     const dynamicTable = new DynamicTable('list-view', tableOptions);
 }
+

@@ -1,3 +1,4 @@
+import AppConfig from './AppConfig.js'
 
 class DynamicTable {
     constructor(containerId, options) {
@@ -89,7 +90,7 @@ class DynamicTable {
             td.textContent = rowData[column.field];
             row.appendChild(td);
             row.addEventListener("click", function() {
-                window.location.href = "http://127.0.0.1:5500/RV/report.html?id=" + rowData["id"];
+                window.location.href = AppConfig.FrontEndUrl +"/RV/report.html?id=" + rowData["id"];
             })
         });
         tbody.appendChild(row);
@@ -207,3 +208,5 @@ class DynamicTable {
         document.head.appendChild(styleElement);
     }   
 }
+
+export default DynamicTable;
