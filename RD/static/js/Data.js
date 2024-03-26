@@ -50,3 +50,25 @@ async function getMetaData(url, dataSourceName) {
         return null;
     }
 }
+
+
+async function PostNewReport(url, Report) {
+    try {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(Report, null, 2));
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json(); // parse JSON response
+        console.log('Success:', data);
+        // Handle success here if needed
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error here if needed
+    }
+}

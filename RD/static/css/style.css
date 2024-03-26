@@ -349,6 +349,7 @@
       overflow: auto;
       transition: width 0.3s, height 0.3s;
       overflow: hidden;
+      cursor: move;
   }
 
   .FileMenuContainer {

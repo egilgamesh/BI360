@@ -13,20 +13,30 @@ function GetDataSourceNameFromQueryString() {
         return "FailedDataSource"
 }
 
-function SaveJson() {
+async function SaveJson() {
     // Convert the list to JSON format
-    const jsonData = JSON.stringify(itemList, null, 2);
+    // const jsonData = JSON.stringify(itemList, null, 2);
 
-    // Create a Blob with the JSON data
-    const blob = new Blob([jsonData], { type: 'application/json' });
+    // // Create a Blob with the JSON data
+    // const blob = new Blob([jsonData], { type: 'application/json' });
 
-    // Create a download link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = "report.json";
+    // // Create a download link
+    // const downloadLink = document.createElement('a');
+    // downloadLink.href = URL.createObjectURL(blob);
+    // downloadLink.download = "report.json";
 
-    // Trigger a click on the link to start the download
-    downloadLink.click();
+    // // Trigger a click on the link to start the download
+    // downloadLink.click();
+    const reportObject = {
+        "reportName": "Api Test",
+        "reportAuthor": 0,
+        "reportCreateDate": Date.now,
+        "reportLastChange": Date.now,
+        "reportSpaceId": 0,
+        "reportMetaData": JSON.stringify(itemList, null, 2).toString()
+      };
+        //todo: take url to app config
+    await PostNewReport("https://localhost:5007/api/Reports",reportObject)
 }
 
 
@@ -174,7 +184,7 @@ function addImage() {
 }
 
 function GetApiUrl(dataSource) {
-    const apiUrl = 'http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns';
+    const apiUrl = 'https://localhost:5007/api/DataGateway/GetGeneratedDataDynamicColumns';
     const yaxisvalue = document.getElementById("yaxisValue").value; // get the y axis from api
     const xaxisvalue = document.getElementById("xaxisValue").value; // get x axis from api
     const [selectedYTable, selectedYaxisColumn] = yaxisvalue.split('.');
@@ -660,7 +670,8 @@ function adjustEditorDimensions() {
 
 async function populateDropDownList() {
     {
-        const apiUrl = "http://localhost:5006/api/DataGateway/GetDataModelMetadata";
+        //todo: take url to app config
+        const apiUrl = "https://localhost:5007/api/DataGateway/GetDataModelMetadata";
         const dataSourceName = GetDataSourceNameFromQueryString();
         const dropdownIdYaxis = document.getElementById("yaxisValue").id;
         const dropdownIdXaxis = document.getElementById("xaxisValue").id;
@@ -728,7 +739,8 @@ async function PredefineChart(chartTyp) {
     const chartType = chartTyp;
     const chartItemId = GetUniqueID(chartType);
     //const dataSourceName = GetDataSourceNameFromQueryString()
-    const apiURL ="http://localhost:5006/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023PG&SelectedTables=dimgeography&SelectedTables=factinternetsales&SelectedColumns[dimgeography]=englishcountryregionname&SelectedColumns[factinternetsales]=sum_of_sales_amount"
+            //todo: take url to app config
+    const apiURL ="https://localhost:5007/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023PG&SelectedTables=dimgeography&SelectedTables=factinternetsales&SelectedColumns[dimgeography]=englishcountryregionname&SelectedColumns[factinternetsales]=sum_of_sales_amount"
     const yaxisvalue = "sum_of_sales_amount"; // get the y axis from api englishcountryregionname
     const xaxisvalue = "englishcountryregionname"; // get x axis from api
     const chartTitleValue = "Sales KPI"; // get x axis from api

@@ -1,99 +1,137 @@
 //TODO: we have to use ResizableCard library to handle DND and sizable
 // a dirty code to re render report in report viewer, still need more cleaning and enhancement, 
 //unified presentation layer function,
- //make a SRP file for render chart, and another one to update it, to use it in tow places
+//make a SRP file for render chart, and another one to update it, to use it in tow places
 
 
- // try to find snap aligment machnizim, try to use lib if it better
+// try to find snap aligment machnizim, try to use lib if it better
 
 const itemList = [];
 
-function SaveJson() {
+async function SaveJson() {
     // Convert the list to JSON format
-    const jsonData = JSON.stringify(itemList, null, 2);
-  
+   // const jsonData = JSON.stringify(itemList, null, 2);
+
     // Create a Blob with the JSON data
-    const blob = new Blob([jsonData], { type: 'application/json' });
-  
-    // Create a download link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = "report.json";
-  
-    // Trigger a click on the link to start the download
-    downloadLink.click();
-  }
+    //const blob = new Blob([jsonData], { type: 'application/json' });
+
+    // // Create a download link
+    // const downloadLink = document.createElement('a');
+    // downloadLink.href = URL.createObjectURL(blob);
+    // downloadLink.download = "report.json";
+
+    // // Trigger a click on the link to start the download
+    // downloadLink.click();
+await PostNewReport("",itemList)
+}
 
 
-  document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function () {
     const jsonFilePath = 'report.json';
-  
+
     // Call the function and handle the returned Promise
     loadJSONFile(jsonFilePath)
-      .then(data => {
-        // Handle the loaded JSON data
-        console.log('Loaded JSON data:', data);
-  
-        // Now you can use the data as needed in your page
-        data.forEach(element => {
+        .then(data => {
+            // Handle the loaded JSON data
+            console.log('Loaded JSON data:', data);
 
-            const chartType = element.type;
-            const chartItemId = element.id;
-            const chartData = element.dataSource;
-            const editor = document.getElementById("editor-panel");
-            const chartContainer = document.createElement("div");
-            chartContainer.id = element.id;
-            chartContainer.top = element.top;
-            chartContainer.left = element.left;
-            chartContainer.classList.add("card-container");
-            const cardcontent = document.createElement("div");
-            cardcontent.classList.add("card-content");
-            chartContainer.appendChild(cardcontent);
-            const xScale = element.xattribute;
-            const yScale = element.yattribute;
-            editor.appendChild(chartContainer);
-          //  const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
-            //resizableCard.id = chartItemId;
-           // ShowChartProperties(chartContainer, resizableCard);
-    
-            const width = element.width;
-            const height = element.height;
+            // Now you can use the data as needed in your page
+            data.forEach(element => {
+
+                const chartType = element.type;
+                const chartItemId = element.id;
+                const chartData = element.dataSource;
+                const editor = document.getElementById("editor-panel");
+                const chartContainer = document.createElement("div");
+                chartContainer.id = element.id;
+                chartContainer.style.top = element.top + 'px';
+                chartContainer.style.left = element.left + 'px';
+                chartContainer.style.width = element.width + 'px';
+                chartContainer.style.height = element.height + 'px';
+
+                chartContainer.classList.add("card-container");
+                const cardcontent = document.createElement("div");
+                cardcontent.classList.add("card-content");
+                chartContainer.appendChild(cardcontent);
+                const xScale = element.xattribute;
+                const yScale = element.yattribute;
+                editor.appendChild(chartContainer);
+                //  const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
+                //resizableCard.id = chartItemId;
+                // ShowChartProperties(chartContainer, resizableCard);
+
+                const width = element.width;
+                const height = element.height;
 
 
-            BuildChart(chartContainer, element.dataSource, element.type, element.id,
-                element.width, element.height, element.xattribute, element.yattribute);
+                BuildChart(chartContainer, chartData, chartType, chartItemId,
+                    width, height, element.xattribute, element.yattribute);
 
 
-            // BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute)
+                // BuildChart(chartContainer, chartData, chartType, chartItemId, width, height, xAttribute, yAttribute)
+            });
+
+        })
+        .catch(error => {
+            // Handle errors if needed
+            console.error('Error loading JSON:', error);
         });
-        
-      })
-      .catch(error => {
-        // Handle errors if needed
-        console.error('Error loading JSON:', error);
-      });
-  });
-  
-  
+});
 
-  async function loadJSONFile(jsonFilePath) {
+
+
+async function loadJSONFile(jsonFilePath) {
     return fetch("report.json")
-      .then(response => response.json())
-      .then(data => {
-        // Return the loaded JSON data
-        return data;
-      })
-      .catch(error => {
-        console.error('Error loading JSON:', error);
-        throw error; // Re-throw the error to be handled by the caller if needed
-      });
-  }
+        .then(response => response.json())
+        .then(data => {
+            // Return the loaded JSON data
+            return data;
+        })
+        .catch(error => {
+            console.error('Error loading JSON:', error);
+            throw error; // Re-throw the error to be handled by the caller if needed
+        });
+}
+
+async function loadAllJSONFiles() {
+    try {
+        // Fetch all files in the current directory
+        const response = await fetch('.');
+        if (!response.ok) {
+            throw new Error('Failed to fetch directory contents');
+        }
+
+        // Read the response text
+        const text = await response.text();
+
+        // Extract the filenames from the response text
+        const filenames = text.match(/"([^"]+\.json)"/g).map(filename => filename.replace(/"/g, ''));
+
+        // Fetch each JSON file and parse its content
+        const jsonFiles = await Promise.all(filenames.map(async filename => {
+            const fileResponse = await fetch(filename);
+            if (!fileResponse.ok) {
+                throw new Error(`Failed to fetch ${filename}`);
+            }
+            const jsonData = await fileResponse.json();
+            return { filename, data: jsonData };
+        }));
+
+        // Return an array of objects containing filename and JSON data
+        return jsonFiles;
+    } catch (error) {
+        console.error('Error loading JSON files:', error);
+        return null;
+    }
+}
+
 
 function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
     const scorecardContainer = document.getElementById("editor-panel");
     const scorecard = document.createElement("div");
     const ElementItemId = GetUniqueID(chartType);
-    ElementItemId.id =ElementItemId;
+    ElementItemId.id = ElementItemId;
     scorecard.className = "scorecard";
     scorecard.style.top = 0;
     scorecard.style.left = 0;
@@ -110,8 +148,8 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
     scorecard.style.border = `2px solid ${cardColor}`;
     makeElementDraggable(scorecard);
     scorecardContainer.appendChild(scorecard);
-   
-   ///
+
+    ///
     const chart = {
         id: ElementItemId, type: Scorecard, dataSource: chartData, title: title, actual: actual, container: scorecard, width: width,
         height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
@@ -254,10 +292,10 @@ async function InsertChart() {
         // itemList.push(chart);
         BuildChart(chartContainer.id, chartData, chartType, chartItemId, width, height, xScale, yScale);
         const chart = {
-            id: chartContainer.id,dataSource: chartData, type: chartType,chartItemId:chartItemId, 
+            id: chartContainer.id, dataSource: chartData, type: chartType, chartItemId: chartItemId,
             xattribute: xScale,
-                     yattribute: yScale, width: width,
-                        height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
+            yattribute: yScale, width: width,
+            height: 400, left: resizableCard.getPosition().left, top: resizableCard.getPosition().top
         };
         itemList.push(chart);
         console.log(itemList);
@@ -288,7 +326,7 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
 
 
 
-        const graph = svg.append("g")
+    const graph = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
     const xScale = d3.scaleBand()
         .domain(chartData.map(d => d[xAttribute]))
@@ -300,30 +338,30 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
         .nice()
         .range([chartHeight, 0]);
 
-        if (chartType === 'bar') {
-            CreateBarChart(graph, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
-    
-        }
-        else if (chartType === 'line') {
-            CreateLineChart(xScale, xAttribute, yScale, yAttribute, graph, chartData, chartHeight, svg, chartWidth, chartTitleValue);
-        }
-        else if (chartType === 'pie') {
-            CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute);
-        }
-        else if (chartType === 'treemap') {
-            CreateTreeMapChart(chartWidth, chartHeight, chartData, graph);
-        }
-    
-    
-        else {
-            // Handle other chart types here
-        }
+    if (chartType === 'bar') {
+        CreateBarChart(graph, chartData, xScale, xAttribute, yScale, yAttribute, chartHeight, svg, chartWidth, chartTitleValue);
+
+    }
+    else if (chartType === 'line') {
+        CreateLineChart(xScale, xAttribute, yScale, yAttribute, graph, chartData, chartHeight, svg, chartWidth, chartTitleValue);
+    }
+    else if (chartType === 'pie') {
+        CreatePieChart(chartWidth, chartHeight, graph, chartData, xScale, xAttribute, yScale, yAttribute);
+    }
+    else if (chartType === 'treemap') {
+        CreateTreeMapChart(chartWidth, chartHeight, chartData, graph);
+    }
+
+
+    else {
+        // Handle other chart types here
+    }
 
     // populate object list
     // Create a new chart item element
     AddItemInObjectListPanel(chartContainer);
     // ... (rest of the code for creating the chart)
-  //  document.getElementById("chartOptions").style.display = "none";
+    //  document.getElementById("chartOptions").style.display = "none";
 }
 
 function resizeCallback(chartContainer, newWidth, newHeight) {

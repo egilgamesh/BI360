@@ -48,7 +48,7 @@
 
         }
         async function LoadingDataSources() {
-            const dataSourceUrl = "http://localhost:5006/api/DataGateway/GetAllDataSources"
+            const dataSourceUrl = "https://localhost:5007/api/DataGateway/GetAllDataSources"
             const DataSourcesList = await fetchTableData(dataSourceUrl);
             CreateDataSourceCards(DataSourcesList)
 

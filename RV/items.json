@@ -1,0 +1,150 @@
+[
+  {
+    "id": "bar-1711106131067",
+    "type": "bar",
+    "dataSource": [
+      {
+        "salesterritorykey": 8
+      },
+      {
+        "salesterritorykey": 10
+      },
+      {
+        "salesterritorykey": 7
+      },
+      {
+        "salesterritorykey": 9
+      },
+      {
+        "salesterritorykey": 1
+      },
+      {
+        "salesterritorykey": 5
+      },
+      {
+        "salesterritorykey": 2
+      },
+      {
+        "salesterritorykey": 4
+      },
+      {
+        "salesterritorykey": 6
+      },
+      {
+        "salesterritorykey": 3
+      }
+    ],
+    "xattribute": "salesterritorykey",
+    "yattribute": "salesterritorykey",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 398,
+    "height": 343,
+    "left": 311.6666564941406,
+    "top": 82.82551574707031
+  },
+  {
+    "id": "pie-1711106141858",
+    "type": "pie",
+    "dataSource": [
+      {
+        "salesterritorykey": 1,
+        "sum_of_sales_amount": 302938937.76
+      },
+      {
+        "salesterritorykey": 2,
+        "sum_of_sales_amount": 333155.97
+      },
+      {
+        "salesterritorykey": 3,
+        "sum_of_sales_amount": 153042.33
+      },
+      {
+        "salesterritorykey": 4,
+        "sum_of_sales_amount": 726205185.89
+      },
+      {
+        "salesterritorykey": 5,
+        "sum_of_sales_amount": 783286.4
+      },
+      {
+        "salesterritorykey": 6,
+        "sum_of_sales_amount": 144382676.97
+      },
+      {
+        "salesterritorykey": 7,
+        "sum_of_sales_amount": 126912851.52
+      },
+      {
+        "salesterritorykey": 8,
+        "sum_of_sales_amount": 188130303.4
+      },
+      {
+        "salesterritorykey": 9,
+        "sum_of_sales_amount": 362440028.8
+      },
+      {
+        "salesterritorykey": 10,
+        "sum_of_sales_amount": 179760748.72
+      }
+    ],
+    "xattribute": "salesterritorykey",
+    "yattribute": "sum_of_sales_amount",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 474,
+    "height": 340,
+    "left": 750.0000610351562,
+    "top": 90.00000762939453
+  },
+  {
+    "id": "line-1711106146695",
+    "type": "line",
+    "dataSource": [
+      {
+        "salesterritorykey": 8
+      },
+      {
+        "salesterritorykey": 10
+      },
+      {
+        "salesterritorykey": 7
+      },
+      {
+        "salesterritorykey": 9
+      },
+      {
+        "salesterritorykey": 1
+      },
+      {
+        "salesterritorykey": 5
+      },
+      {
+        "salesterritorykey": 2
+      },
+      {
+        "salesterritorykey": 4
+      },
+      {
+        "salesterritorykey": 6
+      },
+      {
+        "salesterritorykey": 3
+      }
+    ],
+    "xattribute": "salesterritorykey",
+    "yattribute": "salesterritorykey",
+    "container": {
+      "top": 0,
+      "left": 0
+    },
+    "width": 300,
+    "height": 200,
+    "left": 569.9999389648438,
+    "top": 460
+  }
+]

@@ -1,35 +1,41 @@
 [
   {
-    "id": "bar-1711098302876",
+    "id": "bar-1711109890708",
     "type": "bar",
     "dataSource": [
       {
-        "englishcountryregionname": "Australia",
-        "sum_of_sales_amount": 362440028.8
+        "salesterritorykey": 8
       },
       {
-        "englishcountryregionname": "Canada",
-        "sum_of_sales_amount": 144382676.97
+        "salesterritorykey": 10
       },
       {
-        "englishcountryregionname": "France",
-        "sum_of_sales_amount": 126912851.52
+        "salesterritorykey": 7
       },
       {
-        "englishcountryregionname": "Germany",
-        "sum_of_sales_amount": 188130303.4
+        "salesterritorykey": 9
       },
       {
-        "englishcountryregionname": "United Kingdom",
-        "sum_of_sales_amount": 179760748.72
+        "salesterritorykey": 1
       },
       {
-        "englishcountryregionname": "United States",
-        "sum_of_sales_amount": 1030413608.35
+        "salesterritorykey": 5
+      },
+      {
+        "salesterritorykey": 2
+      },
+      {
+        "salesterritorykey": 4
+      },
+      {
+        "salesterritorykey": 6
+      },
+      {
+        "salesterritorykey": 3
       }
     ],
-    "xattribute": "englishcountryregionname",
-    "yattribute": "sum_of_sales_amount",
+    "xattribute": "salesterritorykey",
+    "yattribute": "salesterritorykey",
     "container": {
       "top": 0,
       "left": 0
@@ -40,8 +46,8 @@
     "top": 82.82551574707031
   },
   {
-    "id": "line-1711098311807",
-    "type": "line",
+    "id": "pie-1711109900517",
+    "type": "pie",
     "dataSource": [
       {
         "englishcountryregionname": "Australia",
@@ -76,7 +82,7 @@
     },
     "width": 600,
     "height": 400,
-    "left": 925.6640625,
+    "left": 961.6666259765625,
     "top": 82.82551574707031
   }
 ]
