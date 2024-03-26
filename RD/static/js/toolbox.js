@@ -219,7 +219,7 @@ async function InsertChart() {
     chartContainer.appendChild(cardcontent);
     editor.appendChild(chartContainer);
     // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
-    const resizableCard =new IntractClient(chartContainer);
+    const resizableCard =new IntractClient(chartContainer, resizeCallback);
     // resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
