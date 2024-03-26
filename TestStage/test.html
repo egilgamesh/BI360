@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Save Dialog</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.dialog {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.dialog-content {
+  padding: 20px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.save-button {
+  background-color: #4cd964;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #45c851;
+}
+
+</style>
+</head>
+<body>
+<button class="button" id="saveButton">Save</button>
+
+<div id="saveDialog" class="dialog">
+  <div class="dialog-content">
+    <span class="close">&times;</span>
+    <h2 style="margin-top: 0;">Save Content</h2>
+    <label for="fileName" class="label">File Name:</label>
+    <input type="text" id="fileName" class="input">
+    <button id="downloadButton" class="save-button">Save</button>
+  </div>
+</div>
+
+<script>
+document.getElementById("saveButton").addEventListener("click", function() {
+  document.getElementById("saveDialog").style.display = "block";
+});
+
+document.querySelector(".close").addEventListener("click", function() {
+  document.getElementById("saveDialog").style.display = "none";
+});
+
+document.getElementById("downloadButton").addEventListener("click", function() {
+  var fileName = document.getElementById("fileName").value;
+  var content = "This is the content to be saved.";
+
+  var blob = new Blob([content], {type: "text/plain"});
+  var url = window.URL.createObjectURL(blob);
+
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = fileName || "savedContent.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+</script>
+</body>
+</html>

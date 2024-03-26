@@ -54,18 +54,22 @@ async function getMetaData(url, dataSourceName) {
 
 async function PostNewReport(url, Report) {
     try {
-        const formData = new FormData();
-        formData.append('data', JSON.stringify(Report, null, 2));
+        const Data = JSON.stringify(Report, null, 2);
+        
         const response = await fetch(url, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: Data
         });
+        console.log('Response status:', response); // Log the response status
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
-        const data = await response.json(); // parse JSON response
-        console.log('Success:', data);
+        const responseData = await response; // Parse response as text
+        console.log('Response data:', responseData); // Log the response data
         // Handle success here if needed
     } catch (error) {
         console.error('Error:', error);

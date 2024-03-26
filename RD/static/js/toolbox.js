@@ -30,13 +30,13 @@ async function SaveJson() {
     const reportObject = {
         "reportName": "Api Test",
         "reportAuthor": 0,
-        "reportCreateDate": Date.now,
-        "reportLastChange": Date.now,
+        "reportCreateDate": new Date().toISOString(),
+        "reportLastChange": new Date().toISOString(),
         "reportSpaceId": 0,
         "reportMetaData": JSON.stringify(itemList, null, 2).toString()
       };
         //todo: take url to app config
-    await PostNewReport("https://localhost:5007/api/Reports",reportObject)
+    await PostNewReport("https://localhost:5007/api/Reports/NewReport",reportObject)
 }
 
 
