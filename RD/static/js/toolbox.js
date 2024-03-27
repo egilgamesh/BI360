@@ -296,19 +296,22 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
     document.getElementById("chartOptions").style.display = "none";
 }
 
-function resizeCallback(chartContainer, newWidth, newHeight) {
+function resizeCallback(chartContainer, newWidth, newHeight,  newtop, newLeft) {
     // This function is called when the card container is resized
     // You can perform any actions or updates you need here based on the new dimensions
-    updateChart(chartContainer, newWidth, newHeight);
+    updateChart(chartContainer, newWidth, newHeight,  newtop, newLeft);
 }
 
-function updateChart(chartContainer, newWidth, newHeight) {
+function updateChart(chartContainer, newWidth, newHeight, newtop,newLeft) {
     const mainContainer = document.getElementById(chartContainer.id);
     const indexToUpdate = itemList.findIndex(item => item.id === mainContainer.id);
     if (indexToUpdate !== -1) {
         const itemToUpdate = itemList[indexToUpdate];
         itemToUpdate.width = newWidth;
         itemToUpdate.height = newHeight;
+        itemToUpdate.top = newtop;
+        itemToUpdate.left = newLeft;
+
         BuildChart(chartContainer, itemToUpdate.dataSource, itemToUpdate.type, chartContainer.id,
             itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
     }
