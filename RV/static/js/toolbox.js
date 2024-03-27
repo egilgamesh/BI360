@@ -6,20 +6,31 @@
 
 // try to find snap aligment machnizim, try to use lib if it better
 
-const itemList = [];
 
+function GetReportIDFromQueryString() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var DataSourceName = urlParams.get('id');
+    console.log("Datasourcename:" + DataSourceName)
+    if (!DataSourceName)
+        console.log("Nothing to print as datasource")
+    if (DataSourceName)
+        return DataSourceName;
+    else
+        return "FailedDataSource"
+}
 
-document.addEventListener('DOMContentLoaded', function () {
-    const jsonFilePath = 'report.json';
-
+document.addEventListener('DOMContentLoaded', async function () {
+    const ReportID = GetReportIDFromQueryString();
+    const ReportMetaData = JSON.parse(await loadReportJSON(ReportID));
+    console.log(ReportMetaData);
     // Call the function and handle the returned Promise
-    loadJSONFile(jsonFilePath)
-        .then(data => {
+    // loadReportJSON(ReportID)
+    //     .then(data => {
             // Handle the loaded JSON data
-            console.log('Loaded JSON data:', data);
+            console.log('Loaded JSON data:', ReportMetaData);
 
             // Now you can use the data as needed in your page
-            data.forEach(element => {
+            ReportMetaData.forEach(element => {
 
                 const chartType = element.type;
                 const chartItemId = element.id;
@@ -55,58 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         })
-        .catch(error => {
-            // Handle errors if needed
-            console.error('Error loading JSON:', error);
-        });
-});
 
 
 
-async function loadJSONFile(jsonFilePath) {
-    return fetch("report.json")
-        .then(response => response.json())
-        .then(data => {
-            // Return the loaded JSON data
-            return data;
-        })
-        .catch(error => {
-            console.error('Error loading JSON:', error);
-            throw error; // Re-throw the error to be handled by the caller if needed
-        });
+
+async function loadReportJSON(ReportId) {
+const data = await fetchTableData( "https://localhost:5007/api/Reports/GetReportById?id=" + ReportId);
+console.log(data);
+return data["reportMetaData"];
 }
 
-async function loadAllJSONFiles() {
-    try {
-        // Fetch all files in the current directory
-        const response = await fetch('.');
-        if (!response.ok) {
-            throw new Error('Failed to fetch directory contents');
-        }
-
-        // Read the response text
-        const text = await response.text();
-
-        // Extract the filenames from the response text
-        const filenames = text.match(/"([^"]+\.json)"/g).map(filename => filename.replace(/"/g, ''));
-
-        // Fetch each JSON file and parse its content
-        const jsonFiles = await Promise.all(filenames.map(async filename => {
-            const fileResponse = await fetch(filename);
-            if (!fileResponse.ok) {
-                throw new Error(`Failed to fetch ${filename}`);
-            }
-            const jsonData = await fileResponse.json();
-            return { filename, data: jsonData };
-        }));
-
-        // Return an array of objects containing filename and JSON data
-        return jsonFiles;
-    } catch (error) {
-        console.error('Error loading JSON files:', error);
-        return null;
-    }
-}
 
 
 function generateScorecard(title, actual, target, cardColor = "gray", titleColor = "black", actualColor = "black") {
