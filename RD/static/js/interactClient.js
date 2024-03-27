@@ -54,10 +54,12 @@ class IntractClient {
     }
 
     getPosition() {
-        const rect = this.cardContainer.getBoundingClientRect();
+        const parentRect = this.cardContainer.parentElement.getBoundingClientRect(); // Get bounding rect of parent element
+        const rect = this.cardContainer.getBoundingClientRect(); // Get bounding rect of the element
+    
         return {
-            top: rect.top,
-            left: rect.left
+            top: rect.top - parentRect.top,
+            left: rect.left - parentRect.left
         };
     }
 

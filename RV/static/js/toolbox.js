@@ -38,12 +38,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const editor = document.getElementById("editor-panel");
                 const chartContainer = document.createElement("div");
                 chartContainer.id = element.id;
+                chartContainer.classList.add("card-container");
+
                 chartContainer.style.top = element.top + 'px';
                 chartContainer.style.left = element.left + 'px';
                 chartContainer.style.width = element.width + 'px';
                 chartContainer.style.height = element.height + 'px';
 
-                chartContainer.classList.add("card-container");
                 const cardcontent = document.createElement("div");
                 cardcontent.classList.add("card-content");
                 chartContainer.appendChild(cardcontent);

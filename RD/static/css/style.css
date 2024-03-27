@@ -329,6 +329,14 @@
       transition: width 0.3s, height 0.3s;
   }
 
+  .card-content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    transition: width 0.3s, height 0.3s;
+    overflow: hidden;
+    cursor: move;
+}
 
   .card-container-selected {
       position: relative;
@@ -343,14 +351,7 @@
       transition: width 0.3s, height 0.3s;
   }
 
-  .card-content {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      transition: width 0.3s, height 0.3s;
-      overflow: hidden;
-      cursor: move;
-  }
+
 
   .FileMenuContainer {
       display: none;
