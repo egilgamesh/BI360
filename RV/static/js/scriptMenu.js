@@ -1,3 +1,5 @@
+
+
 function toggleObjectsPanel() {
   var objectsPanel = document.getElementById("objects-panel");
   var objectsList = document.getElementById('objects-list');

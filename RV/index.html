@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="../RV/static/css/FileExplorer.css">
-    <script src="../RV/static/js/BreadcrumbComponent.js" defer></script>
-
-    <script src="../RV/static/js/ChatComponent.js" defer></script>
     <script src="../RV/static/js/Data.js" defer></script>
-    <script type="module" src="../RV/static/js/AppConfig.js" ></script>
-    <script type="module" src="../RV/static/js/DynamicTable.js" defer></script>
-    <script type="module" src="../RV/static/js/loadingFiles.js" defer></script>
+    <script src="../RV/static/js/BreadcrumbComponent.js" defer></script>
+    <script src="../RV/static/js/ChatComponent.js" defer></script>
+    <script type="module" src="../RV/static/js/loadingFiles.js"></script>
+
+    <!-- <script type="module" src="../RV/static/js/AppConfig.js" ></script>
+    <script type="module" src="../RV/static/js/DynamicTable.js"></script> -->
 
 
     <title>Report Viewer</title>
@@ -33,8 +33,9 @@
             <span class="PanelHeader">Folders Explorer</span>
             <ul id="tree-list">
                 <li class="tree-node"><i class="fa-solid fa-house"></i>Home</li>
-                <li class="tree-node" onclick="LoadReportsBySpace(0)"><i class="fa-solid fa-user"></i>My Space</li>
-                <li class="tree-node" onclick="LoadReportsBySpace(1)"> <i class="fa-solid fa-share-nodes"></i>Shared with me</li>
+                <li class="tree-node" onclick="loadReports(0)"><i class="fa-solid fa-user"></i>My Space</li>
+                <li class="tree-node" onclick="loadReports(1)"> <i class="fa-solid fa-share-nodes"></i>Shared with me
+                </li>
             </ul>
         </div>
 
@@ -50,7 +51,7 @@
                     <div class="tab">Dashboard</div>
                 </div>
                 <breadcrumb-component urltext="http://localhost/user/documents/project/"></breadcrumb-component>
-                <div  class="list-view-Container">
+                <div class="list-view-Container">
                     <div id="list-view" class="list-view">
 
                     </div>
@@ -71,6 +72,13 @@
             <input type="text" class="CommentTextBox" placeholder="Leave a comment ...">
         </div>
     </div>
+    <script>
+        // Define a function to call loadReportsBySpace method on the loader instance
+        async function loadReports(space) {
+            const loader = new ReportLoader(); // Create an instance of ReportLoader
+            await loader.loadReportsBySpace(space);
+        }
+    </script>
 </body>
 
 </html>
