@@ -1,8 +1,7 @@
 import DynamicTable from './DynamicTable.js';
 import AppConfig from './AppConfig.js';
 
-export class ReportLoader {
-    constructor(){}
+class ReportLoader {
     async loadReportsBySpace(space) {
         document.getElementById("list-view").innerHTML = "";
         const url = AppConfig.apiUrl + "/Reports/GetReportBySpaceId?id=" + space;
@@ -19,3 +18,7 @@ export class ReportLoader {
         const dynamicTable = new DynamicTable('list-view', tableOptions);
     }
 }
+
+
+
+export default ReportLoader;

@@ -9,11 +9,21 @@
     <script src="../RV/static/js/Data.js" defer></script>
     <script src="../RV/static/js/BreadcrumbComponent.js" defer></script>
     <script src="../RV/static/js/ChatComponent.js" defer></script>
+    <script src="../RV/static/js/scriptMenu.js" defer></script>
     <script type="module" src="../RV/static/js/loadingFiles.js"></script>
 
     <!-- <script type="module" src="../RV/static/js/AppConfig.js" ></script>
     <script type="module" src="../RV/static/js/DynamicTable.js"></script> -->
+    <script type="module">
+        // Define a function to call loadReportsBySpace method on the loader instance
+        import ReportLoader from "../RV/static/js/loadingFiles.js";
+      async function loadReports(space) {
+            const loader = new ReportLoader(); // Create an instance of ReportLoader
+            await loader.loadReportsBySpace(space);
+        }
 
+        window.loadReports = loadReports;
+    </script>
 
     <title>Report Viewer</title>
 </head>
@@ -33,8 +43,9 @@
             <span class="PanelHeader">Folders Explorer</span>
             <ul id="tree-list">
                 <li class="tree-node"><i class="fa-solid fa-house"></i>Home</li>
-                <li class="tree-node" onclick="loadReports(0)"><i class="fa-solid fa-user"></i>My Space</li>
-                <li class="tree-node" onclick="loadReports(1)"> <i class="fa-solid fa-share-nodes"></i>Shared with me
+                <li id="mySpace" class="tree-node" onclick="loadReports('0')"><i class="fa-solid fa-user"></i>My Space
+                </li>
+                <li id="sharedSpace" class="tree-node" onclick="loadReports('1')"> <i class="fa-solid fa-share-nodes"></i>Shared with me
                 </li>
             </ul>
         </div>
@@ -72,13 +83,7 @@
             <input type="text" class="CommentTextBox" placeholder="Leave a comment ...">
         </div>
     </div>
-    <script>
-        // Define a function to call loadReportsBySpace method on the loader instance
-        async function loadReports(space) {
-            const loader = new ReportLoader(); // Create an instance of ReportLoader
-            await loader.loadReportsBySpace(space);
-        }
-    </script>
+
 </body>
 
 </html>

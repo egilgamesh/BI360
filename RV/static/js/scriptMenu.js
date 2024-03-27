@@ -5,7 +5,7 @@ function toggleObjectsPanel() {
   var objectsList = document.getElementById('objects-list');
   objectsPanel.classList.toggle('collapse');
   objectsList.classList.toggle('collapsed');
- 
+
 }
 
 function togglePropertiesPanel() {
@@ -38,13 +38,11 @@ function ShowComponents() {
   layerradio.classList.remove("active");
 }
 
-function ShowFileMenu()
-{
+function ShowFileMenu() {
   const fileMenuContainer = document.getElementById("FileMenuContainer");
-  fileMenuContainer.style.display="Block";
+  fileMenuContainer.style.display = "Block";
 }
-function CloseFileMenu()
-{
+function CloseFileMenu() {
   const fileMenuContainer = document.getElementById("FileMenuContainer");
-  fileMenuContainer.style.display="none";
+  fileMenuContainer.style.display = "none";
 }
