@@ -89,7 +89,14 @@ class ResizableTextElement extends HTMLElement {
     this.shadowRoot.innerHTML = template;
 
     const controlsContainer = this.shadowRoot.querySelector('.controls-container');
-    const editableText = this.shadowRoot.querySelector('.editable-text');
+    
+   // Listen for input event on the editable text area
+   const editableText = this.shadowRoot.querySelector('.editable-text');
+   editableText.addEventListener('input', () => {
+     // Dispatch custom 'textChanged' event when text content changes
+     const textChangedEvent = new Event('textChanged', { bubbles: true });
+     editableText.dispatchEvent(textChangedEvent);
+   });
 
     // Toggle controls-container display on editable-text click
     editableText.addEventListener('click', () => {

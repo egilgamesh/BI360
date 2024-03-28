@@ -335,9 +335,10 @@ function UpdateText(chartContainer, newWidth, newHeight, newtop, newLeft) {
         itemToUpdate.height = newHeight;
         itemToUpdate.top = newtop;
         itemToUpdate.left = newLeft;
-        console.log(itemToUpdate);
+        //  console.log(itemToUpdate);
 
     }
+    console.log(itemList);
 }
 
 
