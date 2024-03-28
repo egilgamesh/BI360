@@ -73,6 +73,7 @@ function InsertTextControl() {
 
     // if (textboxControl) {
     const textItem = document.createElement("resizable-text-element");
+    textItem.setInputCallback(textInputCallback);
     textItem.id = ElementItemId;
     textItem.style.top = 0;
     textItem.style.left = 0;
@@ -85,6 +86,11 @@ function InsertTextControl() {
       itemList.push(textbox)
       console.log(itemList);
 }
+
+function textInputCallback(textContent) {
+    console.log('Input event fired with text content:', textContent);
+    // Do something with the text content...
+  }
 
 function InsertImage(ImageSourcePath) {
     const scorecardContainer = document.getElementById("editor-panel");

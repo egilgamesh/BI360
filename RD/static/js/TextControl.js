@@ -14,6 +14,7 @@ class ResizableTextElement extends HTMLElement {
       lineHeight: 'normal'
     };
     this.render();
+    this.inputCallback = null; // Initialize input callback to null
   }
 
   render() {
@@ -93,9 +94,10 @@ class ResizableTextElement extends HTMLElement {
    // Listen for input event on the editable text area
    const editableText = this.shadowRoot.querySelector('.editable-text');
    editableText.addEventListener('input', () => {
-     // Dispatch custom 'textChanged' event when text content changes
-     const textChangedEvent = new Event('textChanged', { bubbles: true });
-     editableText.dispatchEvent(textChangedEvent);
+    if (typeof this.inputCallback === 'function') {
+      // Invoke the callback function if it's set
+      this.inputCallback(this.getTextContent());
+    }
    });
 
     // Toggle controls-container display on editable-text click
@@ -174,11 +176,17 @@ class ResizableTextElement extends HTMLElement {
     return this.textFormats;
   }
 
+  setInputCallback(callback) {
+    this.inputCallback = callback;
+  }
+  
   getTextContent()
   {
     const editableText = this.shadowRoot.querySelector('.editable-text');
     return editableText.textContent;
   }
+
+
 }
 
 // Define the custom element tag
