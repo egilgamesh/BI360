@@ -166,6 +166,12 @@ class ResizableTextElement extends HTMLElement {
   getTextFormats() {
     return this.textFormats;
   }
+
+  getTextContent()
+  {
+    const editableText = this.shadowRoot.querySelector('.editable-text');
+    return editableText.textContent;
+  }
 }
 
 // Define the custom element tag

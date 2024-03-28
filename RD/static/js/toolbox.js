@@ -17,22 +17,21 @@ function GetDataSourceNameFromQueryString() {
 
 
 
-async function SaveReport(ReportNameTextBoxID, Author, SpaceID)
-{
+async function SaveReport(ReportNameTextBoxID, Author, SpaceID) {
     const filename = document.getElementById(ReportNameTextBoxID).value;
-        const reportObject = {
+    const reportObject = {
         "reportName": filename,
         "reportAuthor": Author,
         "reportCreateDate": new Date().toISOString(),
         "reportLastChange": new Date().toISOString(),
         "reportSpaceId": SpaceID,
         "reportMetaData": JSON.stringify(itemList, null, 2).toString()
-      };
-        //todo: take url to app config
-    const response = await PostNewReport("https://localhost:5007/api/Reports/NewReport",reportObject);
+    };
+    //todo: take url to app config
+    const response = await PostNewReport("https://localhost:5007/api/Reports/NewReport", reportObject);
     console.log(response);
-    if(response)
-    document.getElementById("saveDialog").style.display = "none";
+    if (response)
+        document.getElementById("saveDialog").style.display = "none";
 }
 
 
@@ -55,7 +54,7 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
         </div>
     `;
     scorecard.style.border = `2px solid ${cardColor}`;
-    const resizableCard =new IntractClient(scorecard);
+    const resizableCard = new IntractClient(scorecard);
     scorecardContainer.appendChild(scorecard);
 
     ///
@@ -68,36 +67,40 @@ function generateScorecard(title, actual, target, cardColor = "gray", titleColor
 
 function InsertTextControl() {
     const scorecardContainer = document.getElementById("editor-panel");
-    // const textboxControl = document.getElementById(TextString).value;
-    const ElementItemId = GetUniqueID(chartType);
+    const ElementItemId = GetUniqueID('text');
 
     // <resizable-text-element></resizable-text-element>
 
     // if (textboxControl) {
-        const scorecard = document.createElement("resizable-text-element");
-        scorecard.id = ElementItemId;
-        scorecard.style.top = 0;
-        scorecard.style.left = 0;
-        // scorecard.innerHTML = textboxControl;
-        scorecardContainer.appendChild(scorecard);
-        const resizableCard =new IntractClient(scorecard);
-        // makeElementDraggable(scorecard);
-    // }
-
+    const textItem = document.createElement("resizable-text-element");
+    textItem.id = ElementItemId;
+    textItem.style.top = 0;
+    textItem.style.left = 0;
+    // scorecard.innerHTML = textboxControl;
+    scorecardContainer.appendChild(textItem);
+    const resizableCard = new IntractClient(textItem, TextCallback);
+    const textbox = new TextItem(ElementItemId, textItem.getTextContent(), textItem.getTextFormats().fontSize,
+     textItem.getTextFormats().fontFamily, textItem.getTextFormats().color, textItem.getTextFormats().left,
+      textItem.getTextFormats().left, textItem.getTextFormats().width, textItem.getTextFormats().height);
+      itemList.push(textbox)
+      console.log(itemList);
 }
 
 function InsertImage(ImageSourcePath) {
     const scorecardContainer = document.getElementById("editor-panel");
-    const textboxControl = document.getElementById(ImageSourcePath).value;
-    const ElementItemId = GetUniqueID(chartType);
-    if (textboxControl) {
-        const scorecard = document.createElement("img");
-        scorecard.id = ElementItemId;
-        scorecard.style.top = 0;
-        scorecard.style.left = 0;
-        scorecard.src = textboxControl;
-        scorecardContainer.appendChild(scorecard);
-        const resizableCard =new IntractClient(scorecard);
+    const ImageUrl = document.getElementById(ImageSourcePath).value;
+    const ElementItemId = GetUniqueID('image');
+    if (ImageUrl) {
+        const imageItem = document.createElement("img");
+        imageItem.id = image.id;
+        imageItem.style.top = image.top;
+        imageItem.style.left = image.left;
+        imageItem.src = image.source;
+        scorecardContainer.appendChild(imageItem);
+        const resizableImage = new IntractClient(imageItem, resizeCallback);
+        const image = new ImageItem(ElementItemId, ImageUrl, 300, 300, 0, 0);
+        itemList.push(image)
+        console.log(itemList);
     }
 }
 
@@ -123,7 +126,7 @@ function GenerateCommunityCard() {
     scorecard.appendChild(humanChart.getChartContainer())
     scorecardContainer.appendChild(scorecard);
     // makeElementDraggable(scorecard);
-    const resizableCard =new IntractClient(scorecard);
+    const resizableCard = new IntractClient(scorecard);
 
 
 }
@@ -192,7 +195,7 @@ function GetApiUrl(dataSource) {
         `&SelectedColumns[${selectedXTable}]=${selectedXaxisColumn}` +
         `&SelectedColumns[${selectedYTable}]=${selectedYaxisColumn}`;
     const fullUrl = apiUrl + queryString;
-//    console.log('Constructed URL:', fullUrl); // enable it to debug the caller url
+    //    console.log('Constructed URL:', fullUrl); // enable it to debug the caller url
     return fullUrl;
 }
 // datasource 'CGSEDW2023'
@@ -215,7 +218,7 @@ async function InsertChart() {
     chartContainer.appendChild(cardcontent);
     editor.appendChild(chartContainer);
     // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
-    const resizableCard =new IntractClient(chartContainer, resizeCallback);
+    const resizableCard = new IntractClient(chartContainer, resizeCallback);
     // resizableCard.id = chartItemId;
     ShowChartProperties(chartContainer, resizableCard);
     const chartData = await fetchChartData(apiURL, xaxisvalue, xaxisvalue.toString(), yaxisvalue, yaxisvalue.toString(), chartType); // chart type has been not pass
@@ -296,13 +299,13 @@ function BuildChart(chartContainer, chartData, chartType, chartItemId, width, he
     document.getElementById("chartOptions").style.display = "none";
 }
 
-function resizeCallback(chartContainer, newWidth, newHeight,  newtop, newLeft) {
+function resizeCallback(chartContainer, newWidth, newHeight, newtop, newLeft) {
     // This function is called when the card container is resized
     // You can perform any actions or updates you need here based on the new dimensions
-    updateChart(chartContainer, newWidth, newHeight,  newtop, newLeft);
+    updateChart(chartContainer, newWidth, newHeight, newtop, newLeft);
 }
 
-function updateChart(chartContainer, newWidth, newHeight, newtop,newLeft) {
+function updateChart(chartContainer, newWidth, newHeight, newtop, newLeft) {
     const mainContainer = document.getElementById(chartContainer.id);
     const indexToUpdate = itemList.findIndex(item => item.id === mainContainer.id);
     if (indexToUpdate !== -1) {
@@ -314,6 +317,26 @@ function updateChart(chartContainer, newWidth, newHeight, newtop,newLeft) {
 
         BuildChart(chartContainer, itemToUpdate.dataSource, itemToUpdate.type, chartContainer.id,
             itemToUpdate.width, itemToUpdate.height, itemToUpdate.xattribute, itemToUpdate.yattribute);
+    }
+}
+
+function TextCallback(chartContainer, newWidth, newHeight, newtop, newLeft) {
+    // This function is called when the card container is resized
+    // You can perform any actions or updates you need here based on the new dimensions
+    UpdateText(chartContainer, newWidth, newHeight, newtop, newLeft);
+}
+
+function UpdateText(chartContainer, newWidth, newHeight, newtop, newLeft) {
+    const mainContainer = document.getElementById(chartContainer.id);
+    const indexToUpdate = itemList.findIndex(item => item.id === mainContainer.id);
+    if (indexToUpdate !== -1) {
+        const itemToUpdate = itemList[indexToUpdate];
+        itemToUpdate.width = newWidth;
+        itemToUpdate.height = newHeight;
+        itemToUpdate.top = newtop;
+        itemToUpdate.left = newLeft;
+        console.log(itemToUpdate);
+
     }
 }
 
@@ -570,7 +593,7 @@ async function insertTable() {
 
         editorPanel.appendChild(table);
         // Make the table draggable
-    const resizableCard =new IntractClient(table);
+        const resizableCard = new IntractClient(table);
 
         // makeElementDraggable(table);
 
@@ -728,9 +751,8 @@ function createDropdown(data, dropdownId) {
     });
 }
 
-async function SalesKPI()
-{
-await PredefineChart('bar');
+async function SalesKPI() {
+    await PredefineChart('bar');
 }
 
 
@@ -738,8 +760,8 @@ async function PredefineChart(chartTyp) {
     const chartType = chartTyp;
     const chartItemId = GetUniqueID(chartType);
     //const dataSourceName = GetDataSourceNameFromQueryString()
-            //todo: take url to app config
-    const apiURL ="https://localhost:5007/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023PG&SelectedTables=dimgeography&SelectedTables=factinternetsales&SelectedColumns[dimgeography]=englishcountryregionname&SelectedColumns[factinternetsales]=sum_of_sales_amount"
+    //todo: take url to app config
+    const apiURL = "https://localhost:5007/api/DataGateway/GetGeneratedDataDynamicColumns?dataSourceName=CGSEDW2023PG&SelectedTables=dimgeography&SelectedTables=factinternetsales&SelectedColumns[dimgeography]=englishcountryregionname&SelectedColumns[factinternetsales]=sum_of_sales_amount"
     const yaxisvalue = "sum_of_sales_amount"; // get the y axis from api englishcountryregionname
     const xaxisvalue = "englishcountryregionname"; // get x axis from api
     const chartTitleValue = "Sales KPI"; // get x axis from api
@@ -753,7 +775,7 @@ async function PredefineChart(chartTyp) {
     cardcontent.classList.add("card-content");
     chartContainer.appendChild(cardcontent);
     editor.appendChild(chartContainer);
-    const resizableCard =new IntractClient(chartContainer);
+    const resizableCard = new IntractClient(chartContainer);
 
     // const resizableCard = new ResizableCard(chartContainer, cardcontent, editor, resizeCallback);
     resizableCard.id = chartItemId;
